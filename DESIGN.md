@@ -273,7 +273,9 @@ This is set as reading text: each item is one paragraph whose question is a run-
 - `prefers-reduced-motion`: all travel is removed and crossfades become instant. The pencil circle appears already drawn.
 
 ### Print
-`@media print` hides everything except the sheet. It prints in pure black on white (pad ink becomes `#000`, cell rules become 0.75pt), the header band prints as a solid black bar with white type, and `@page` margins are 12mm for both Letter and A4.
+- **PDFs** come from one layout module ([src/lib/print-layout.ts](src/lib/print-layout.ts)) with two backends: pdf-lib for the PDF and SVG → resvg for the preview PNG. They are printed in pad ink on white, like a one-colour score pad: a solid pad-ink header band with white type, pad-ink labels and 1.2pt rules under the heading and computed rows, 0.5pt grey-green cell rules, graphite for printed names and scores, and 12mm margins. Each version has its own layout: Standard has 6 columns, Large print has 4 columns with 14pt labels, and 2 per page puts two 4-column sheets side by side on a landscape page.
+- The build writes Letter and A4 copies of every version to `/pdf/` and the preview to `/images/sheets/<slug>.png`. The Customise panel and "Print this game" use the same layout in the browser.
+- **`@media print`** on the HTML page hides everything except the stage sheet and prints it in black, as the fallback when the PDF can't be made.
 
 ### Browser surfaces
 `::selection` uses a pad-ink background with sheet-white text. The caret is graphite. Focus rings follow the button spec. Link underlines are 1px with a 0.18em offset in pad ink and thicken to 2px on hover. Scrollbars (the stage on desktop) are thin with a pad-ink-soft thumb on the pad-stage track.

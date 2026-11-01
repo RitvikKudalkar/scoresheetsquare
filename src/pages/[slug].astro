@@ -3,6 +3,8 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import ScoreSheet from '../components/ScoreSheet.tsx';
+import CustomPdf from '../components/CustomPdf.tsx';
+import { pdfFileName, type Version } from '../lib/print-layout';
 import { catalogue, categoryNames } from '../lib/catalogue';
 
 export async function getStaticPaths() {
@@ -24,13 +26,13 @@ const related = game.related
   .filter((c): c is NonNullable<typeof c> => Boolean(c));
 const liveSlugs = new Set((await getCollection('games', (g) => g.data.status === 'live')).map((g) => g.data.slug));
 
-const pdfs = [
-  { key: 'standard', label: 'Standard', note: 'One sheet per page' },
+const pdfs: { key: Version; label: string; note: string }[] = [
   { key: 'large-print', label: 'Large print', note: 'Bigger type and boxes' },
-  { key: '2-per-page', label: '2 per page', note: 'Saves paper' },
+  { key: '2-per-page', label: '2 per page', note: 'Two sheets, saves paper' },
 ];
-const pdfHref = (key: string, a4 = false) =>
-  `/pdf/${game.slug}${key === 'standard' ? '' : `-${key}`}${a4 ? '-a4' : ''}.pdf`;
+const pdfHref = (key: Version, a4 = false) => `/pdf/${pdfFileName(game.slug, key, a4 ? 'a4' : 'letter')}`;
+const preview = `/images/sheets/${game.slug}.png`;
+const sheetGame = { slug: game.slug, name: game.name, players: game.players, winCondition: game.winCondition, sheet: game.sheet };
 
 const schema = [
   {
@@ -56,7 +58,7 @@ const schema = [
 ];
 ---
 
-<Base title={game.title} description={game.description} schema={schema}>
+<Base title={game.title} description={game.description} schema={schema} image={preview}>
   <Header slot="before-main" />
   <div class="split game">
     <div class="game-top reading-block" data-reveal>
@@ -69,34 +71,40 @@ const schema = [
       </div>
       <p class="measure">{content.intro}</p>
 
-      <div class="downloads" data-paper="letter">
-        <div class="paper" role="group" aria-label="Paper size">
-          <label class="pill"><input type="radio" name="paper" value="letter" checked /> US Letter</label>
-          <label class="pill"><input type="radio" name="paper" value="a4" /> A4</label>
+      <div class="downloads">
+        <figure class="preview">
+          <img src={preview} width="1000" height="1294" alt={`Printable ${game.name} score sheet with a column for each player and the scoring for every box`} />
+        </figure>
+        <div class="download-actions">
+          <div class="paper" role="group" aria-label="Paper size">
+            <label class="pill"><input type="radio" name="paper" value="letter" checked /> US Letter</label>
+            <label class="pill"><input type="radio" name="paper" value="a4" /> A4</label>
+          </div>
+          <a class="btn btn-primary download-main" href={pdfHref('standard')} data-letter={pdfHref('standard')} data-a4={pdfHref('standard', true)} download>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14" /></svg>
+            Download PDF
+          </a>
+          <ul class="stubs" role="list">
+            {
+              pdfs.map((p) => (
+                <li>
+                  <a class="stub" href={pdfHref(p.key)} data-letter={pdfHref(p.key)} data-a4={pdfHref(p.key, true)} download>
+                    <span class="t-lead">{p.label}</span>
+                    <span class="t-small t-soft">{p.note}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+          <CustomPdf client:idle game={sheetGame} />
         </div>
-        <a class="btn btn-primary download-main" href={pdfHref('standard')} data-letter={pdfHref('standard')} data-a4={pdfHref('standard', true)} download>
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14" /></svg>
-          Download PDF
-        </a>
-        <ul class="stubs" role="list">
-          {
-            pdfs.map((p) => (
-              <li>
-                <a class="stub" href={pdfHref(p.key)} data-letter={pdfHref(p.key)} data-a4={pdfHref(p.key, true)} download>
-                  <span class="t-lead">{p.label}</span>
-                  <span class="t-small t-soft">{p.note}</span>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
       </div>
       <div class="ad-slot" aria-hidden="true"></div>
     </div>
 
     <div class="stage game-stage print-sheet">
       <h2 class="sr-only">Online {game.name} scorekeeper</h2>
-      <ScoreSheet client:visible mode="live" game={{ slug: game.slug, name: game.name, players: game.players, winCondition: game.winCondition, sheet: game.sheet }} />
+      <ScoreSheet client:visible mode="live" game={sheetGame} />
     </div>
 
     <div class="game-rest reading-block">
@@ -161,7 +169,13 @@ const schema = [
   .crumbs a { text-decoration: none; }
   .crumbs a:hover { text-decoration: underline; }
   .game-title { display: grid; gap: 8px; }
-  .downloads { display: grid; gap: 16px; }
+  .downloads { display: grid; gap: 24px; }
+  .download-actions { display: grid; gap: 16px; align-content: start; }
+  .preview { margin: 0; inline-size: min(100%, 220px); }
+  .preview img { display: block; inline-size: 100%; block-size: auto; -webkit-mask: var(--punch); mask: var(--punch); }
+  @media (min-width: 560px) {
+    .downloads { grid-template-columns: minmax(150px, 200px) 1fr; }
+  }
   .paper { display: flex; gap: 8px; flex-wrap: wrap; }
   .download-main { justify-self: start; }
   .stubs { list-style: none; padding: 0; margin: 0; }

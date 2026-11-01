@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { downloadSheetPdf, localPaper } from '../lib/client-pdf';
 import { isComplete, layoutSheet, leaderOf, rowIds, type Scores, type SheetGame } from '../lib/sheet';
 
 type Props = {
@@ -167,6 +168,24 @@ export default function ScoreSheet({ game, mode }: Props) {
   const live = mode === 'live';
   const nameOf = (p: number) => players[p] || `Player ${p + 1}`;
 
+  // Puts the scores written so far onto the same layout as the printable PDF.
+  const [printing, setPrinting] = useState(false);
+  const printGame = async () => {
+    setPrinting(true);
+    try {
+      const paper = localPaper();
+      await downloadSheetPdf(
+        game,
+        { version: 'standard', paper, players: players.map((_, p) => nameOf(p)), scores, siteUrl: `scoresheetsquare.com/${game.slug}` },
+        `${game.slug}-game${paper === 'a4' ? '-a4' : ''}.pdf`,
+      );
+    } catch {
+      window.print();
+    } finally {
+      setPrinting(false);
+    }
+  };
+
   return (
     <div className={`scorekeeper${largePrint ? ' is-large' : ''}`}>
       {resume && (
@@ -268,7 +287,7 @@ export default function ScoreSheet({ game, mode }: Props) {
           <button type="button" className="btn btn-quiet" onClick={addPlayer} disabled={players.length >= game.players.max}>
             Add player
           </button>
-          <button type="button" className="btn btn-quiet" onClick={() => window.print()}>Print this game</button>
+          <button type="button" className="btn btn-quiet" onClick={printGame} disabled={printing}>{printing ? 'Making PDF…' : 'Print this game'}</button>
           <label className="pill">
             <input type="checkbox" checked={wakeOn} onChange={(e) => setWakeOn(e.target.checked)} />
             Keep screen on
@@ -304,7 +323,7 @@ export default function ScoreSheet({ game, mode }: Props) {
           </ol>
           <div className="winner-actions">
             <button type="button" className="btn btn-primary" onClick={() => newGame(true)}>Play again with same players</button>
-            <button type="button" className="btn btn-quiet" onClick={() => window.print()}>Print this game</button>
+            <button type="button" className="btn btn-quiet" onClick={printGame} disabled={printing}>{printing ? 'Making PDF…' : 'Print this game'}</button>
           </div>
         </section>
       )}

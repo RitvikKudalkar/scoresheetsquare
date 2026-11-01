@@ -10,8 +10,9 @@ Free printable score sheets and an online scorekeeper for game night. Astro + Ty
 
 ```sh
 npm install
-npm run dev      # http://localhost:4321
-npm run build    # astro check + static build to dist/
+npm run dev      # builds sheets, then http://localhost:4321
+npm run sheets   # PDFs + preview PNGs only (public/pdf, public/images/sheets; gitignored)
+npm run build    # sheets + astro check + static build to dist/
 ```
 
 ## Where things live
@@ -21,6 +22,9 @@ npm run build    # astro check + static build to dist/
 | `src/content/games/*.json` | One file per game, validated by `src/content.config.ts`. `status: "live"` builds the page. |
 | `src/lib/sheet.ts` | Scoring maths shared by every sheet (category, round totals, running turns). |
 | `src/components/ScoreSheet.tsx` | The sheet and scorekeeper island (demo and live modes). |
+| `src/lib/print-layout.ts` | Paper sheet layout shared by the build PDFs, previews, Customise and Print this game. |
+| `scripts/build-sheets.ts` | Writes every live game's PDFs (3 versions × Letter/A4) and preview PNG. |
+| `public/fonts/` | STIX Two Text TTFs (OFL) used to embed fonts in PDFs. |
 | `src/pages/index.astro` | Home: split stage with the switchable demo sheet. |
 | `src/pages/[slug].astro` | Game page, seven sections in plan order. |
 | `public/images/archive/` | Public-domain pictures; credits are in the footer and `assets/credits.json`. |
