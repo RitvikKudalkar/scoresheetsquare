@@ -106,12 +106,14 @@ export function layoutSheet(config: SheetConfig, scores: Scores, playerCount: nu
   };
 }
 
-/** Index of the leading player, or -1 while nobody has scored or players are tied. */
+/** Index of the leading player, or -1 until two players have scored, or while the lead is tied.
+ * Players with nothing written yet are left out, so an empty column never "leads" a lowest-wins game. */
 export function leaderOf(totals: number[], win: WinCondition, scores: Scores): number {
-  const started = Object.values(scores).some((vals) => vals.some((v) => v !== null));
-  if (!started || totals.length < 2) return -1;
-  const best = win === 'highest' ? Math.max(...totals) : Math.min(...totals);
-  const leaders = totals.flatMap((t, i) => (t === best ? [i] : []));
+  const playing = totals.flatMap((_, i) => (Object.values(scores).some((vals) => vals[i] != null) ? [i] : []));
+  if (playing.length < 2) return -1;
+  const values = playing.map((i) => totals[i]);
+  const best = win === 'highest' ? Math.max(...values) : Math.min(...values);
+  const leaders = playing.filter((i) => totals[i] === best);
   return leaders.length === 1 ? leaders[0] : -1;
 }
 

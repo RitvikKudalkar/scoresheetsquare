@@ -3,7 +3,16 @@
 import Base from './Base.astro';
 import Header from '../components/Header.astro';
 
-export type StageImage = { src: string; width: number; height: number; alt: string; caption: string; position?: string };
+export type StageImage = {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+  caption: string;
+  position?: string;
+  /** `contain` keeps the whole picture and blends a white ground into the stage tone. */
+  fit?: 'cover' | 'contain';
+};
 
 interface Props {
   title: string;
@@ -28,7 +37,7 @@ const breadcrumb = {
 <Base title={title} description={description} schema={[...schema, breadcrumb]} image={image.src}>
   <Header slot="before-main" />
   <div class="split stage-page">
-    <figure class="stage photo-stage">
+    <figure class:list={['stage photo-stage', { 'is-contained': image.fit === 'contain' }]}>
       <img src={image.src} width={image.width} height={image.height} alt={image.alt} style={image.position ? `object-position:${image.position}` : undefined} />
       <figcaption class="t-small">{image.caption}</figcaption>
     </figure>
@@ -48,6 +57,7 @@ const breadcrumb = {
 <style>
   .photo-stage { margin: 0; padding: 0; display: grid; grid-template-rows: 1fr auto; block-size: 56svh; overflow: hidden; }
   .photo-stage img { inline-size: 100%; block-size: 100%; min-block-size: 0; object-fit: cover; display: block; }
+  .is-contained img { object-fit: contain; mix-blend-mode: multiply; padding: 8% 10%; }
   .photo-stage figcaption { padding: 10px var(--gutter); color: var(--color-pad-ink-soft); }
   .stage-reading { padding-block-start: 40px; }
   .stage-head { display: grid; gap: 20px; }

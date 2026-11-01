@@ -10,8 +10,8 @@ const SETTINGS_KEY = 'sss:generic-settings';
 
 export function genericGame(s: GenericSettings): SheetGame {
   return {
-    // Rounds and win rule are part of the slug so a saved game only resumes onto a sheet of the same shape.
-    slug: `printable-score-sheet-${s.rounds}-${s.win}`,
+    // Rounds are part of the slug so a saved game only resumes onto a sheet with the same rows.
+    slug: `printable-score-sheet-${s.rounds}`,
     name: s.title.trim() || 'Score sheet',
     players: { min: GENERIC_LIMITS.players[0], max: GENERIC_LIMITS.players[1], default: s.players },
     winCondition: s.win,

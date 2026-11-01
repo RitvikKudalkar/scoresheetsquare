@@ -434,3 +434,11 @@ p { margin: 0; text-wrap: pretty; }
 .custom-choice legend { font-size: var(--text-small); margin-block-end: 6px; padding: 0; }
 .custom-body .btn-primary { justify-self: start; }
 .custom-error { color: var(--color-pencil-red); font-size: var(--text-small); }
+
+/* ── Blank sheet settings ───────────────────────────────────── */
+.generic { display: grid; gap: 20px; max-inline-size: 34rem; }
+.generic-row { display: flex; flex-wrap: wrap; gap: 16px; }
+.generic .custom-field input, .generic .custom-field select { background: var(--color-sheet); }
+.generic .custom-field input { inline-size: 100%; }
+.generic .btn-primary { justify-self: start; }
+input[type='search']::-webkit-search-cancel-button { appearance: none; }

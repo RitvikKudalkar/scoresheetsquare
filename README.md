@@ -27,4 +27,7 @@ npm run build    # sheets + astro check + static build to dist/
 | `public/fonts/` | STIX Two Text TTFs (OFL) used to embed fonts in PDFs. |
 | `src/pages/index.astro` | Home: split stage with the switchable demo sheet. |
 | `src/pages/[slug].astro` | Game page, seven sections in plan order. |
+| `src/pages/printable-score-sheet.astro` | Blank sheet tool (settings + live sheet + ready-made PDFs). |
+| `src/pages/{dice,card,board}-games.astro`, `all-games.astro` | Category pages and the filterable A–Z index. |
+| `src/pages/{about,contact,privacy,terms}.astro`, `404.astro` | Trust and legal pages. Fill in `src/lib/site.ts` before launch. |
 | `public/images/archive/` | Public-domain pictures; credits are in the footer and `assets/credits.json`. |
