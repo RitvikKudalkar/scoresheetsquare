@@ -1,0 +1,16 @@
+{
+  "slug": "farkle-score-sheet",
+  "name": "Farkle",
+  "aliases": ["10000", "Zilch"],
+  "category": "dice",
+  "keywords": ["farkle score sheet", "farkle score sheet printable"],
+  "title": "Farkle Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Farkle score sheet with a scoring chart, in standard, large print and 2-per-page PDFs, plus an online running-total scorekeeper.",
+  "players": { "min": 2, "max": 8, "default": 4 },
+  "winCondition": "highest",
+  "sheet": { "engine": "running-turns", "turns": 20, "target": 10000, "minimumToBoard": 500 },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "related": ["yahtzee-score-sheet"],
+  "phase": 1,
+  "status": "draft"
+}

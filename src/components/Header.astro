@@ -1,0 +1,15 @@
+---
+const links = [
+  { href: '/dice-games', label: 'Dice games' },
+  { href: '/card-games', label: 'Card games' },
+  { href: '/board-games', label: 'Board games' },
+  { href: '/all-games', label: 'All games' },
+];
+---
+
+<header class="site-header">
+  <a class="wordmark-small" href="/">scoresheetsquare</a>
+  <nav aria-label="Main">
+    {links.map((l) => <a href={l.href}>{l.label}</a>)}
+  </nav>
+</header>

@@ -1,0 +1,92 @@
+{
+  "slug": "yahtzee-score-sheet",
+  "name": "Yahtzee",
+  "aliases": ["Yatzy", "Yacht"],
+  "category": "dice",
+  "keywords": ["yahtzee score sheet", "yahtzee score sheet printable", "yahtzee score card", "large print yahtzee score sheet"],
+  "title": "Yahtzee Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Yahtzee score sheet in standard, large print and 2-per-page PDFs, plus an online scorekeeper that adds up the upper bonus for you.",
+  "players": { "min": 1, "max": 10, "default": 4 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "category",
+    "sections": [
+      {
+        "id": "upper",
+        "label": "Upper section",
+        "rows": [
+          { "id": "ones", "label": "Ones", "hint": "Add only the 1s" },
+          { "id": "twos", "label": "Twos", "hint": "Add only the 2s" },
+          { "id": "threes", "label": "Threes", "hint": "Add only the 3s" },
+          { "id": "fours", "label": "Fours", "hint": "Add only the 4s" },
+          { "id": "fives", "label": "Fives", "hint": "Add only the 5s" },
+          { "id": "sixes", "label": "Sixes", "hint": "Add only the 6s" }
+        ],
+        "subtotal": "Upper score",
+        "bonus": { "threshold": 63, "points": 35, "label": "Bonus (63 or more)" },
+        "total": "Upper total"
+      },
+      {
+        "id": "lower",
+        "label": "Lower section",
+        "rows": [
+          { "id": "three-kind", "label": "Three of a kind", "hint": "Add all five dice" },
+          { "id": "four-kind", "label": "Four of a kind", "hint": "Add all five dice" },
+          { "id": "full-house", "label": "Full house", "hint": "25" },
+          { "id": "small-straight", "label": "Small straight", "hint": "30" },
+          { "id": "large-straight", "label": "Large straight", "hint": "40" },
+          { "id": "yahtzee", "label": "Yahtzee", "hint": "50" },
+          { "id": "chance", "label": "Chance", "hint": "Add all five dice" },
+          { "id": "yahtzee-bonus", "label": "Yahtzee bonus", "hint": "100 each" }
+        ],
+        "total": "Lower total"
+      }
+    ],
+    "grandTotal": "Grand total"
+  },
+  "pdf": { "rows": 19, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Box", "What scores", "Points"],
+    "rows": [
+      ["Ones to Sixes", "Only the dice showing that number", "Sum of those dice"],
+      ["Upper bonus", "Upper score of 63 or more", "35"],
+      ["Three of a kind", "At least three dice the same", "Sum of all five dice"],
+      ["Four of a kind", "At least four dice the same", "Sum of all five dice"],
+      ["Full house", "Three of one number and two of another", "25"],
+      ["Small straight", "Four in a row, such as 2-3-4-5", "30"],
+      ["Large straight", "Five in a row: 1-2-3-4-5 or 2-3-4-5-6", "40"],
+      ["Yahtzee", "All five dice the same", "50"],
+      ["Chance", "Any five dice", "Sum of all five dice"],
+      ["Yahtzee bonus", "Each extra Yahtzee after scoring 50", "100"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Yahtzee score sheet for the table, or keep score on your phone. The sheet adds the upper bonus and grand total for you.",
+    "howToUse": [
+      "Write each player's name at the top of a column. On every turn the player picks one empty box and writes the score for that roll, or a zero if the roll fits nowhere and they choose to scratch a box.",
+      "After 13 turns every box is filled. Add the upper section first: a score of 63 or more earns the 35-point bonus. Then add the lower section, including 100 for each extra Yahtzee, and add both totals for the grand total.",
+      "Playing on a phone instead? Tap a box on the sheet to write a score. Totals, the bonus and the leader update as you go, and the game is saved if the phone locks."
+    ],
+    "exampleRound": {
+      "caption": "Two players, two turns each",
+      "rows": [
+        { "label": "Ana rolls 4-4-4-4-2 and takes Fours", "value": "16" },
+        { "label": "Ben rolls 3-3-3-6-6 and takes Full house", "value": "25" },
+        { "label": "Ana rolls 6-5-5-4-3 and takes Chance", "value": "23" },
+        { "label": "Ben rolls 1-2-2-5-6 and scratches Ones", "value": "0" }
+      ],
+      "result": "After two turns: Ana 39, Ben 25"
+    },
+    "faqs": [
+      { "q": "What is the bonus in Yahtzee?", "a": "If your upper section adds up to 63 or more, you get a 35-point bonus. 63 is what you score with three of each number, from three 1s to three 6s." },
+      { "q": "How many turns are in a game of Yahtzee?", "a": "Thirteen. There are 13 boxes and every turn fills exactly one of them, so the game ends when each player's column is full." },
+      { "q": "What is a Yahtzee bonus?", "a": "Once you have scored 50 in the Yahtzee box, each extra Yahtzee you roll earns another 100 points. If you put a zero in the Yahtzee box, extra Yahtzees earn no bonus." },
+      { "q": "Can you score a zero in Yahtzee?", "a": "Yes. If a roll fits nowhere you want it, you must still fill a box, so you write a zero in one. This is often called scratching a box." },
+      { "q": "What is the highest possible Yahtzee score?", "a": "Without Yahtzee bonuses the maximum is 375. With a Yahtzee bonus on every possible turn, the maximum is 1,575." },
+      { "q": "How many people can play Yahtzee?", "a": "Any number from one up. The printable sheet has six columns; the online scorekeeper takes up to ten players." }
+    ]
+  },
+  "related": ["farkle-score-sheet", "phase-10-score-sheet", "mexican-train-score-sheet"],
+  "phase": 1,
+  "status": "live"
+}

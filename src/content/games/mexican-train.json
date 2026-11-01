@@ -1,0 +1,19 @@
+{
+  "slug": "mexican-train-score-sheet",
+  "name": "Mexican Train",
+  "category": "tile",
+  "keywords": ["mexican train score sheet"],
+  "title": "Mexican Train Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Mexican Train dominoes score sheet for all 13 rounds, double-12 down to double-blank, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 8, "default": 4 },
+  "winCondition": "lowest",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 13,
+    "roundLabels": ["Double 12", "Double 11", "Double 10", "Double 9", "Double 8", "Double 7", "Double 6", "Double 5", "Double 4", "Double 3", "Double 2", "Double 1", "Double blank"]
+  },
+  "pdf": { "rows": 13, "showScoringChart": false },
+  "related": ["yahtzee-score-sheet"],
+  "phase": 1,
+  "status": "draft"
+}

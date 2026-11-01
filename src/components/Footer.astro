@@ -1,0 +1,47 @@
+---
+const menu = [
+  { href: '/dice-games', label: 'Dice games' },
+  { href: '/card-games', label: 'Card games' },
+  { href: '/board-games', label: 'Board games' },
+  { href: '/all-games', label: 'Every game, A to Z' },
+  { href: '/printable-score-sheet', label: 'Blank score sheet' },
+];
+---
+
+<footer class="site-footer">
+  <div class="footer-photo">
+    <img
+      src="/images/archive/ace-of-clubs-grimaud.jpg"
+      width="1920"
+      height="2744"
+      loading="lazy"
+      alt="A late 19th-century Ace of Clubs playing card, engraved in brown ink with a feathered-hat cavalier leaning on a cane."
+    />
+  </div>
+  <div class="footer-menu">
+    <a href="/" class="t-lead" style="text-decoration:none">scoresheetsquare</a>
+    <nav aria-label="Footer">
+      <ul>
+        {menu.map((m) => <li><a href={m.href}>{m.label}</a></li>)}
+      </ul>
+    </nav>
+    <div class="t-small" style="display:grid;gap:16px;max-inline-size:52ch">
+      <p style="display:flex;flex-wrap:wrap;gap:4px 20px">
+        <a href="/about">About</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a>
+      </p>
+      <p>
+        Not affiliated with Hasbro, Mattel or any game publisher. Game names are trademarks of their owners and are used
+        only to describe which game a score sheet is for.
+      </p>
+      <p class="t-soft">
+        Footer picture: “Playing Card, Ace of Clubs, late 19th century”, B.P. Grimaud, public domain, Cooper Hewitt via
+        <a href="https://commons.wikimedia.org/wiki/File:Playing_Card,_Ace_of_Clubs,_late_19th_century_(CH_18405309).jpg">Wikimedia Commons</a>.
+        Dice: “Etruscan dice from Tuscania”, public domain, via
+        <a href="https://commons.wikimedia.org/wiki/File:Etruscan_dice_from_Tuscania_0.jpg">Wikimedia Commons</a>.
+      </p>
+    </div>
+  </div>
+  <div class="footer-name" aria-hidden="true">
+    <span class="t-wordmark" data-wordmark-end>scoresheetsquare</span>
+  </div>
+</footer>

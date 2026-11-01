@@ -1,0 +1,15 @@
+{
+  "slug": "phase-10-score-sheet",
+  "name": "Phase 10",
+  "category": "card",
+  "keywords": ["phase 10 score sheet"],
+  "title": "Phase 10 Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Phase 10 score sheet that tracks each player's phase and points, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 6, "default": 4 },
+  "winCondition": "lowest",
+  "sheet": { "engine": "round-totals", "rounds": 12, "roundNote": "Phase completed" },
+  "pdf": { "rows": 12, "showScoringChart": true },
+  "related": ["yahtzee-score-sheet"],
+  "phase": 1,
+  "status": "draft"
+}

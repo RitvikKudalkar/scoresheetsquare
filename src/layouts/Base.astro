@@ -1,0 +1,59 @@
+---
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  schema?: Record<string, unknown>[];
+}
+
+const { title, description, image = '/images/archive/ace-of-clubs-grimaud.jpg', schema = [] } = Astro.props;
+// Canonical comes from the real path, never a hardcoded default (functional plan: SEO rules).
+const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/', Astro.site).href;
+const ogImage = new URL(image, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="theme-color" content="#eef1e4" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {schema.map((s) => <script is:inline type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', ...s })} />)}
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <slot name="before-main" />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      // One entrance per section part, triggered once as it arrives. Content is visible without JS.
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-in');
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -10% 0px' },
+      );
+      document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>

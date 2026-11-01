@@ -1,0 +1,280 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ScoreSheet from '../components/ScoreSheet.tsx';
+import { catalogue, categoryNames, type Category } from '../lib/catalogue';
+
+const games = await getCollection('games');
+const showcaseOrder = ['yahtzee-score-sheet', 'farkle-score-sheet', 'phase-10-score-sheet', 'mexican-train-score-sheet'];
+const showcase = showcaseOrder.map((slug) => games.find((g) => g.data.slug === slug)!.data);
+const live = new Set(games.filter((g) => g.data.status === 'live').map((g) => g.data.slug));
+
+const groups = (['dice', 'card', 'tile'] as Category[]).map((c) => ({
+  label: categoryNames[c],
+  entries: catalogue.filter((e) => e.category === c),
+}));
+
+const faqs = [
+  { q: 'Are the score sheets free?', a: 'Yes. Every PDF downloads straight away, with no email, no sign-up and no countdown.' },
+  { q: 'Which paper sizes do you have?', a: 'Every sheet comes in US Letter and A4. The page picks the size your country uses, and you can switch it.' },
+  { q: 'Is there a large print version?', a: 'Every game has a large print PDF with bigger type and bigger boxes, and the online sheet has a large print switch too.' },
+  { q: 'Do I need an account to keep score online?', a: 'No. The scorekeeper runs in your browser and saves the game on your own device, so a refresh or a locked phone does not lose it.' },
+  { q: 'Is any of my data sent to you?', a: 'No. Player names and scores stay in your browser. Once the page has loaded, the scorekeeper needs no connection.' },
+  { q: 'Can I print a game I scored on my phone?', a: 'Yes. Print this game puts the scores you entered onto the same sheet layout as the PDF.' },
+  { q: 'My game is not listed. What can I use?', a: 'The blank score sheet lets you choose 2 to 8 players and 5 to 20 rounds, on paper or on screen.' },
+  { q: 'Are you connected to the companies that make these games?', a: 'No. ScoreSheetSquare is independent. Game names belong to their owners and are used only to say which game a sheet is for.' },
+];
+
+const schema = [
+  { '@type': 'WebSite', name: 'ScoreSheetSquare', url: 'https://scoresheetsquare.com/' },
+  { '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+
+<Base
+  title="Game Score Sheets – Free Printable PDFs & Online Scorekeeper"
+  description="Free printable score sheets for Yahtzee, Farkle, Phase 10, Mexican Train and more, in standard, large print and 2-per-page PDFs, with a live online scorekeeper."
+  schema={schema}
+>
+  <div class="split home">
+    <div class="stage home-stage" aria-label="Sample score sheet you can write on">
+      <div class="showcase">
+        {
+          showcase.map((g, i) => (
+            <div class:list={['showcase-sheet', { 'is-active': i === 0 }]} data-game={g.slug} inert={i !== 0}>
+              <ScoreSheet client:visible mode="demo" game={{ slug: g.slug, name: g.name, players: g.players, winCondition: g.winCondition, sheet: g.sheet }} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="home-top">
+      <section class="home-hero" aria-labelledby="home-title">
+        <header class="home-nav">
+          <a href="/dice-games">Dice games</a>
+          <a href="/card-games">Card games</a>
+          <a href="/board-games">Board games</a>
+          <a href="/all-games">All games</a>
+        </header>
+        <div class="home-pitch">
+          <h1 id="home-title" class="t-head">Free game score sheets</h1>
+          <p class="t-lead">Print one for the table, or fill in the sheet right here. Nothing to sign up for.</p>
+          <form class="find" action="/all-games" method="get" role="search">
+            <label for="find-game" class="sr-only">Game name</label>
+            <input id="find-game" name="q" class="find-input" placeholder="Yahtzee, Phase 10, Bunco…" autocomplete="off" />
+            <button class="btn btn-primary" type="submit">Find your game</button>
+          </form>
+        </div>
+        <p class="t-wordmark home-wordmark" aria-hidden="true">scoresheetsquare</p>
+      </section>
+    </div>
+
+    <div class="reading home-reading">
+
+      <section class="showcase-index" aria-labelledby="try-title" data-reveal>
+        <h2 id="try-title" class="t-head">Try a sheet</h2>
+        <p class="measure">The sheet on this page is the real one. Tap any box and write a score: totals add up and the leader gets circled.</p>
+        <ul class="game-switch" role="list">
+          {
+            showcase.map((g, i) => (
+              <li>
+                <button type="button" data-show={g.slug} aria-pressed={i === 0 ? 'true' : 'false'}>
+                  {g.name}
+                </button>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section id="every-game" class="every-game" aria-labelledby="all-title" data-reveal>
+        <h2 id="all-title" class="t-head">Every game so far</h2>
+        <figure class="dice-figure">
+          <img
+            src="/images/archive/etruscan-dice-tuscania.jpg"
+            width="1060"
+            height="808"
+            loading="lazy"
+            alt="Two worn bone dice from Tuscania, photographed side by side, their faces marked with Etruscan number words."
+          />
+          <figcaption class="t-small t-soft">Etruscan dice found at Tuscania, Italy. Bibliothèque nationale de France.</figcaption>
+        </figure>
+        <div class="every-list">
+          {
+            groups.map((group) => (
+              <div class="rows-group">
+                <p class="t-small t-soft">{group.label}</p>
+                <ul class="rows">
+                  {group.entries.map((e) => (
+                    <li data-game-name={e.name.toLowerCase()}>
+                      {live.has(e.slug) ? <a href={`/${e.slug}`}>{e.name}</a> : <span>{e.name}</span>}
+                      <span class="t-small t-soft">{live.has(e.slug) ? e.players : 'Sheet coming soon'}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+          <p class="find-empty t-small" hidden>
+            No sheet for that game yet. The <a href="/printable-score-sheet">blank score sheet</a> works for any game.
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <section class="how" aria-labelledby="how-title" data-reveal>
+    <div class="how-copy">
+      <h2 id="how-title" class="t-head">One page per game</h2>
+      <p class="measure">
+        Each game has a single page with everything on it: three PDFs to print, a sheet to fill in with your own names, and the
+        scorekeeper for the table.
+      </p>
+    </div>
+    <div class="slip how-slip">
+      <p class="slip-time">Before the game</p>
+      <p class="slip-row"><span>Download Standard, Large print or 2 per page</span><span class="slip-leader"></span><span>Letter or A4</span></p>
+      <p class="slip-row"><span>Or add your players' names first</span><span class="slip-leader"></span><span>in the browser</span></p>
+      <p class="slip-time">At the table</p>
+      <p class="slip-row"><span>Write on paper or on the sheet on screen</span><span class="slip-leader"></span><span>totals add up</span></p>
+      <p class="slip-row"><span>Phone locks mid-game</span><span class="slip-leader"></span><span>game is saved</span></p>
+      <p class="slip-time">After the game</p>
+      <p class="slip-row"><span>Print the finished sheet</span><span class="slip-leader"></span><span>one tap</span></p>
+      <p class="slip-result"><span>Every game, every sheet</span><span>Free</span></p>
+    </div>
+  </section>
+
+  <section class="home-faq" aria-labelledby="faq-title" data-reveal>
+    <h2 id="faq-title" class="t-head">Questions</h2>
+    <div class="faq is-wide">
+      {faqs.map((f) => <p><strong>{f.q}</strong> {f.a}</p>)}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .home { grid-template-areas: 'top' 'stage' 'rest'; }
+  .home-top { grid-area: top; padding: 0 var(--column-pad); }
+  .home-stage { grid-area: stage; }
+  .home-reading { grid-area: rest; }
+  .home-hero {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-block-size: 100svh;
+    padding-block: 20px 0;
+  }
+  .home-nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 24px; font-size: 15px; }
+  .home-nav a { text-decoration: none; padding-block: 10px; }
+  .home-nav a:hover { text-decoration: underline; }
+  .home-pitch { align-self: center; display: grid; gap: 24px; max-inline-size: 30rem; padding-block: 48px; }
+  .home-pitch .t-lead { max-inline-size: 26ch; }
+  .find { display: grid; gap: 8px; inline-size: min(100%, 26rem); }
+  .find-input {
+    min-block-size: 56px; padding: 0 16px;
+    border: 0; border-radius: 0;
+    background: var(--color-sheet); color: var(--color-graphite);
+    font: inherit; font-size: var(--text-body);
+  }
+  .find-input::placeholder { color: var(--color-pad-ink-soft); }
+  .home-wordmark { padding-block-end: 40px; transform-origin: right bottom; font-size: min(var(--text-wordmark), 6.1vw); text-align: end; }
+
+  .showcase { display: grid; }
+  .showcase-sheet { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity 200ms var(--ease-out), visibility 0s 200ms; }
+  .showcase-sheet.is-active { opacity: 1; visibility: visible; transition: opacity 200ms var(--ease-out); }
+
+  .showcase-index { display: grid; gap: 24px; }
+  .game-switch { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 4px; }
+  .game-switch button {
+    border: 0; background: none; padding: 4px 0; cursor: pointer;
+    font: inherit; font-size: clamp(2.25rem, 4vw, 4rem); line-height: 1.1; letter-spacing: -0.026em;
+    color: var(--color-pad-ink-soft);
+    transition: color 160ms, transform 200ms var(--ease-out);
+  }
+  .game-switch button:hover { color: var(--color-pad-ink); transform: translateX(8px); }
+  .game-switch button[aria-pressed='true'] { color: var(--color-pad-ink); }
+
+  .every-game { display: grid; gap: 32px; }
+  .dice-figure { margin: 0; display: grid; gap: 8px; }
+  .dice-figure img { mix-blend-mode: multiply; inline-size: 100%; block-size: auto; aspect-ratio: 1060 / 808; object-fit: cover; }
+  .every-list { max-inline-size: 520px; }
+
+  .how {
+    display: grid; gap: 40px;
+    padding: var(--section) var(--gutter);
+    background: var(--color-pad-stage);
+  }
+  .how-copy { display: grid; gap: 20px; align-content: start; }
+  .how-slip { inline-size: min(100%, 480px); }
+  .slip-time { font-weight: 600; margin-block: 28px 4px; }
+  .slip-time:first-child { margin-block-start: 0; }
+
+  .home-faq { display: grid; gap: 32px; padding: var(--section) var(--gutter); }
+
+  @media (min-width: 1024px) {
+    .home { grid-template-columns: 47fr 53fr; grid-template-areas: 'stage top' 'stage rest'; grid-template-rows: auto 1fr; }
+    .how { grid-template-columns: 5fr 1fr 6fr; padding-inline: var(--gutter); }
+    .how-slip { grid-column: 3; }
+    .home-faq { grid-template-columns: 3fr 1fr 8fr; }
+    .home-faq .faq { grid-column: 3; }
+  }
+
+  @media (max-width: 1023px) {
+    .home-hero { min-block-size: auto; grid-template-rows: auto; padding-block: 16px 48px; }
+    .home-wordmark { font-size: 11.4vw; order: -1; text-align: start; padding-block-end: 0; }
+    .home-nav { order: 3; justify-content: flex-start; }
+    .home-pitch { padding-block: 24px 16px; }
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .home-wordmark {
+        animation: wordmark-settle linear both;
+        animation-timeline: view();
+        animation-range: exit 0% exit 100%;
+      }
+    }
+  }
+  @keyframes wordmark-settle { to { scale: 0.94; } }
+</style>
+
+<script>
+  // Game names switch which sheet sits on the stage.
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-show]');
+  const sheets = document.querySelectorAll<HTMLElement>('.showcase-sheet');
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const slug = btn.dataset.show;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      sheets.forEach((s) => {
+        const on = s.dataset.game === slug;
+        s.classList.toggle('is-active', on);
+        s.inert = !on;
+      });
+    }),
+  );
+
+  // Find your game: filter the list as you type, open the game on submit when there is one match.
+  const input = document.querySelector<HTMLInputElement>('#find-game');
+  const rows = document.querySelectorAll<HTMLElement>('[data-game-name]');
+  const empty = document.querySelector<HTMLElement>('.find-empty');
+  const filter = () => {
+    const q = input!.value.trim().toLowerCase();
+    let shown = 0;
+    rows.forEach((r) => {
+      const hit = !q || r.dataset.gameName!.includes(q);
+      r.hidden = !hit;
+      if (hit) shown++;
+    });
+    if (empty) empty.hidden = shown > 0;
+    return [...rows].filter((r) => !r.hidden);
+  };
+  input?.addEventListener('input', filter);
+  input?.form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const hits = filter();
+    const link = hits.length === 1 ? hits[0].querySelector('a') : null;
+    if (link) location.href = link.href;
+    else document.querySelector('#every-game')?.scrollIntoView({ behavior: 'smooth' });
+  });
+</script>
