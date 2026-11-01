@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ScoreSheet from '../components/ScoreSheet.tsx';
 import GameRows from '../components/GameRows.astro';
+import Logo from '../components/Logo.astro';
 import { catalogue, categoryNames, type Category } from '../lib/catalogue';
 
 const games = await getCollection('games');
@@ -52,6 +53,7 @@ const schema = [
     <div class="home-top">
       <section class="home-hero" aria-labelledby="home-title">
         <header class="home-nav">
+          <Logo size={34} wordmark={false} class="home-logo" />
           <a href="/dice-games">Dice games</a>
           <a href="/card-games">Card games</a>
           <a href="/board-games">Board games</a>
@@ -150,7 +152,8 @@ const schema = [
     min-block-size: 100svh;
     padding-block: 20px 0;
   }
-  .home-nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 24px; font-size: 15px; }
+  .home-nav { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 4px 24px; font-size: 15px; }
+  .home-nav :global(.home-logo) { margin-inline-end: auto; }
   .home-nav a { text-decoration: none; padding-block: 10px; }
   .home-nav a:hover { text-decoration: underline; }
   .home-pitch { align-self: center; display: grid; gap: 24px; max-inline-size: 30rem; padding-block: 48px; }
@@ -208,7 +211,8 @@ const schema = [
   @media (max-width: 1023px) {
     .home-hero { min-block-size: auto; grid-template-rows: auto; padding-block: 16px 48px; }
     .home-wordmark { font-size: 11.4vw; order: -1; text-align: start; padding-block-end: 0; }
-    .home-nav { order: 3; justify-content: flex-start; }
+    .home-nav { order: -2; justify-content: flex-end; }
+    .home-nav a:not(:last-child):not(:global(.logo)) { display: none; }
     .home-pitch { padding-block: 24px 16px; }
   }
 

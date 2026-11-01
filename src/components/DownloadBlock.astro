@@ -59,6 +59,8 @@ const pdfHref = (key: Version, a4 = false) => `/pdf/${pdfFileName(slug, key, a4 
 </style>
 
 <script>
+  import { track } from '../lib/analytics';
+
   // Paper size: default from the visitor's locale (US and Canada use Letter), switchable.
   document.querySelectorAll<HTMLElement>('.downloads').forEach((box) => {
   const radios = box?.querySelectorAll<HTMLInputElement>('input[name="paper"]');
@@ -71,5 +73,12 @@ const pdfHref = (key: Version, a4 = false) => `/pdf/${pdfFileName(slug, key, a4 
     r.addEventListener('change', () => r.checked && apply(r.value));
   });
   apply(initial);
+  links?.forEach((a) =>
+    a.addEventListener('click', () => {
+      const file = a.getAttribute('href') ?? '';
+      const version = file.includes('large-print') ? 'large-print' : file.includes('2-per-page') ? '2-per-page' : 'standard';
+      track('pdf_download', { file, version, paper: file.endsWith('-a4.pdf') ? 'a4' : 'letter' });
+    }),
+  );
   });
 </script>

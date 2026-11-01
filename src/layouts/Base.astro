@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Analytics from '../components/Analytics.astro';
 import Footer from '../components/Footer.astro';
 
 interface Props {
@@ -30,8 +31,11 @@ const ogImage = new URL(image, Astro.site).href;
     <meta property="og:image" content={ogImage} />
     <meta name="theme-color" content="#eef1e4" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     {schema.map((s) => <script is:inline type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', ...s })} />)}
     <script is:inline>document.documentElement.classList.add('js');</script>
+    <Analytics />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

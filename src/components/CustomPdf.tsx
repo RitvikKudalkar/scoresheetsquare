@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { track } from '../lib/analytics';
 import { downloadSheetPdf, localPaper } from '../lib/client-pdf';
 import type { Paper, Version } from '../lib/print-layout';
 import type { SheetGame } from '../lib/sheet';
@@ -16,6 +17,7 @@ export default function CustomPdf({ game }: Props) {
 
   const make = async () => {
     setState('working');
+    track('custom_pdf', { game: game.slug, version, paper, players: count });
     try {
       // A blank name still claims its column, so the sheet gets exactly `count` columns.
       const players = names.slice(0, count).map((n) => n.trim() || ' ');

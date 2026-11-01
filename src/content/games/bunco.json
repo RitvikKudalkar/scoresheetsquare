@@ -1,0 +1,59 @@
+{
+  "slug": "bunco-score-sheet",
+  "name": "Bunco",
+  "aliases": ["Bunko", "Bonko"],
+  "category": "dice",
+  "keywords": ["bunco score sheet", "bunco tally sheet", "bunco score card printable", "bunco score sheets free"],
+  "title": "Bunco Score Sheet – Free Printable Tally Cards & Tracker",
+  "description": "Free printable Bunco score sheets and tally cards for wins, losses and buncos, in three PDF versions, plus an online tally for the whole group.",
+  "players": { "min": 4, "max": 24, "default": 12 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "tally",
+    "tallies": [
+      { "id": "wins", "label": "Wins" },
+      { "id": "losses", "label": "Losses" },
+      { "id": "buncos", "label": "Buncos" }
+    ],
+    "sets": 3,
+    "roundsPerSet": 6
+  },
+  "pdf": { "rows": 18, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Roll", "Points"],
+    "rows": [
+      ["Each die showing the round's number", "1"],
+      ["Three of a kind, not the round's number", "5 at many tables"],
+      ["Three of the round's number: a Bunco", "21"],
+      ["The round ends", "When a team at the head table reaches 21"]
+    ]
+  },
+  "content": {
+    "intro": "Print Bunco tally cards for every player, or keep the whole group's wins, losses and buncos on one phone.",
+    "howToUse": [
+      "Give every player a tally card and write their name at the top. Each round, the team that scores more marks a win for both partners and the other team marks a loss. Every Bunco a player rolls goes in their Buncos column.",
+      "A night has sets of six rounds. In round one everyone rolls for 1s, in round two for 2s, and so on up to 6s. At the end of the night, add up each column: there are usually prizes for the most buncos, the most wins and the most losses.",
+      "Keeping score for the whole group on a phone? The online tally lists every player with a plus and minus for each column, shows which number to roll for, and keeps the prize standings up to date."
+    ],
+    "exampleRound": {
+      "caption": "Set 1, round 1: everyone rolls for 1s",
+      "rows": [
+        { "label": "Ana rolls 1-1-4", "value": "2" },
+        { "label": "Ben rolls 3-3-3", "value": "5" },
+        { "label": "Ana rolls 1-1-1, a Bunco", "value": "21" }
+      ],
+      "result": "Ana and Ben reach 28 and win the round: both mark a win, Ana marks a Bunco"
+    },
+    "faqs": [
+      { "q": "How do you keep score in Bunco?", "a": "Each player has a tally card. After every round they mark a win or a loss for their team, and they count every Bunco they roll. Points are only used within a round to decide which team wins it." },
+      { "q": "How many points is a Bunco?", "a": "21 points. A Bunco is rolling three of a kind of the round's number, such as three 4s in round four." },
+      { "q": "What is a baby bunco?", "a": "At many tables, three of a kind of any other number is worth 5 points. It is sometimes called a baby bunco or a mini bunco." },
+      { "q": "How many people do you need for Bunco?", "a": "Twelve is the classic number, playing at three tables of four. Any multiple of four works, and the online tally takes from 4 to 24 players." },
+      { "q": "Who wins at Bunco?", "a": "Bunco nights usually give prizes rather than one winner: most buncos, most wins and most losses are the common ones. The online tally shows who is leading each of them." },
+      { "q": "How many rounds are in a game of Bunco?", "a": "Six rounds make a set, one for each number on the dice. Most groups play three or four sets in a night; the tally card has room for three." }
+    ]
+  },
+  "related": ["farkle-score-sheet", "yahtzee-score-sheet", "mexican-train-score-sheet"],
+  "phase": 1,
+  "status": "live"
+}

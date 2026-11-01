@@ -13,8 +13,8 @@ export type CatalogueEntry = {
 export const catalogue: CatalogueEntry[] = [
   { slug: 'yahtzee-score-sheet', name: 'Yahtzee', category: 'dice', min: 1, max: 10, scoring: 'Score boxes' },
   { slug: 'farkle-score-sheet', name: 'Farkle', category: 'dice', min: 2, max: 8, scoring: 'Running total' },
-  { slug: 'bunco-score-sheet', name: 'Bunco', category: 'dice', min: 8, max: 12, scoring: 'Tables and tallies' },
-  { slug: 'phase-10-score-sheet', name: 'Phase 10', category: 'card', min: 2, max: 6, scoring: 'Round totals' },
+  { slug: 'bunco-score-sheet', name: 'Bunco', category: 'dice', min: 4, max: 24, scoring: 'Tallies' },
+  { slug: 'phase-10-score-sheet', name: 'Phase 10', category: 'card', min: 2, max: 6, scoring: 'Phases and points' },
   { slug: 'five-crowns-score-sheet', name: 'Five Crowns', category: 'card', min: 2, max: 7, scoring: 'Round totals' },
   { slug: 'hand-and-foot-score-sheet', name: 'Hand and Foot', category: 'card', min: 4, max: 6, scoring: 'Round totals' },
   { slug: 'skyjo-score-sheet', name: 'Skyjo', category: 'card', min: 2, max: 8, scoring: 'Round totals' },

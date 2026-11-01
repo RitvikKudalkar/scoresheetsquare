@@ -2,7 +2,7 @@
   "slug": "mexican-train-score-sheet",
   "name": "Mexican Train",
   "category": "tile",
-  "keywords": ["mexican train score sheet"],
+  "keywords": ["mexican train score sheet", "mexican train dominoes score sheet", "mexican train score card printable"],
   "title": "Mexican Train Score Sheet – Free Printable PDF & Scorekeeper",
   "description": "Free printable Mexican Train dominoes score sheet for all 13 rounds, double-12 down to double-blank, plus an online scorekeeper.",
   "players": { "min": 2, "max": 8, "default": 4 },
@@ -13,7 +13,40 @@
     "roundLabels": ["Double 12", "Double 11", "Double 10", "Double 9", "Double 8", "Double 7", "Double 6", "Double 5", "Double 4", "Double 3", "Double 2", "Double 1", "Double blank"]
   },
   "pdf": { "rows": 13, "showScoringChart": false },
-  "related": ["yahtzee-score-sheet"],
+  "scoringReference": {
+    "columns": ["At the end of a round", "Points"],
+    "rows": [
+      ["Each tile left in front of you", "The total of its pips"],
+      ["The double-blank, if you are left holding it", "0, or 50 at many tables"],
+      ["Going out first", "0 for that round"],
+      ["After all 13 rounds", "Lowest total wins"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Mexican Train score sheet with every round labelled from double-12 to double-blank, or keep score on your phone.",
+    "howToUse": [
+      "Write each player's name at the top of a column. Each round starts with the double printed in its row, from the double-12 in round one down to the double-blank in round thirteen.",
+      "When a round ends, every player adds up the pips on the tiles left in front of them and writes that number in the round's row. The player who went out writes a zero. After the last round, the lowest total wins.",
+      "On a phone, tap a box to write a round's pips. The sheet keeps every player's total and circles whoever is lowest."
+    ],
+    "exampleRound": {
+      "caption": "Three players, round one (double 12)",
+      "rows": [
+        { "label": "Ana plays her last tile and goes out", "value": "0" },
+        { "label": "Ben is left with 6-4 and 12-11", "value": "33" },
+        { "label": "Cleo is left with 5-5", "value": "10" }
+      ],
+      "result": "After round one: Ana 0, Cleo 10, Ben 33"
+    },
+    "faqs": [
+      { "q": "How do you score Mexican Train?", "a": "At the end of each round, every player counts the pips on the dominoes left in front of them. That number is their score for the round, and the player who went out scores zero." },
+      { "q": "Who wins Mexican Train?", "a": "The player with the lowest total after all 13 rounds." },
+      { "q": "Which double starts each round?", "a": "With a double-12 set, the first round starts with the double-12, the second with the double-11, and so on down to the double-blank in round thirteen. The sheet labels every round so nobody loses track." },
+      { "q": "What is the double-blank worth?", "a": "Its pips add up to zero, but many tables count it as 50 points if you are left holding it. Agree on the rule before you start." },
+      { "q": "How many people can play Mexican Train?", "a": "Two to eight players with a double-12 set. The printable sheet has six columns; the online scorekeeper takes up to eight." }
+    ]
+  },
+  "related": ["phase-10-score-sheet", "farkle-score-sheet", "yahtzee-score-sheet"],
   "phase": 1,
-  "status": "draft"
+  "status": "live"
 }

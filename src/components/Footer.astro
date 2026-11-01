@@ -1,4 +1,6 @@
 ---
+import Logo from './Logo.astro';
+
 const menu = [
   { href: '/dice-games', label: 'Dice games' },
   { href: '/card-games', label: 'Card games' },
@@ -19,7 +21,7 @@ const menu = [
     />
   </div>
   <div class="footer-menu">
-    <a href="/" class="t-lead" style="text-decoration:none">scoresheetsquare</a>
+    <Logo size={36} />
     <nav aria-label="Footer">
       <ul>
         {menu.map((m) => <li><a href={m.href}>{m.label}</a></li>)}
@@ -28,6 +30,7 @@ const menu = [
     <div class="t-small" style="display:grid;gap:16px;max-inline-size:52ch">
       <p style="display:flex;flex-wrap:wrap;gap:4px 20px">
         <a href="/about">About</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a>
+        <button type="button" class="link-button" data-privacy-settings hidden>Privacy settings</button>
       </p>
       <p>
         Not affiliated with Hasbro, Mattel or any game publisher. Game names are trademarks of their owners and are used
@@ -48,3 +51,16 @@ const menu = [
     <span class="t-wordmark" data-wordmark-end>scoresheetsquare</span>
   </div>
 </footer>
+
+<script>
+  // Shown only once Google's consent message has loaded (AdSense Privacy & messaging); reopens the choice.
+  type Googlefc = { callbackQueue: unknown[]; showRevocationMessage: () => void };
+  const button = document.querySelector<HTMLButtonElement>('[data-privacy-settings]');
+  const w = window as unknown as { googlefc?: Googlefc };
+  w.googlefc ??= { callbackQueue: [] } as unknown as Googlefc;
+  w.googlefc.callbackQueue.push(() => {
+    if (!button) return;
+    button.hidden = false;
+    button.addEventListener('click', () => w.googlefc!.showRevocationMessage());
+  });
+</script>

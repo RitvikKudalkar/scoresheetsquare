@@ -15,6 +15,13 @@ npm run sheets   # PDFs + preview PNGs only (public/pdf, public/images/sheets; g
 npm run build    # sheets + astro check + static build to dist/
 ```
 
+## Analytics and ads
+
+Copy `.env.example` to `.env` (or set the same variables in Cloudflare Pages):
+
+- `PUBLIC_GA_ID`: GA4 measurement ID. When it is set, the build adds gtag with Consent Mode v2 (UK, EEA and Switzerland start denied) and sends `pdf_download`, `custom_pdf`, `print_game`, `game_started` and `game_finished` events.
+- `PUBLIC_ADSENSE_CLIENT`: AdSense publisher ID, after approval. It loads the AdSense script; turn on **Privacy & messaging → European regulations** in AdSense for the Google-certified consent message, and the footer's "Privacy settings" link appears by itself. Add `public/ads.txt` at the same time.
+
 ## Where things live
 
 | Path | What |
@@ -25,6 +32,8 @@ npm run build    # sheets + astro check + static build to dist/
 | `src/lib/print-layout.ts` | Paper sheet layout shared by the build PDFs, previews, Customise and Print this game. |
 | `scripts/build-sheets.ts` | Writes every live game's PDFs (3 versions × Letter/A4) and preview PNG. |
 | `public/fonts/` | STIX Two Text TTFs (OFL) used to embed fonts in PDFs. |
+| `src/components/Logo.astro`, `public/favicon.svg` | The logo; `node scripts/build-icons.ts` renders the PNG app icons. |
+| `src/components/TallySheet.tsx` | The Bunco tally engine. |
 | `src/pages/index.astro` | Home: split stage with the switchable demo sheet. |
 | `src/pages/[slug].astro` | Game page, seven sections in plan order. |
 | `src/pages/printable-score-sheet.astro` | Blank sheet tool (settings + live sheet + ready-made PDFs). |

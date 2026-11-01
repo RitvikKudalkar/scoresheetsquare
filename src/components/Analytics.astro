@@ -1,0 +1,33 @@
+---
+// GA4 with Consent Mode v2, and the AdSense loader. Each part renders only when its ID is set at build time,
+// so nothing loads in development or before AdSense approval.
+//
+// UK, EEA and Swiss visitors start with storage denied; Google's consent message (AdSense →
+// Privacy & messaging) updates consent once enabled. Everyone else starts granted.
+const gaId = import.meta.env.PUBLIC_GA_ID as string | undefined;
+const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT as string | undefined;
+
+const consentRegions = [
+  'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT',
+  'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH',
+];
+const defaults = `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+window.gtag = gtag;
+gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied', region: ${JSON.stringify(consentRegions)}, wait_for_update: 500 });
+gtag('consent', 'default', { ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted', analytics_storage: 'granted' });
+gtag('js', new Date());
+${gaId ? `gtag('config', ${JSON.stringify(gaId)});` : ''}
+`;
+---
+
+{
+  (gaId || adsenseClient) && <script is:inline set:html={defaults} />
+}
+{gaId && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />}
+{
+  adsenseClient && (
+    <script is:inline async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`} crossorigin="anonymous" />
+  )
+}

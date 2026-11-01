@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { track } from '../lib/analytics';
 import { downloadSheetPdf, localPaper } from '../lib/client-pdf';
-import { isComplete, layoutSheet, leaderOf, rowIds, type Scores, type SheetGame } from '../lib/sheet';
+import { isComplete, layoutSheet, leaderOf, notices, phaseKey, phasesMade, rankPlayers, rowIds, type Scores, type SheetGame } from '../lib/sheet';
+import TallySheet from './TallySheet';
+import { PencilCircle, useSaved, useWakeLock } from './sheet-shared';
 
 type Props = {
   game: SheetGame;
@@ -8,10 +11,12 @@ type Props = {
   mode: 'demo' | 'live';
 };
 
-type Saved = { players: string[]; scores: Scores; savedAt: number };
-
 const DEMO_NAMES = ['Ana', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hal', 'Ivy', 'Jo'];
 const MAX_HISTORY = 60;
+
+export default function ScoreSheet(props: Props) {
+  return props.game.sheet.engine === 'tally' ? <TallySheet {...props} /> : <PointsSheet {...props} />;
+}
 
 function emptyScores(game: SheetGame, count: number): Scores {
   return Object.fromEntries(rowIds(game.sheet).map((id) => [id, Array(count).fill(null)]));
@@ -26,114 +31,116 @@ function demoScores(game: SheetGame, count: number): Scores {
     'round-totals': [[15, 5, 40, 0, 25, 10], [0, 30, 10, 45, 5, 20], [25, 10, 0, 15, 50, 5], [10, 20, 35, 5, 0, 30]],
     'running-turns': [[500, 0, 750, 1200, 350, 0], [0, 0, 600, 450, 1500, 300], [1000, 350, 0, 400, 0, 850], [550, 900, 300, 0, 650, 0]],
   };
-  const rows = fill[game.sheet.engine];
+  const rows = fill[game.sheet.engine] ?? [];
   for (let p = 0; p < Math.min(count, rows.length); p++) {
     rows[p].forEach((v, i) => {
       if (ids[i]) scores[ids[i]][p] = v;
+      // Phase 10 demo: a phase made whenever the round's points are low.
+      if (ids[i] && game.sheet.engine === 'round-totals' && game.sheet.phases && v <= 15) {
+        scores[phaseKey(ids[i])] ??= Array(count).fill(null);
+        scores[phaseKey(ids[i])][p] = 1;
+      }
     });
   }
   return scores;
 }
 
-function PencilCircle() {
-  return (
-    <svg className="pencil-circle" viewBox="0 0 104 52" preserveAspectRatio="none" aria-hidden="true">
-      <path pathLength={1} d="M10 31C5 14 36 4 68 6c28 2 33 26 10 36-24 10-63 8-70-8C3 22 22 10 38 9" />
-    </svg>
-  );
-}
-
-export default function ScoreSheet({ game, mode }: Props) {
-  const storageKey = `sss:game:${game.slug}`;
+function PointsSheet({ game, mode }: Props) {
+  const live = mode === 'live';
   const initialCount = game.players.default;
-  const [players, setPlayers] = useState<string[]>(() =>
-    mode === 'demo' ? DEMO_NAMES.slice(0, initialCount) : Array(initialCount).fill(''),
-  );
-  const [scores, setScores] = useState<Scores>(() =>
-    mode === 'demo' ? demoScores(game, initialCount) : emptyScores(game, initialCount),
-  );
+  const [players, setPlayers] = useState<string[]>(() => (live ? Array(initialCount).fill('') : DEMO_NAMES.slice(0, initialCount)));
+  const [scores, setScores] = useState<Scores>(() => (live ? emptyScores(game, initialCount) : demoScores(game, initialCount)));
   const [history, setHistory] = useState<{ players: string[]; scores: Scores }[]>([]);
-  const [resume, setResume] = useState<Saved | null>(null);
   const [largePrint, setLargePrint] = useState(false);
-  const [wakeOn, setWakeOn] = useState(false);
+  const [wakeOn, setWakeOn] = useWakeLock();
+  const [active, setActive] = useState<{ rowId: string; p: number } | null>(null);
+  const [coarse, setCoarse] = useState(false);
+  const [winnerOpen, setWinnerOpen] = useState(false);
   const before = useRef<{ players: string[]; scores: Scores } | null>(null);
-  const wakeLock = useRef<WakeLockSentinel | null>(null);
+  const started = useRef(false);
+
+  const hasScores = Object.values(scores).some((v) => v.some((x) => x !== null));
+  const saved = useMemo(() => ({ players, scores }), [players, scores]);
+  const { resume, takeResume, dropResume, clearSaved } = useSaved(live, game.slug, saved, hasScores, (s) => {
+    setPlayers(s.players);
+    setScores(s.scores);
+  });
 
   const layout = useMemo(() => layoutSheet(game.sheet, scores, players.length), [game.sheet, scores, players.length]);
-  const leader = leaderOf(layout.totals, game.winCondition, scores);
-  const done = mode === 'live' && isComplete(game.sheet, scores, players.length, layout.totals);
+  const leader = leaderOf(game.sheet, layout.totals, game.winCondition, scores);
+  const done = live && isComplete(game.sheet, scores, players.length, layout.totals);
+  const nameOf = (p: number) => players[p] || `Player ${p + 1}`;
+  const notes = live ? notices(game.sheet, scores, players.map((_, p) => nameOf(p)), layout.totals) : [];
+  const phased = game.sheet.engine === 'round-totals' && !!game.sheet.phases;
 
-  // Offer the saved game once, after hydration, so server and client render the same first frame.
+  // A phone gets the on-screen keypad instead of the system keyboard.
   useEffect(() => {
-    if (mode !== 'live') return;
-    try {
-      const raw = localStorage.getItem(storageKey);
-      if (raw) setResume(JSON.parse(raw) as Saved);
-    } catch {
-      /* storage unavailable: play without saving */
+    const mq = matchMedia('(pointer: coarse)');
+    setCoarse(mq.matches);
+    // A cell tapped before the sheet finished loading is already focused: pick it up.
+    const [, rowId, p] = (document.activeElement as HTMLElement | null)?.dataset.cell?.split(':') ?? [];
+    if (rowId && document.activeElement?.closest('.scorekeeper')) setActive({ rowId, p: Number(p) });
+    const on = () => setCoarse(mq.matches);
+    mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('keypad-open', coarse && !!active);
+  }, [coarse, active]);
+
+  // The winner screen opens once when the game ends; closing it returns to the sheet.
+  useEffect(() => {
+    if (done) {
+      setWinnerOpen(true);
+      track('game_finished', { game: game.slug, players: players.length });
     }
-  }, [mode, storageKey]);
+  }, [done]);
 
   useEffect(() => {
-    if (mode !== 'live' || resume) return;
-    const started = Object.values(scores).some((v) => v.some((x) => x !== null));
-    if (!started) return;
-    try {
-      localStorage.setItem(storageKey, JSON.stringify({ players, scores, savedAt: Date.now() } satisfies Saved));
-    } catch {
-      /* storage full or blocked */
+    if (!live || started.current) return;
+    if (hasScores) {
+      started.current = true;
+      track('game_started', { game: game.slug, players: players.length });
     }
-  }, [mode, players, scores, storageKey, resume]);
-
-  useEffect(() => {
-    if (!wakeOn || !('wakeLock' in navigator)) return;
-    let cancelled = false;
-    const request = () =>
-      navigator.wakeLock.request('screen').then((lock) => {
-        if (cancelled) lock.release();
-        else wakeLock.current = lock;
-      }).catch(() => setWakeOn(false));
-    request();
-    const again = () => document.visibilityState === 'visible' && request();
-    document.addEventListener('visibilitychange', again);
-    return () => {
-      cancelled = true;
-      document.removeEventListener('visibilitychange', again);
-      wakeLock.current?.release();
-      wakeLock.current = null;
-    };
-  }, [wakeOn]);
+  }, [live, scores]);
 
   const snapshot = () => (before.current = { players, scores });
   const commit = () => {
     const prev = before.current;
     before.current = null;
-    if (prev && (prev.scores !== scores || prev.players !== players)) {
-      setHistory((h) => [...h.slice(-MAX_HISTORY + 1), prev]);
-    }
+    if (prev && (prev.scores !== scores || prev.players !== players)) setHistory((h) => [...h.slice(-MAX_HISTORY + 1), prev]);
   };
+  const pushHistory = () => setHistory((h) => [...h.slice(-MAX_HISTORY + 1), { players, scores }]);
 
-  const writeScore = (rowId: string, p: number, text: string) => {
-    const clean = text.replace(/[^\d-]/g, '');
-    const value = clean === '' || clean === '-' ? null : Number(clean);
+  const setValue = (rowId: string, p: number, value: number | null) =>
     setScores((s) => {
       const row = s[rowId] ?? Array(players.length).fill(null);
       return { ...s, [rowId]: row.map((v, i) => (i === p ? value : v)) };
     });
+
+  const writeScore = (rowId: string, p: number, text: string) => {
+    const clean = text.replace(/[^\d-]/g, '');
+    setValue(rowId, p, clean === '' || clean === '-' ? null : Number(clean));
+  };
+
+  const togglePhase = (rowId: string, p: number) => {
+    pushHistory();
+    setValue(phaseKey(rowId), p, scores[phaseKey(rowId)]?.[p] === 1 ? null : 1);
   };
 
   const rename = (p: number, name: string) => setPlayers((ps) => ps.map((n, i) => (i === p ? name : n)));
 
   const addPlayer = () => {
     if (players.length >= game.players.max) return;
-    setHistory((h) => [...h, { players, scores }]);
+    pushHistory();
     setPlayers((ps) => [...ps, '']);
     setScores((s) => Object.fromEntries(Object.entries(s).map(([k, v]) => [k, [...v, null]])));
   };
 
   const removePlayer = (p: number) => {
     if (players.length <= game.players.min) return;
-    setHistory((h) => [...h, { players, scores }]);
+    pushHistory();
     setPlayers((ps) => ps.filter((_, i) => i !== p));
     setScores((s) => Object.fromEntries(Object.entries(s).map(([k, v]) => [k, v.filter((_, i) => i !== p)])));
   };
@@ -151,30 +158,16 @@ export default function ScoreSheet({ game, mode }: Props) {
     setHistory([]);
     setPlayers(names);
     setScores(emptyScores(game, names.length));
-    try {
-      localStorage.removeItem(storageKey);
-    } catch {
-      /* nothing saved */
-    }
+    setWinnerOpen(false);
+    started.current = false;
+    clearSaved();
   };
-
-  const takeResume = () => {
-    if (!resume) return;
-    setPlayers(resume.players);
-    setScores(resume.scores);
-    setResume(null);
-  };
-
-  const savedWhen = resume
-    ? new Date(resume.savedAt).toLocaleDateString(undefined, { weekday: 'long', hour: 'numeric', minute: '2-digit' })
-    : '';
-  const live = mode === 'live';
-  const nameOf = (p: number) => players[p] || `Player ${p + 1}`;
 
   // Puts the scores written so far onto the same layout as the printable PDF.
   const [printing, setPrinting] = useState(false);
   const printGame = async () => {
     setPrinting(true);
+    track('print_game', { game: game.slug });
     try {
       const paper = localPaper();
       await downloadSheetPdf(
@@ -189,17 +182,46 @@ export default function ScoreSheet({ game, mode }: Props) {
     }
   };
 
+  // Keypad: Next walks across the players in a row, then down to the next row.
+  const entryRows = layout.groups.flatMap((g) => g.rows.map((r) => r.id));
+  const focusCell = (rowId: string, p: number) =>
+    document.querySelector<HTMLInputElement>(`[data-cell="${game.slug}:${rowId}:${p}"]`)?.focus();
+  const nextCell = () => {
+    if (!active) return;
+    const r = entryRows.indexOf(active.rowId);
+    if (active.p + 1 < players.length) focusCell(active.rowId, active.p + 1);
+    else if (r + 1 < entryRows.length) focusCell(entryRows[r + 1], 0);
+    else (document.activeElement as HTMLElement | null)?.blur();
+  };
+  const keyPress = (key: string) => {
+    if (!active) return;
+    const current = scores[active.rowId]?.[active.p];
+    const text = current == null ? '' : String(current);
+    if (key === 'back') writeScore(active.rowId, active.p, text.slice(0, -1));
+    else if (key === 'sign') setValue(active.rowId, active.p, current == null ? null : -current);
+    else if (text.replace('-', '').length < 6) writeScore(active.rowId, active.p, text === '0' ? key : text + key);
+  };
+
+  const ranked = rankPlayers(game.sheet, layout.totals, game.winCondition, scores);
+  const activeLabel = active ? `${nameOf(active.p)}, ${entryRows.includes(active.rowId) ? layout.groups.flatMap((g) => g.rows).find((r) => r.id === active.rowId)?.label : ''}` : '';
+
   return (
     <div className={`scorekeeper${largePrint ? ' is-large' : ''}`}>
       {resume && (
         <div className="resume" role="status">
           <p>
-            Resume your {game.name} game from {savedWhen}, {resume.players.length} players?
+            Resume your {game.name} game from {resume.when}, {resume.players} players?
           </p>
           <div className="resume-actions">
             <button type="button" className="btn btn-primary" onClick={takeResume}>Resume</button>
-            <button type="button" className="btn btn-quiet" onClick={() => { setResume(null); newGame(false); }}>Start new</button>
+            <button type="button" className="btn btn-quiet" onClick={() => { dropResume(); newGame(false); }}>Start new</button>
           </div>
+        </div>
+      )}
+
+      {notes.length > 0 && (
+        <div className="sheet-notes" role="status">
+          {notes.map((n) => <p key={n}>{n}</p>)}
         </div>
       )}
 
@@ -249,19 +271,39 @@ export default function ScoreSheet({ game, mode }: Props) {
                     </th>
                     {players.map((_, p) => {
                       const v = scores[row.id]?.[p];
+                      const made = scores[phaseKey(row.id)]?.[p] === 1;
                       return (
-                        <td key={p}>
+                        <td key={p} className={row.phase ? 'has-phase' : undefined}>
                           <input
                             className="cell-input"
-                            inputMode="numeric"
+                            inputMode={coarse ? 'none' : 'numeric'}
                             enterKeyHint="next"
                             autoComplete="off"
                             value={v ?? ''}
+                            data-cell={`${game.slug}:${row.id}:${p}`}
                             aria-label={`${nameOf(p)}, ${row.label}`}
-                            onFocus={snapshot}
-                            onBlur={commit}
+                            onFocus={(e) => {
+                              snapshot();
+                              setActive({ rowId: row.id, p });
+                              if (coarse) e.currentTarget.scrollIntoView({ block: 'center', behavior: 'smooth' });
+                            }}
+                            onBlur={() => {
+                              commit();
+                              setActive(null);
+                            }}
                             onChange={(e) => writeScore(row.id, p, e.target.value)}
                           />
+                          {row.phase && (
+                            <button
+                              type="button"
+                              className={made ? 'phase-tick is-made' : 'phase-tick'}
+                              aria-pressed={made}
+                              aria-label={`${nameOf(p)} made the phase in ${row.label}`}
+                              onClick={() => togglePhase(row.id, p)}
+                            >
+                              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" /></svg>
+                            </button>
+                          )}
                         </td>
                       );
                     })}
@@ -287,10 +329,9 @@ export default function ScoreSheet({ game, mode }: Props) {
       {live && (
         <div className="sheet-controls">
           <button type="button" className="btn btn-quiet" onClick={undo} disabled={history.length === 0}>Undo</button>
-          <button type="button" className="btn btn-quiet" onClick={addPlayer} disabled={players.length >= game.players.max}>
-            Add player
-          </button>
+          <button type="button" className="btn btn-quiet" onClick={addPlayer} disabled={players.length >= game.players.max}>Add player</button>
           <button type="button" className="btn btn-quiet" onClick={printGame} disabled={printing}>{printing ? 'Making PDF…' : 'Print this game'}</button>
+          {done && !winnerOpen && <button type="button" className="btn btn-quiet" onClick={() => setWinnerOpen(true)}>Show the winner</button>}
           <label className="pill">
             <input type="checkbox" checked={wakeOn} onChange={(e) => setWakeOn(e.target.checked)} />
             Keep screen on
@@ -302,34 +343,93 @@ export default function ScoreSheet({ game, mode }: Props) {
         </div>
       )}
 
-      {done && (
-        <section className="winner" aria-live="polite">
-          <h2 className="winner-name">
-            {leader >= 0 ? `${nameOf(leader)} wins` : 'A tie at the top'}
-            {leader >= 0 && <PencilCircle />}
-          </h2>
-          <ol className="winner-bars">
-            {players
-              .map((_, p) => ({ name: nameOf(p), total: layout.totals[p], p }))
-              .sort((a, b) => (game.winCondition === 'highest' ? b.total - a.total : a.total - b.total))
-              .map(({ name, total, p }) => {
-                const max = Math.max(1, ...layout.totals);
-                return (
-                  <li key={p}>
-                    <span className="winner-bar-name">{name}</span>
-                    <span className="winner-bar" style={{ inlineSize: `${Math.max(4, (total / max) * 100)}%` }}>
-                      <span>{total}</span>
-                    </span>
-                  </li>
-                );
-              })}
-          </ol>
-          <div className="winner-actions">
-            <button type="button" className="btn btn-primary" onClick={() => newGame(true)}>Play again with same players</button>
-            <button type="button" className="btn btn-quiet" onClick={printGame} disabled={printing}>{printing ? 'Making PDF…' : 'Print this game'}</button>
+      {coarse && active && (
+        <div
+          className="keypad"
+          role="group"
+          aria-label={`Keypad for ${activeLabel}`}
+          // Keep focus on the cell being written while keys are pressed.
+          onPointerDown={(e) => e.preventDefault()}
+          onMouseDown={(e) => e.preventDefault()}
+        >
+          <p className="keypad-label">{activeLabel}</p>
+          <div className="keypad-keys">
+            {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((k) => (
+              <button key={k} type="button" onClick={() => keyPress(k)}>{k}</button>
+            ))}
+            <button type="button" onClick={() => keyPress('sign')} aria-label="Make negative or positive">±</button>
+            <button type="button" onClick={() => keyPress('0')}>0</button>
+            <button type="button" onClick={() => keyPress('back')} aria-label="Delete last digit">
+              <svg viewBox="0 0 24 24" className="icon" aria-hidden="true"><path d="M9 6h11v12H9l-5-6zM12 10l4 4m0-4-4 4" /></svg>
+            </button>
           </div>
-        </section>
+          <div className="keypad-actions">
+            <button type="button" className="btn btn-quiet" onClick={() => (document.activeElement as HTMLElement | null)?.blur()}>Done</button>
+            <button type="button" className="btn btn-primary" onClick={nextCell}>Next</button>
+          </div>
+        </div>
+      )}
+
+      {winnerOpen && (
+        <WinnerScreen
+          title={leader >= 0 ? `${nameOf(leader)} wins` : 'A tie at the top'}
+          circled={leader >= 0}
+          rows={ranked.map((p) => ({ name: nameOf(p), total: layout.totals[p], note: phased ? `${phasesMade(game.sheet, scores, p)} phases` : undefined }))}
+          onPlayAgain={() => newGame(true)}
+          onPrint={printGame}
+          printing={printing}
+          onClose={() => setWinnerOpen(false)}
+        />
       )}
     </div>
+  );
+}
+
+function WinnerScreen(props: {
+  title: string;
+  circled: boolean;
+  rows: { name: string; total: number; note?: string }[];
+  onPlayAgain: () => void;
+  onPrint: () => void;
+  printing: boolean;
+  onClose: () => void;
+}) {
+  const heading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    heading.current?.focus();
+    const esc = (e: KeyboardEvent) => e.key === 'Escape' && props.onClose();
+    document.addEventListener('keydown', esc);
+    document.documentElement.classList.add('winner-open');
+    return () => {
+      document.removeEventListener('keydown', esc);
+      document.documentElement.classList.remove('winner-open');
+    };
+  }, []);
+  const max = Math.max(1, ...props.rows.map((r) => Math.abs(r.total)));
+  return (
+    <section className="winner-screen" role="dialog" aria-modal="true" aria-labelledby="winner-title">
+      <div className="winner-inner">
+        <h2 id="winner-title" className="winner-name" tabIndex={-1} ref={heading}>
+          {props.title}
+          {props.circled && <PencilCircle />}
+        </h2>
+        <ol className="winner-bars">
+          {props.rows.map((r, i) => (
+            <li key={i}>
+              <span className="winner-bar-name">{r.name}</span>
+              <span className="winner-bar" style={{ inlineSize: `${Math.max(6, (Math.abs(r.total) / max) * 100)}%` }}>
+                <span>{r.note ? `${r.note}, ${r.total}` : r.total}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+        <div className="winner-actions">
+          <button type="button" className="btn btn-primary" onClick={props.onPlayAgain}>Play again with same players</button>
+          <button type="button" className="btn btn-quiet" onClick={props.onPrint} disabled={props.printing}>{props.printing ? 'Making PDF…' : 'Print this game'}</button>
+          <button type="button" className="btn btn-quiet" onClick={props.onClose}>Back to the sheet</button>
+        </div>
+        <div className="ad-slot winner-ad" aria-hidden="true"></div>
+      </div>
+    </section>
   );
 }

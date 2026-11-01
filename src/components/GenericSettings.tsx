@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { track } from '../lib/analytics';
 import { downloadSheetPdf, localPaper } from '../lib/client-pdf';
 import { GENERIC_DEFAULTS, GENERIC_LIMITS, genericGame, loadSettings, publishSettings, type GenericSettings as Settings } from '../lib/generic';
 import type { Paper, Version } from '../lib/print-layout';
@@ -24,6 +25,7 @@ export default function GenericSettings() {
 
   const download = async () => {
     setState('working');
+    track('custom_pdf', { game: 'printable-score-sheet', version, paper, players: s.players, rounds: s.rounds });
     try {
       const game = genericGame(s);
       await downloadSheetPdf(

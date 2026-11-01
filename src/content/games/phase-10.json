@@ -2,14 +2,54 @@
   "slug": "phase-10-score-sheet",
   "name": "Phase 10",
   "category": "card",
-  "keywords": ["phase 10 score sheet"],
+  "keywords": ["phase 10 score sheet", "phase 10 score sheet printable", "phase 10 scorecard"],
   "title": "Phase 10 Score Sheet – Free Printable PDF & Scorekeeper",
   "description": "Free printable Phase 10 score sheet that tracks each player's phase and points, in three PDF versions, plus an online scorekeeper.",
   "players": { "min": 2, "max": 6, "default": 4 },
   "winCondition": "lowest",
-  "sheet": { "engine": "round-totals", "rounds": 12, "roundNote": "Phase completed" },
-  "pdf": { "rows": 12, "showScoringChart": true },
-  "related": ["yahtzee-score-sheet"],
+  "sheet": { "engine": "round-totals", "rounds": 20, "phases": 10 },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Phase", "To complete it"],
+    "rows": [
+      ["1", "2 sets of 3"],
+      ["2", "1 set of 3 and 1 run of 4"],
+      ["3", "1 set of 4 and 1 run of 4"],
+      ["4", "1 run of 7"],
+      ["5", "1 run of 8"],
+      ["6", "1 run of 9"],
+      ["7", "2 sets of 4"],
+      ["8", "7 cards of one colour"],
+      ["9", "1 set of 5 and 1 set of 2"],
+      ["10", "1 set of 5 and 1 set of 3"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Phase 10 score sheet with a box to tick for every phase made, or keep score on your phone. The sheet works out who is ahead.",
+    "howToUse": [
+      "Write each player's name at the top of a column. At the end of each hand, tick the box in that round if the player made their phase, then write the points for the cards left in their hand: 5 for each card from 1 to 9, 10 for each 10, 11 or 12, 15 for a Skip and 25 for a Wild.",
+      "The player with the most phases made is ahead. When someone makes phase 10, the game ends after that hand, and if more than one player has made phase 10, the lowest total points wins.",
+      "On a phone, tap the tick in a box when a phase is made and tap the box itself to write the points. The sheet counts the phases and points and circles the leader."
+    ],
+    "exampleRound": {
+      "caption": "Three players, first hand",
+      "rows": [
+        { "label": "Ana makes phase 1 and goes out", "value": "0" },
+        { "label": "Ben makes phase 1, holds a 7 and a Skip", "value": "20" },
+        { "label": "Cleo misses, holds 3, 9, 11 and a Wild", "value": "45" }
+      ],
+      "result": "Ana and Ben move to phase 2; Cleo stays on phase 1"
+    },
+    "faqs": [
+      { "q": "How do you score Phase 10?", "a": "At the end of each hand, players add up the cards left in their hand: 5 points for each card from 1 to 9, 10 points for each 10, 11 or 12, 15 points for a Skip and 25 points for a Wild. Low points are good." },
+      { "q": "Who wins Phase 10?", "a": "The first player to complete phase 10. If two or more players complete phase 10 in the same hand, the one with the lowest total points wins." },
+      { "q": "Do you have to do the phases in order?", "a": "Yes. Everyone starts on phase 1 and moves to the next phase only after completing the one they are on." },
+      { "q": "What happens if you don't complete your phase?", "a": "You try the same phase again in the next hand, and you still score points for the cards left in your hand." },
+      { "q": "What is the difference between a set and a run?", "a": "A set is cards of the same number, in any colours. A run is cards numbered in order, such as 4, 5, 6, 7, in any colours." },
+      { "q": "How many people can play Phase 10?", "a": "Two to six players. The printable sheet and the online scorekeeper both have room for six." }
+    ]
+  },
+  "related": ["mexican-train-score-sheet", "yahtzee-score-sheet", "farkle-score-sheet"],
   "phase": 1,
-  "status": "draft"
+  "status": "live"
 }

@@ -134,7 +134,7 @@ p { margin: 0; text-wrap: pretty; }
   display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px;
   padding: 20px var(--gutter);
 }
-.site-header .wordmark-small { font-size: 1.25rem; letter-spacing: -0.02em; text-decoration: none; margin-inline-end: auto; }
+.site-header .header-logo { margin-inline-end: auto; padding-block: 6px; }
 .site-header nav { display: flex; flex-wrap: wrap; gap: 4px 24px; font-size: var(--text-small); }
 .site-header nav a { text-decoration: none; padding-block: 10px; }
 .site-header nav a:hover { text-decoration: underline; }
@@ -442,3 +442,81 @@ p { margin: 0; text-wrap: pretty; }
 .generic .custom-field input { inline-size: 100%; }
 .generic .btn-primary { justify-self: start; }
 input[type='search']::-webkit-search-cancel-button { appearance: none; }
+
+/* ── Notes above the sheet (Farkle final round, opening minimum) ─ */
+.sheet-notes { display: grid; gap: 6px; max-inline-size: 640px; margin-block-end: 12px; padding: 12px 16px; background: var(--color-pad-paper); font-size: var(--text-small); }
+
+/* ── Phase 10 tick boxes ────────────────────────────────────── */
+.has-phase .cell-input { padding-inline-start: 18px; }
+.phase-tick {
+  position: absolute; inset-block-start: 4px; inset-inline-start: 4px;
+  display: grid; place-items: center;
+  inline-size: 20px; block-size: 20px; padding: 0;
+  border: 1.5px solid var(--color-pad-ink-soft); border-radius: 2px;
+  background: var(--color-sheet); cursor: pointer;
+  transition: background-color 160ms var(--ease-out);
+}
+.phase-tick::before { content: ''; position: absolute; inset: -10px; }
+.phase-tick svg { inline-size: 14px; block-size: 14px; fill: none; stroke: transparent; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.phase-tick.is-made { background: var(--color-pad-ink); border-color: var(--color-pad-ink); }
+.phase-tick.is-made svg { stroke: var(--color-sheet); }
+
+/* ── Phone keypad: the one floating element ─────────────────── */
+.keypad {
+  position: fixed; inset-inline: 0; inset-block-end: 0; z-index: 40;
+  display: grid; gap: 10px;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background: var(--color-pad-paper);
+  box-shadow: 0 -12px 32px -8px rgb(15 74 53 / 0.28);
+  animation: keypad-up 220ms var(--ease-out);
+}
+.keypad-label { font-size: var(--text-small); color: var(--color-pad-ink-soft); }
+.keypad-keys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.keypad-keys button {
+  min-block-size: 56px; border: 0; border-radius: 0;
+  background: var(--color-pad-stage); color: var(--color-pad-ink);
+  font: inherit; font-size: var(--text-lead);
+  display: grid; place-items: center;
+}
+.keypad-keys button:active { background: color-mix(in oklab, var(--color-pad-stage), var(--color-pad-ink) 14%); }
+.keypad-actions { display: grid; grid-template-columns: 1fr 2fr; gap: 8px; }
+html.keypad-open body { padding-block-end: 380px; }
+@keyframes keypad-up { from { transform: translateY(100%); } to { transform: none; } }
+
+/* ── Winner screen: breaks the split, runs full screen ──────── */
+.winner-screen {
+  position: fixed; inset: 0; z-index: 60;
+  overflow: auto;
+  display: grid; justify-items: center; align-content: start;
+  padding: 10vh var(--gutter) 48px;
+  background: var(--color-pad-paper);
+  animation: winner-in 320ms var(--ease-out);
+}
+.winner-inner { inline-size: min(100%, 720px); text-align: center; }
+.winner-name:focus { outline: none; }
+.winner-ad { margin-block-start: 48px; }
+html.winner-open { overflow: hidden; }
+@keyframes winner-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── Bunco tally ────────────────────────────────────────────── */
+.tally-round { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 16px; padding: 16px 12px 8px; }
+.tally-target { font-size: var(--text-lead); line-height: 1.2; }
+.tally-round-buttons { display: flex; gap: 8px; }
+.tally-round-buttons .btn { min-block-size: 48px; font-size: var(--text-small); padding-inline: 16px; }
+.tally-head { font-size: var(--text-small); font-weight: 600; text-align: center; }
+.tally-name { min-inline-size: 110px; text-align: start; }
+.tally-grid td { min-inline-size: 112px; }
+.stepper { display: grid; grid-template-columns: 40px 1fr 40px; align-items: center; block-size: var(--cell); }
+.stepper button {
+  block-size: 100%; border: 0; background: transparent; color: var(--color-pad-ink);
+  font: inherit; font-size: var(--text-lead); cursor: pointer;
+}
+.stepper button:hover:not(:disabled) { background: var(--color-pad-stage); }
+.stepper button:disabled { color: color-mix(in oklab, var(--color-pad-ink-soft), transparent 50%); cursor: default; }
+.stepper output { position: relative; text-align: center; font-size: var(--score); color: var(--color-graphite); font-variant-numeric: tabular-nums; }
+.tally-standings { display: grid; gap: 8px; margin: 0; padding: 16px 12px 20px; }
+.tally-standings div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; }
+.tally-standings dt { color: var(--color-pad-ink-soft); }
+.tally-standings dd { margin: 0; font-weight: 600; }
+
+.link-button { border: 0; padding: 0; background: none; color: inherit; font: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; cursor: pointer; }

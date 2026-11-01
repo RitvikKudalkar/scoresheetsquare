@@ -1,4 +1,6 @@
 ---
+import Logo from './Logo.astro';
+
 const links = [
   { href: '/dice-games', label: 'Dice games' },
   { href: '/card-games', label: 'Card games' },
@@ -8,7 +10,7 @@ const links = [
 ---
 
 <header class="site-header">
-  <a class="wordmark-small" href="/">scoresheetsquare</a>
+  <Logo size={30} class="header-logo" />
   <nav aria-label="Main">
     {links.map((l) => <a href={l.href}>{l.label}</a>)}
   </nav>

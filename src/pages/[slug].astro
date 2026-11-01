@@ -66,7 +66,7 @@ const schema = [
       </div>
       <p class="measure">{content.intro}</p>
 
-      <DownloadBlock slug={game.slug} alt={`Printable ${game.name} score sheet with a column for each player and the scoring for every box`}>
+      <DownloadBlock slug={game.slug} alt={game.sheet.engine === 'tally' ? `Printable ${game.name} tally card with columns for wins, losses and buncos in every round` : `Printable ${game.name} score sheet with a column for each player and a row for every ${game.sheet.engine === 'category' ? 'scoring box' : game.sheet.engine === 'running-turns' ? 'turn' : 'round'}`}>
         <CustomPdf client:idle game={sheetGame} />
       </DownloadBlock>
       <div class="ad-slot" aria-hidden="true"></div>
@@ -74,7 +74,7 @@ const schema = [
 
     <div class="stage game-stage print-sheet">
       <h2 class="sr-only">Online {game.name} scorekeeper</h2>
-      <ScoreSheet client:visible mode="live" game={sheetGame} />
+      <ScoreSheet client:idle mode="live" game={sheetGame} />
     </div>
 
     <div class="game-rest reading-block">

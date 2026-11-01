@@ -1,0 +1,46 @@
+---
+// The mark is a square of score pad: the printed header band, four cells, and one cell circled in red pencil.
+interface Props {
+  /** Height of the mark in px; the wordmark scales with it. */
+  size?: number;
+  wordmark?: boolean;
+  class?: string;
+}
+
+const { size = 28, wordmark = true, class: className } = Astro.props;
+---
+
+<a href="/" class:list={['logo', className]} aria-label="ScoreSheetSquare home" style={`--logo-size:${size}px`}>
+  <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
+    <rect x="1" y="1" width="38" height="38" rx="1.5" fill="#fbfcf6" stroke="#0f4a35" stroke-width="2" />
+    <rect x="1" y="1" width="38" height="11" fill="#0f4a35" />
+    <path d="M20 12v27M1 25.5h38" stroke="#0f4a35" stroke-width="2" />
+    <path
+      class="logo-pencil"
+      d="M23 33C22 28.5 28 26.5 32 27c4.5.5 5.5 4.5 2.5 6.8C31 36.2 24.5 36 23.2 33.5c-.6-1.2.8-2.9 2.8-3.5"
+      stroke="#b42318"
+      stroke-width="2"
+      fill="none"
+      stroke-linecap="round"
+      pathLength="1"
+    />
+  </svg>
+  {wordmark && <span class="logo-word">scoresheetsquare</span>}
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--logo-size) * 0.36);
+    color: var(--color-pad-ink);
+    text-decoration: none;
+  }
+  .logo-mark { inline-size: var(--logo-size); block-size: var(--logo-size); flex: none; }
+  .logo-word { font-size: calc(var(--logo-size) * 0.72); letter-spacing: -0.02em; line-height: 1; }
+  .logo-pencil { stroke-dasharray: 1; stroke-dashoffset: 0; }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .logo:hover .logo-pencil { animation: logo-pencil 420ms cubic-bezier(0.16, 1, 0.3, 1); }
+  }
+  @keyframes logo-pencil { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+</style>

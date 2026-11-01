@@ -23,14 +23,20 @@ const sheet = z.discriminatedUnion('engine', [
     engine: z.literal('round-totals'),
     rounds: z.number().int().min(1),
     roundLabels: z.array(z.string()).optional(),
-    roundNote: z.string().optional(),
     target: z.number().optional(),
+    phases: z.number().int().min(1).optional(),
   }),
   z.object({
     engine: z.literal('running-turns'),
     turns: z.number().int().min(1),
     target: z.number(),
     minimumToBoard: z.number().optional(),
+  }),
+  z.object({
+    engine: z.literal('tally'),
+    tallies: z.array(z.object({ id: z.string(), label: z.string() })).min(1),
+    sets: z.number().int().min(1),
+    roundsPerSet: z.number().int().min(1),
   }),
 ]);
 

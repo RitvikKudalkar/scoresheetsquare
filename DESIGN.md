@@ -236,16 +236,30 @@ Each PDF version is a small torn-off sheet: a sheet-white stub with a perforated
 - **Empty state:** before anyone scores, column heads read "Player 1…4" with "Tap a name to change it" under them in Small, and the first cell is focused.
 
 ### Scorekeeper controls
-- **Players:** name chips across the sheet head. Tap to rename, long-press or the "…" menu to reorder or remove. "Add player" is a quiet button at the end of the row. Min and max come from the game file.
-- **Keypad (phone):** a 4×3 grid of 64px pad-stage keys (1–9, ±, 0, ⌫) plus a full-width primary "Enter" key. It slides up from the bottom and is the only floating element.
-- **Undo** is always visible as a quiet button. **Resume banner:** a pad-stage strip at the top of the stage that reads "Resume your Yahtzee game from Tuesday, 4 players" with "Resume" and "Start new".
-- **Toggles:** "Keep screen on" and "Large print" as pills in the stage footer.
+- **Players:** names are typed into the column heads, which start with "P1", "P2" and so on as placeholders. A small × shows on hover or focus to remove a player. "Add player" is a quiet button below the sheet. The game file sets the minimum and maximum.
+- **Keypad (phones and other coarse pointers):** a 3×4 grid of 56px pad-stage keys (1–9, ±, 0, ⌫), with "Done" (quiet) and "Next" (primary) underneath. Next moves to the next player in the same row, then to the first player in the next row. The keypad slides up from the bottom, is the only floating element, and replaces the system keyboard (`inputmode="none"`). Keyboards on desktop type straight into the cells.
+- **Undo** is always visible as a quiet button. **Resume banner:** a pad-paper strip at the top of the stage that reads "Resume your Yahtzee game from Tuesday, 4 players" with "Resume" and "Start new".
+- **Toggles:** "Keep screen on" and "Large print" as pills under the sheet.
+- **Notes:** a pad-paper strip above the sheet carries rule reminders in plain sentences, for example Farkle's 500-point opening minimum and "Ana passed 10,000. Everyone else gets one last turn."
+
+### Phase tick (Phase 10)
+A 20px square in the top-left corner of every round cell, with a 1.5px pad-ink-soft outline. When ticked it fills with pad ink and shows a sheet-white check. Its hit area extends 10px on every side. The sheet adds a "Phases made" row above the points total, and the leader is the player with the most phases made, with the lowest points breaking a tie. The printed sheet draws the same box in each cell and says "Tick the box in a round when the phase is made." under the grid.
+
+### Tally sheet (Bunco)
+Players are rows and the tallies (Wins, Losses, Buncos) are columns. Each cell is a stepper: − on the left, the count in graphite in the middle, and + on the right, each button covering the full cell height. A round tracker above the grid reads "Set 1 of 3, round 2 of 6" with "Roll for 2s" at Lead size, and has "Back" and "Next round" buttons. Below the grid, the prize standings ("Most wins", "Most losses", "Most buncos") are set as a definition list, with ties joined by "and". The printed version is a tally card for one player per sheet, two cards to a landscape page, and the custom PDF prints one named card for each player.
 
 ### Winner screen
-This breaks the split and runs full width on pad paper. The winner's name is centred at Head size with the pencil circle drawn around it, and the final totals sit beneath it as one flat bar chart in pad ink, one bar per player, longest first, with values at the bar ends. A raise from the Du Bois data portraits: the chart is drawn bold and flat, with no axes and no gridlines. Below it are "Play again with same players" (primary), "Print this game" (quiet), and then the ad slot.
+A full-screen layer on pad paper, so it breaks the split on every width. Focus moves to the heading, Escape or "Back to the sheet" closes it, and "Show the winner" reopens it from the controls. The winner's name is centred at Head size with the pencil circle drawn around it. The final totals sit beneath it as one flat bar chart in pad ink, one bar per player in finishing order, with the values at the bar ends (Phase 10 shows phases and points together). A raise from the Du Bois data portraits: the chart is drawn bold and flat, with no axes and no gridlines. Below the chart are "Play again with same players" (primary), "Print this game" and "Back to the sheet" (quiet), then the ad slot.
+
+### Logo
+- **The mark** is a square of score pad: a sheet-white square with a 2px pad-ink outline, the solid pad-ink header band across the top, a 2×2 grid of cells, and the bottom-right cell circled in red pencil. It is the name drawn as an object: a score sheet square.
+- **The lockup** is the mark plus "scoresheetsquare" in lowercase STIX Two Text at 72% of the mark's height, with a gap of 36% of the mark's height between them. On hover the pencil circle redraws in 420ms.
+- **Sizes:** 30px in the header, 36px in the footer, and the mark alone at 34px on the home page, where the big wordmark already spells the name.
+- **Files:** [public/favicon.svg](public/favicon.svg) is the mark. App icons (`apple-touch-icon.png`, `icon-192.png`, `icon-512.png`) set it on a pad-paper square and are rendered by `node scripts/build-icons.ts`.
+- **Never** recolour the mark, set it on a photograph, add a shadow, or redraw the circle in a colour other than pencil red.
 
 ### Navigation
-- **Header:** the wordmark "scoresheetsquare" at Small-plus size (20px), then "Dice games", "Card games", "Board games", "All games" as plain links, and one action, "Find your game", which opens the search inline. There is no bar background, no blur and no pill.
+- **Header:** the logo lockup at 30px, then "Dice games", "Card games", "Board games" and "All games" as plain links. There is no bar background, no blur and no pill. The home page puts its search ("Find your game") in the hero instead.
 - **Breadcrumb:** "Home › Card games › Phase 10" at Small size in pad ink soft, above the H1.
 - **Footer:** one viewport tall and split. The left half shows the late-19th-century Ace of Clubs card (public domain, Cooper Hewitt via Wikimedia Commons), cropped hard by the left and bottom edges. The right half sets the category menu at 2.6vw, then contact, the image credits, and the line "Not affiliated with Hasbro, Mattel or any game publisher. Game names are trademarks of their owners." Under that the name returns full width at Wordmark size.
 
