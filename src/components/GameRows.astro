@@ -1,0 +1,39 @@
+---
+// Two-ended rows: game name on the left, player count on the right. Games without a live page are listed but not linked.
+import { getCollection } from 'astro:content';
+import { playersLabel, type CatalogueEntry } from '../lib/catalogue';
+
+interface Props {
+  entries: CatalogueEntry[];
+  label?: string;
+  /** Adds data attributes the A–Z filter reads. */
+  filterable?: boolean;
+  /** Adds how the sheet scores after the player count. */
+  showScoring?: boolean;
+}
+
+const { entries, label, filterable = false, showScoring = false } = Astro.props;
+const live = new Set((await getCollection('games', (g) => g.data.status === 'live')).map((g) => g.data.slug));
+---
+
+<div class="rows-group">
+  {label && <p class="t-small t-soft">{label}</p>}
+  <ul class="rows">
+    {
+      entries.map((e) => (
+        <li
+          data-game-name={filterable ? e.name.toLowerCase() : undefined}
+          data-min={filterable ? e.min : undefined}
+          data-max={filterable ? e.max : undefined}
+          data-category={filterable ? e.category : undefined}
+        >
+          {live.has(e.slug) ? <a href={`/${e.slug}`}>{e.name}</a> : <span>{e.name}</span>}
+          <span class="t-small t-soft">
+            {live.has(e.slug) ? playersLabel(e) : 'Sheet coming soon'}
+            {showScoring && live.has(e.slug) && `, ${e.scoring.toLowerCase()}`}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</div>

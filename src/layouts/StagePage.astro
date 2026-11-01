@@ -1,0 +1,60 @@
+---
+// Split stage with a picture: the photograph holds the fixed half, the reading column scrolls beside it.
+import Base from './Base.astro';
+import Header from '../components/Header.astro';
+
+export type StageImage = { src: string; width: number; height: number; alt: string; caption: string; position?: string };
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  lead: string;
+  crumb: string;
+  image: StageImage;
+  schema?: Record<string, unknown>[];
+}
+
+const { title, description, heading, lead, crumb, image, schema = [] } = Astro.props;
+const breadcrumb = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: crumb, item: new URL(Astro.url.pathname.replace(/\.html$/, ''), Astro.site).href },
+  ],
+};
+---
+
+<Base title={title} description={description} schema={[...schema, breadcrumb]} image={image.src}>
+  <Header slot="before-main" />
+  <div class="split stage-page">
+    <figure class="stage photo-stage">
+      <img src={image.src} width={image.width} height={image.height} alt={image.alt} style={image.position ? `object-position:${image.position}` : undefined} />
+      <figcaption class="t-small">{image.caption}</figcaption>
+    </figure>
+    <div class="reading stage-reading">
+      <header class="stage-head" data-reveal>
+        <nav aria-label="Breadcrumb" class="t-small t-soft crumbs">
+          <a href="/">Home</a>{' '}<span aria-hidden="true">›</span>{' '}<span aria-current="page">{crumb}</span>
+        </nav>
+        <h1 class="t-head">{heading}</h1>
+        <p class="t-lead">{lead}</p>
+      </header>
+      <slot />
+    </div>
+  </div>
+</Base>
+
+<style>
+  .photo-stage { margin: 0; padding: 0; display: grid; grid-template-rows: 1fr auto; block-size: 56svh; overflow: hidden; }
+  .photo-stage img { inline-size: 100%; block-size: 100%; min-block-size: 0; object-fit: cover; display: block; }
+  .photo-stage figcaption { padding: 10px var(--gutter); color: var(--color-pad-ink-soft); }
+  .stage-reading { padding-block-start: 40px; }
+  .stage-head { display: grid; gap: 20px; }
+  .crumbs a { text-decoration: none; }
+  .crumbs a:hover { text-decoration: underline; }
+  @media (min-width: 1024px) {
+    .photo-stage { block-size: 100svh; padding: 0; }
+    .stage-reading { padding-block-start: 64px; }
+  }
+</style>

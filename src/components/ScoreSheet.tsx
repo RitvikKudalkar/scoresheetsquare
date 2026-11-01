@@ -116,7 +116,10 @@ export default function ScoreSheet({ game, mode }: Props) {
   const writeScore = (rowId: string, p: number, text: string) => {
     const clean = text.replace(/[^\d-]/g, '');
     const value = clean === '' || clean === '-' ? null : Number(clean);
-    setScores((s) => ({ ...s, [rowId]: s[rowId].map((v, i) => (i === p ? value : v)) }));
+    setScores((s) => {
+      const row = s[rowId] ?? Array(players.length).fill(null);
+      return { ...s, [rowId]: row.map((v, i) => (i === p ? value : v)) };
+    });
   };
 
   const rename = (p: number, name: string) => setPlayers((ps) => ps.map((n, i) => (i === p ? name : n)));

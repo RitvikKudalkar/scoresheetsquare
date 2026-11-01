@@ -1,0 +1,75 @@
+---
+// Preview, paper switch, the three PDFs, and a slot for the custom PDF control.
+import { pdfFileName, type Version } from '../lib/print-layout';
+
+interface Props {
+  slug: string;
+  alt: string;
+}
+
+const { slug, alt } = Astro.props;
+const preview = `/images/sheets/${slug}.png`;
+const pdfs: { key: Version; label: string; note: string }[] = [
+  { key: 'large-print', label: 'Large print', note: 'Bigger type and boxes' },
+  { key: '2-per-page', label: '2 per page', note: 'Two sheets, saves paper' },
+];
+const pdfHref = (key: Version, a4 = false) => `/pdf/${pdfFileName(slug, key, a4 ? 'a4' : 'letter')}`;
+---
+
+<div class="downloads">
+  <figure class="preview">
+    <img src={preview} width="1000" height="1294" alt={alt} />
+  </figure>
+  <div class="download-actions">
+    <div class="paper" role="group" aria-label="Paper size">
+      <label class="pill"><input type="radio" name="paper" value="letter" checked /> US Letter</label>
+      <label class="pill"><input type="radio" name="paper" value="a4" /> A4</label>
+    </div>
+    <a class="btn btn-primary download-main" href={pdfHref('standard')} data-letter={pdfHref('standard')} data-a4={pdfHref('standard', true)} download>
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14" /></svg>
+      Download PDF
+    </a>
+    <ul class="stubs" role="list">
+      {
+        pdfs.map((p) => (
+          <li>
+            <a class="stub" href={pdfHref(p.key)} data-letter={pdfHref(p.key)} data-a4={pdfHref(p.key, true)} download>
+              <span class="t-lead">{p.label}</span>
+              <span class="t-small t-soft">{p.note}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <slot />
+  </div>
+</div>
+
+<style>
+  .downloads { display: grid; gap: 24px; }
+  .download-actions { display: grid; gap: 16px; align-content: start; }
+  .preview { margin: 0; inline-size: min(100%, 220px); }
+  .preview img { display: block; inline-size: 100%; block-size: auto; -webkit-mask: var(--punch); mask: var(--punch); }
+  .paper { display: flex; gap: 8px; flex-wrap: wrap; }
+  .download-main { justify-self: start; }
+  .stubs { list-style: none; padding: 0; margin: 0; }
+  @media (min-width: 560px) {
+    .downloads { grid-template-columns: minmax(150px, 200px) 1fr; }
+  }
+</style>
+
+<script>
+  // Paper size: default from the visitor's locale (US and Canada use Letter), switchable.
+  document.querySelectorAll<HTMLElement>('.downloads').forEach((box) => {
+  const radios = box?.querySelectorAll<HTMLInputElement>('input[name="paper"]');
+  const links = box?.querySelectorAll<HTMLAnchorElement>('[data-letter]');
+  const apply = (size: string) => links?.forEach((a) => (a.href = size === 'a4' ? a.dataset.a4! : a.dataset.letter!));
+  const region = (navigator.language.split('-')[1] ?? '').toUpperCase();
+  const initial = ['US', 'CA', 'MX', 'PH'].includes(region) || region === '' ? 'letter' : 'a4';
+  radios?.forEach((r) => {
+    r.checked = r.value === initial;
+    r.addEventListener('change', () => r.checked && apply(r.value));
+  });
+  apply(initial);
+  });
+</script>

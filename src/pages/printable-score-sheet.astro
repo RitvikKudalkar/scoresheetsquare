@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import DownloadBlock from '../components/DownloadBlock.astro';
+import GenericSettings from '../components/GenericSettings.tsx';
+import GenericStage from '../components/GenericStage.tsx';
+
+const faqs = [
+  { q: 'What games does the blank score sheet work for?', a: 'Any game that is scored round by round: card games, dominoes, darts, trivia nights, word games, or a game you made up. Each round, write every player’s points and the sheet keeps the running total.' },
+  { q: 'How many players and rounds can I have?', a: 'From 2 to 8 players and from 5 to 20 rounds. The ready-made PDFs have 6 player columns and 12 rounds; choose your own numbers above to make a different sheet.' },
+  { q: 'Can I put a title on it?', a: 'Yes. Type a title, such as the name of your game or your group, and it is printed in the band at the top of the sheet.' },
+  { q: 'Does the lowest score ever win?', a: 'In many games it does, such as golf-style card games. Choose Lowest score and the online sheet circles whoever has the fewest points.' },
+  { q: 'Is it free?', a: 'Yes. Every PDF downloads straight away, with nothing to sign up for.' },
+];
+
+const schema = [
+  { '@type': 'WebApplication', name: 'Printable Score Sheet', url: new URL('/printable-score-sheet', Astro.site).href, applicationCategory: 'GameApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
+  { '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+      { '@type': 'ListItem', position: 2, name: 'Blank score sheet', item: new URL('/printable-score-sheet', Astro.site).href },
+    ],
+  },
+];
+---
+
+<Base
+  title="Printable Score Sheet – Blank, Free PDF for Any Game"
+  description="Free blank printable score sheet for any game: choose 2 to 8 players and 5 to 20 rounds, download a PDF, or keep score online with running totals."
+  schema={schema}
+  image="/images/sheets/printable-score-sheet.png"
+>
+  <Header slot="before-main" />
+  <div class="split game">
+    <div class="game-top reading-block" data-reveal>
+      <nav aria-label="Breadcrumb" class="t-small t-soft crumbs">
+        <a href="/">Home</a>{' '}<span aria-hidden="true">›</span>{' '}<span aria-current="page">Blank score sheet</span>
+      </nav>
+      <div class="game-title">
+        <h1 class="t-head">Printable score sheet</h1>
+        <p class="t-lead">Blank, for any game. Choose the players and rounds.</p>
+      </div>
+      <GenericSettings client:load />
+      <div class="ad-slot" aria-hidden="true"></div>
+    </div>
+
+    <div class="stage game-stage print-sheet">
+      <h2 class="sr-only">Online blank scorekeeper</h2>
+      <GenericStage client:visible />
+    </div>
+
+    <div class="game-rest reading-block">
+      <section aria-labelledby="ready-title" data-reveal>
+        <h2 id="ready-title" class="t-head">Ready-made sheets</h2>
+        <p class="measure">Six player columns and twelve rounds, ready to print. Write your own game name in the band at the top.</p>
+        <DownloadBlock slug="printable-score-sheet" alt="Blank printable score sheet with six player columns, twelve rounds and a total row" />
+      </section>
+
+      <section aria-labelledby="use-title" data-reveal>
+        <h2 id="use-title" class="t-head">How to use it</h2>
+        <div class="measure prose">
+          <p>Write each player’s name at the top of a column. At the end of every round, write each player’s points for that round in the next row.</p>
+          <p>After the last round, add each column for the final scores. On screen, the sheet keeps the running total for you, circles the leader, and saves the game in case the page is closed.</p>
+        </div>
+      </section>
+
+      <div class="ad-slot" aria-hidden="true"></div>
+
+      <section aria-labelledby="faq-title" data-reveal>
+        <h2 id="faq-title" class="t-head">Questions</h2>
+        <div class="faq measure">{faqs.map((f) => <p><strong>{f.q}</strong> {f.a}</p>)}</div>
+      </section>
+
+      <div class="ad-slot is-tall" aria-hidden="true"></div>
+    </div>
+  </div>
+</Base>

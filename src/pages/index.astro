@@ -2,12 +2,12 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ScoreSheet from '../components/ScoreSheet.tsx';
+import GameRows from '../components/GameRows.astro';
 import { catalogue, categoryNames, type Category } from '../lib/catalogue';
 
 const games = await getCollection('games');
 const showcaseOrder = ['yahtzee-score-sheet', 'farkle-score-sheet', 'phase-10-score-sheet', 'mexican-train-score-sheet'];
 const showcase = showcaseOrder.map((slug) => games.find((g) => g.data.slug === slug)!.data);
-const live = new Set(games.filter((g) => g.data.status === 'live').map((g) => g.data.slug));
 
 const groups = (['dice', 'card', 'tile'] as Category[]).map((c) => ({
   label: categoryNames[c],
@@ -101,21 +101,7 @@ const schema = [
           <figcaption class="t-small t-soft">Etruscan dice found at Tuscania, Italy. Bibliothèque nationale de France.</figcaption>
         </figure>
         <div class="every-list">
-          {
-            groups.map((group) => (
-              <div class="rows-group">
-                <p class="t-small t-soft">{group.label}</p>
-                <ul class="rows">
-                  {group.entries.map((e) => (
-                    <li data-game-name={e.name.toLowerCase()}>
-                      {live.has(e.slug) ? <a href={`/${e.slug}`}>{e.name}</a> : <span>{e.name}</span>}
-                      <span class="t-small t-soft">{live.has(e.slug) ? e.players : 'Sheet coming soon'}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))
-          }
+          {groups.map((group) => <GameRows entries={group.entries} label={group.label} filterable />)}
           <p class="find-empty t-small" hidden>
             No sheet for that game yet. The <a href="/printable-score-sheet">blank score sheet</a> works for any game.
           </p>

@@ -1,0 +1,24 @@
+---
+import ReadingPage from '../layouts/ReadingPage.astro';
+import GameRows from '../components/GameRows.astro';
+import { catalogue } from '../lib/catalogue';
+
+const sorted = [...catalogue].sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<ReadingPage
+  title="Page not found – ScoreSheetSquare"
+  description="This page does not exist. Find your game's score sheet in the A to Z list."
+  heading="This page isn’t here"
+  lead="The link may be old, or the sheet may have moved. Every sheet is listed below."
+>
+  <div class="nf">
+    <a class="btn btn-primary" href="/all-games">See every game, A to Z</a>
+    <GameRows entries={sorted} />
+  </div>
+</ReadingPage>
+
+<style>
+  .nf { display: grid; gap: 40px; justify-items: start; max-inline-size: 520px; }
+  .nf :global(.rows-group) { inline-size: 100%; }
+</style>

@@ -1,0 +1,36 @@
+---
+import CategoryPage from '../components/CategoryPage.astro';
+---
+
+<CategoryPage
+  title="Card Game Score Sheets – Free Printable PDFs"
+  description="Free printable score sheets for card games like Phase 10, Five Crowns, Skyjo, Uno and Hand and Foot, plus online scorekeepers that add up every round."
+  heading="Card game score sheets"
+  lead="Printable sheets and online scorekeepers for Phase 10, Five Crowns, Skyjo, Uno and more."
+  crumb="Card games"
+  categories={['card']}
+  image={{
+    src: '/images/archive/two-of-clubs-grimaud.jpg',
+    width: 1920,
+    height: 2744,
+    alt: 'A late 19th-century Two of Clubs playing card: a woman in a long dress drawn in brown ink, with a club at her head and at her hem.',
+    caption: 'Two of Clubs, late 19th century, B.P. Grimaud. Cooper Hewitt.',
+  }}
+  sections={[
+    {
+      heading: 'Scoring a card game round by round',
+      paragraphs: [
+        'Most family card games are scored hand by hand. At the end of each round, every player counts the points left in their hand or the points they won, and the sheet keeps a running total for each column.',
+        'Some games are won by the lowest total. In Five Crowns the game lasts 11 rounds and the lowest score wins; in Skyjo the game ends when someone reaches 100 and the lowest score wins. Others are won by reaching a target first: in Uno the first player to 500 points wins.',
+        'Phase 10 adds one more thing to track: which phase each player has completed. Its sheet, coming soon, notes the phase alongside the points for every round.',
+      ],
+    },
+    {
+      heading: 'Paper or phone',
+      paragraphs: [
+        'Each card game has a standard, a large print and a 2-per-page PDF in US Letter and A4. You can also add your players’ names before you print.',
+        'At the table, the online sheet adds every round for you and circles whoever is in the lead, which settles most arguments about the maths before they start.',
+      ],
+    },
+  ]}
+/>

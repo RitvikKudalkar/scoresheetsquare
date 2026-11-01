@@ -1,0 +1,49 @@
+---
+import ReadingPage from '../layouts/ReadingPage.astro';
+import { site } from '../lib/site';
+---
+
+<ReadingPage
+  title="About ScoreSheetSquare – Free Score Sheets for Game Night"
+  description="ScoreSheetSquare gives every popular game one page with free printable score sheets and an online scorekeeper. Independent and free, with no sign-up."
+  heading="About ScoreSheetSquare"
+  lead="One page for every game, with a score sheet to print and a score sheet to fill in on screen."
+  crumb="About"
+>
+  <div class="measure prose">
+    <h2 class="t-lead">What the site is for</h2>
+    <p>
+      Most people looking for a score sheet want one thing: a sheet that fits their game, ready to print. Each game here
+      has a single page with that sheet in three sizes, standard, large print and two to a page, for US Letter or A4. You
+      can add your players’ names before printing, or skip the paper and keep score on the sheet on screen.
+    </p>
+    <p>
+      There is nothing to sign up for. Downloads start straight away, and games scored online stay in your own browser.
+    </p>
+
+    <h2 class="t-lead">Who runs it</h2>
+    <p>
+      ScoreSheetSquare is run by {site.owner}, based in {site.location}. Suggestions for games to add, and corrections to
+      any sheet or scoring table, are always welcome on the <a href="/contact">contact page</a>.
+    </p>
+
+    <h2 class="t-lead">Independent</h2>
+    <p>
+      ScoreSheetSquare is not affiliated with, endorsed by or connected to any game publisher. Game names are trademarks of
+      their owners and are used only to say which game a sheet is for. The sheets use our own design, with no logos, box art
+      or artwork from the games.
+    </p>
+
+    <h2 class="t-lead">How it is paid for</h2>
+    <p>
+      The site shows advertising, which keeps every sheet free. Ads are kept away from the scorekeeper and the download
+      buttons so nobody taps one by mistake.
+    </p>
+  </div>
+</ReadingPage>
+
+<style>
+  .prose { display: grid; gap: 16px; }
+  .prose h2 { margin-block-start: 32px; }
+  .prose h2:first-child { margin-block-start: 0; }
+</style>

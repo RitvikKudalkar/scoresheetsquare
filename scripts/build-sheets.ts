@@ -24,16 +24,29 @@ const fonts = { regular: await readFile(fontFiles[0]), bold: await readFile(font
 await mkdir(pdfDir, { recursive: true });
 await mkdir(imageDir, { recursive: true });
 
+// The blank sheet at /printable-score-sheet ships ready-made PDFs too, with 12 rounds.
+const blankSheet: GameFile = {
+  slug: 'printable-score-sheet',
+  name: 'Score sheet',
+  players: { min: 2, max: 8, default: 6 },
+  winCondition: 'highest',
+  sheet: { engine: 'round-totals', rounds: 12 },
+  status: 'live',
+};
+
 const files = (await readdir(gamesDir)).filter((f) => f.endsWith('.json'));
+const games: GameFile[] = [blankSheet];
+for (const file of files) games.push(JSON.parse(await readFile(join(gamesDir, file), 'utf8')) as GameFile);
+
 let count = 0;
-for (const file of files) {
-  const game = JSON.parse(await readFile(join(gamesDir, file), 'utf8')) as GameFile;
+for (const game of games) {
   if (game.status !== 'live') continue;
   const siteUrl = `scoresheetsquare.com/${game.slug}`;
 
   for (const version of versions) {
     for (const paper of papers) {
-      const bytes = await sheetPdf(game, { version, paper, siteUrl }, fonts, `${game.name} Score Sheet${versionTitle[version]}`);
+      const title = game === blankSheet ? `Printable Score Sheet${versionTitle[version]}` : `${game.name} Score Sheet${versionTitle[version]}`;
+      const bytes = await sheetPdf(game, { version, paper, siteUrl }, fonts, title);
       await writeFile(join(pdfDir, pdfFileName(game.slug, version, paper)), bytes);
       count++;
     }

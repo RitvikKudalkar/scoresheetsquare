@@ -157,6 +157,34 @@ p { margin: 0; text-wrap: pretty; }
   }
 }
 
+/* ── Game-style split: top, stage, rest (game pages, blank sheet) ─ */
+.game { grid-template-areas: 'top' 'stage' 'rest'; }
+.game-top { grid-area: top; }
+.game-stage { grid-area: stage; }
+.game-rest { grid-area: rest; }
+.reading-block { padding: 24px var(--column-pad) var(--section); display: grid; gap: 32px; align-content: start; }
+.game-rest { padding-block-start: var(--section); gap: var(--section); }
+.game-rest > section { display: grid; gap: 28px; }
+.crumbs a { text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+.game-title { display: grid; gap: 8px; }
+.table-wrap { overflow-x: auto; }
+.prose { display: grid; gap: 16px; }
+.use .slip { inline-size: min(100%, 480px); }
+.slip-time { font-weight: 600; margin-block-end: 8px; }
+.related { max-inline-size: 520px; }
+
+@media (min-width: 1024px) {
+  .game {
+    grid-template-columns: 47fr 53fr;
+    grid-template-areas: 'stage top' 'stage rest';
+    grid-template-rows: auto 1fr;
+  }
+  .game-stage { align-self: start; }
+  .reading-block { padding-block-start: 40px; }
+  .game-rest { padding-block-start: 0; }
+}
+
 /* ── The sheet ──────────────────────────────────────────────── */
 .sheet {
   --cell: 48px;

@@ -1,0 +1,36 @@
+---
+import CategoryPage from '../components/CategoryPage.astro';
+---
+
+<CategoryPage
+  title="Board and Tile Game Score Sheets – Free Printables"
+  description="Free printable score sheets for board and tile games, starting with Mexican Train dominoes, plus online scorekeepers that total every round."
+  heading="Board and tile game score sheets"
+  lead="Printable sheets and online scorekeepers for dominoes, tile games and board games."
+  crumb="Board games"
+  categories={['board', 'tile']}
+  image={{
+    src: '/images/archive/darts-dominoes-porth-y-waen-1955.jpg',
+    width: 1643,
+    height: 1250,
+    alt: 'A man and a woman holding pewter tankards at a 1955 darts and dominoes final, with a chalk scoreboard and a dartboard on the wall behind them.',
+    caption: 'Darts and dominoes finals at Porth-y-waen, Shropshire, 1955. Photograph by Geoff Charles, CC BY-SA 4.0.',
+    position: '20% 30%',
+  }}
+  sections={[
+    {
+      heading: 'Dominoes, round by round',
+      paragraphs: [
+        'Mexican Train is played over 13 rounds, starting with the double-12 in the middle of the table and working down to the double-blank. When a round ends, every player adds up the pips on the tiles left in front of them, and the lowest total after all 13 rounds wins.',
+        'The Mexican Train sheet, coming soon, labels every round by its starting double, so nobody has to remember which round you are on.',
+      ],
+    },
+    {
+      heading: 'Board games that score at the end',
+      paragraphs: [
+        'Many modern board games add up points from several sources when the game is over: routes, cards, sets, bonuses. Sheets for these games are being added, each listing every source as a row so the final count goes quickly and nothing is forgotten.',
+        'Every sheet comes as a standard, large print and 2-per-page PDF for US Letter or A4, and as an online scorekeeper for the table.',
+      ],
+    },
+  ]}
+/>

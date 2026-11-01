@@ -1,0 +1,43 @@
+---
+import StagePage, { type StageImage } from '../layouts/StagePage.astro';
+import GameRows from './GameRows.astro';
+import { catalogue, type Category } from '../lib/catalogue';
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  lead: string;
+  crumb: string;
+  categories: Category[];
+  image: StageImage;
+  sections: { heading: string; paragraphs: string[] }[];
+}
+
+const { title, description, heading, lead, crumb, categories, image, sections } = Astro.props;
+const entries = catalogue.filter((e) => categories.includes(e.category)).sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<StagePage title={title} description={description} heading={heading} lead={lead} crumb={crumb} image={image}>
+  <section aria-labelledby="games-title" class="category-games" data-reveal>
+    <h2 id="games-title" class="t-head">The sheets</h2>
+    <GameRows entries={entries} />
+    <p class="t-small t-soft">
+      Game not here? The <a href="/printable-score-sheet">blank score sheet</a> takes 2 to 8 players and up to 20 rounds.
+    </p>
+  </section>
+  {
+    sections.map((s) => (
+      <section class="category-text" data-reveal>
+        <h2 class="t-head">{s.heading}</h2>
+        <div class="measure">{s.paragraphs.map((p) => <p>{p}</p>)}</div>
+      </section>
+    ))
+  }
+</StagePage>
+
+<style>
+  .category-games, .category-text { display: grid; gap: 28px; }
+  .category-games :global(.rows) { max-inline-size: 520px; }
+  .category-text .measure { display: grid; gap: 16px; }
+</style>

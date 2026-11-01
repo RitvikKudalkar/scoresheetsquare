@@ -4,8 +4,9 @@ import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import ScoreSheet from '../components/ScoreSheet.tsx';
 import CustomPdf from '../components/CustomPdf.tsx';
-import { pdfFileName, type Version } from '../lib/print-layout';
-import { catalogue, categoryNames } from '../lib/catalogue';
+import DownloadBlock from '../components/DownloadBlock.astro';
+import GameRows from '../components/GameRows.astro';
+import { catalogue, categoryHref as categoryHrefs, categoryNames } from '../lib/catalogue';
 
 export async function getStaticPaths() {
   const games = await getCollection('games', (g) => g.data.status === 'live');
@@ -19,18 +20,12 @@ const reference = game.scoringReference!;
 const site = Astro.site!;
 const url = new URL(`/${game.slug}`, site).href;
 const categoryLabel = categoryNames[game.category as keyof typeof categoryNames] ?? 'Games';
-const categoryHref = `/${game.category}-games`;
+const categoryHref = categoryHrefs[game.category as keyof typeof categoryHrefs] ?? '/all-games';
 
 const related = game.related
   .map((slug) => catalogue.find((c) => c.slug === slug))
   .filter((c): c is NonNullable<typeof c> => Boolean(c));
-const liveSlugs = new Set((await getCollection('games', (g) => g.data.status === 'live')).map((g) => g.data.slug));
 
-const pdfs: { key: Version; label: string; note: string }[] = [
-  { key: 'large-print', label: 'Large print', note: 'Bigger type and boxes' },
-  { key: '2-per-page', label: '2 per page', note: 'Two sheets, saves paper' },
-];
-const pdfHref = (key: Version, a4 = false) => `/pdf/${pdfFileName(game.slug, key, a4 ? 'a4' : 'letter')}`;
 const preview = `/images/sheets/${game.slug}.png`;
 const sheetGame = { slug: game.slug, name: game.name, players: game.players, winCondition: game.winCondition, sheet: game.sheet };
 
@@ -71,34 +66,9 @@ const schema = [
       </div>
       <p class="measure">{content.intro}</p>
 
-      <div class="downloads">
-        <figure class="preview">
-          <img src={preview} width="1000" height="1294" alt={`Printable ${game.name} score sheet with a column for each player and the scoring for every box`} />
-        </figure>
-        <div class="download-actions">
-          <div class="paper" role="group" aria-label="Paper size">
-            <label class="pill"><input type="radio" name="paper" value="letter" checked /> US Letter</label>
-            <label class="pill"><input type="radio" name="paper" value="a4" /> A4</label>
-          </div>
-          <a class="btn btn-primary download-main" href={pdfHref('standard')} data-letter={pdfHref('standard')} data-a4={pdfHref('standard', true)} download>
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14" /></svg>
-            Download PDF
-          </a>
-          <ul class="stubs" role="list">
-            {
-              pdfs.map((p) => (
-                <li>
-                  <a class="stub" href={pdfHref(p.key)} data-letter={pdfHref(p.key)} data-a4={pdfHref(p.key, true)} download>
-                    <span class="t-lead">{p.label}</span>
-                    <span class="t-small t-soft">{p.note}</span>
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-          <CustomPdf client:idle game={sheetGame} />
-        </div>
-      </div>
+      <DownloadBlock slug={game.slug} alt={`Printable ${game.name} score sheet with a column for each player and the scoring for every box`}>
+        <CustomPdf client:idle game={sheetGame} />
+      </DownloadBlock>
       <div class="ad-slot" aria-hidden="true"></div>
     </div>
 
@@ -141,16 +111,7 @@ const schema = [
 
       <section aria-labelledby="related-title" data-reveal>
         <h2 id="related-title" class="t-head">Score sheets for similar games</h2>
-        <ul class="rows related">
-          {
-            related.map((r) => (
-              <li>
-                {liveSlugs.has(r.slug) ? <a href={`/${r.slug}`}>{r.name}</a> : <span>{r.name}</span>}
-                <span class="t-small t-soft">{liveSlugs.has(r.slug) ? r.players : 'Sheet coming soon'}</span>
-              </li>
-            ))
-          }
-        </ul>
+        <div class="related"><GameRows entries={related} /></div>
       </section>
 
       <div class="ad-slot is-tall" aria-hidden="true"></div>
@@ -158,56 +119,3 @@ const schema = [
   </div>
 </Base>
 
-<style>
-  .game { grid-template-areas: 'top' 'stage' 'rest'; }
-  .game-top { grid-area: top; }
-  .game-stage { grid-area: stage; }
-  .game-rest { grid-area: rest; }
-  .reading-block { padding: 24px var(--column-pad) var(--section); display: grid; gap: 32px; align-content: start; }
-  .game-rest { padding-block-start: var(--section); gap: var(--section); }
-  .game-rest > section { display: grid; gap: 28px; }
-  .crumbs a { text-decoration: none; }
-  .crumbs a:hover { text-decoration: underline; }
-  .game-title { display: grid; gap: 8px; }
-  .downloads { display: grid; gap: 24px; }
-  .download-actions { display: grid; gap: 16px; align-content: start; }
-  .preview { margin: 0; inline-size: min(100%, 220px); }
-  .preview img { display: block; inline-size: 100%; block-size: auto; -webkit-mask: var(--punch); mask: var(--punch); }
-  @media (min-width: 560px) {
-    .downloads { grid-template-columns: minmax(150px, 200px) 1fr; }
-  }
-  .paper { display: flex; gap: 8px; flex-wrap: wrap; }
-  .download-main { justify-self: start; }
-  .stubs { list-style: none; padding: 0; margin: 0; }
-  .table-wrap { overflow-x: auto; }
-  .prose { display: grid; gap: 16px; }
-  .use .slip { inline-size: min(100%, 480px); }
-  .slip-time { font-weight: 600; margin-block-end: 8px; }
-  .related { max-inline-size: 520px; }
-
-  @media (min-width: 1024px) {
-    .game {
-      grid-template-columns: 47fr 53fr;
-      grid-template-areas: 'stage top' 'stage rest';
-      grid-template-rows: auto 1fr;
-    }
-    .game-stage { align-self: start; }
-    .reading-block { padding-block-start: 40px; }
-    .game-rest { padding-block-start: 0; }
-  }
-</style>
-
-<script>
-  // Paper size: default from the visitor's locale (US and Canada use Letter), switchable.
-  const box = document.querySelector<HTMLElement>('.downloads');
-  const radios = box?.querySelectorAll<HTMLInputElement>('input[name="paper"]');
-  const links = box?.querySelectorAll<HTMLAnchorElement>('[data-letter]');
-  const apply = (size: string) => links?.forEach((a) => (a.href = size === 'a4' ? a.dataset.a4! : a.dataset.letter!));
-  const region = (navigator.language.split('-')[1] ?? '').toUpperCase();
-  const initial = ['US', 'CA', 'MX', 'PH'].includes(region) || region === '' ? 'letter' : 'a4';
-  radios?.forEach((r) => {
-    r.checked = r.value === initial;
-    r.addEventListener('change', () => r.checked && apply(r.value));
-  });
-  apply(initial);
-</script>

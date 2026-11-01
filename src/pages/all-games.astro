@@ -1,0 +1,106 @@
+---
+import ReadingPage from '../layouts/ReadingPage.astro';
+import GameRows from '../components/GameRows.astro';
+import { catalogue } from '../lib/catalogue';
+
+const sorted = [...catalogue].sort((a, b) => a.name.localeCompare(b.name));
+const letters = [...new Set(sorted.map((e) => e.name[0].toUpperCase()))];
+const byLetter = letters.map((l) => ({ letter: l, entries: sorted.filter((e) => e.name[0].toUpperCase() === l) }));
+---
+
+<ReadingPage
+  title="Free Printable Score Sheets – Every Game A to Z"
+  description="Every free printable score sheet on ScoreSheetSquare, A to Z, with player counts. Filter by number of players or by dice, card and tile games."
+  heading="Every score sheet, A to Z"
+  lead="Find your game by name, by how many are playing, or by the kind of game."
+  crumb="All games"
+>
+  <form class="az-filters" role="search" aria-label="Filter games">
+    <label class="az-search">
+      <span class="t-small">Game name</span>
+      <input id="az-q" name="q" type="search" autocomplete="off" placeholder="Type to filter" />
+    </label>
+    <fieldset>
+      <legend class="t-small">Players</legend>
+      <label class="pill"><input type="radio" name="players" value="" checked /> Any</label>
+      <label class="pill"><input type="radio" name="players" value="2" /> 2</label>
+      <label class="pill"><input type="radio" name="players" value="3-4" /> 3–4</label>
+      <label class="pill"><input type="radio" name="players" value="5+" /> 5 or more</label>
+    </fieldset>
+    <fieldset>
+      <legend class="t-small">Kind</legend>
+      <label class="pill"><input type="radio" name="kind" value="" checked /> All</label>
+      <label class="pill"><input type="radio" name="kind" value="dice" /> Dice</label>
+      <label class="pill"><input type="radio" name="kind" value="card" /> Card</label>
+      <label class="pill"><input type="radio" name="kind" value="tile" /> Tile</label>
+    </fieldset>
+  </form>
+
+  <div class="az-list" aria-live="polite">
+    {
+      byLetter.map((g) => (
+        <div class="az-group" data-group>
+          <GameRows entries={g.entries} label={g.letter} filterable showScoring />
+        </div>
+      ))
+    }
+    <p class="az-empty" hidden>
+      No sheet matches yet. The <a href="/printable-score-sheet">blank score sheet</a> works for any game, with 2 to 8 players
+      and up to 20 rounds.
+    </p>
+  </div>
+</ReadingPage>
+
+<style>
+  .az-filters { display: grid; gap: 24px; max-inline-size: 640px; }
+  .az-filters fieldset { display: flex; flex-wrap: wrap; gap: 8px; border: 0; padding: 0; margin: 0; }
+  .az-filters legend { margin-block-end: 8px; padding: 0; }
+  .az-search { display: grid; gap: 8px; }
+  .az-search input {
+    min-block-size: 56px; padding: 0 16px; border: 0; border-radius: 0;
+    background: var(--color-sheet); color: var(--color-graphite); font: inherit; font-size: var(--text-body);
+  }
+  .az-search input::placeholder { color: var(--color-pad-ink-soft); }
+  .az-list { margin-block-start: 64px; max-inline-size: 640px; }
+  .az-group + .az-group { margin-block-start: 40px; }
+  .az-empty { margin-block-start: 24px; }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('.az-filters')!;
+  const q = form.querySelector<HTMLInputElement>('#az-q')!;
+  const rows = [...document.querySelectorAll<HTMLElement>('[data-game-name]')];
+  const groups = [...document.querySelectorAll<HTMLElement>('[data-group]')];
+  const empty = document.querySelector<HTMLElement>('.az-empty')!;
+
+  const fits = (min: number, max: number, players: string) => {
+    if (players === '2') return min <= 2 && max >= 2;
+    if (players === '3-4') return min <= 4 && max >= 3;
+    if (players === '5+') return max >= 5;
+    return true;
+  };
+
+  const apply = () => {
+    const data = new FormData(form);
+    const text = q.value.trim().toLowerCase();
+    const players = String(data.get('players') ?? '');
+    const kind = String(data.get('kind') ?? '');
+    let shown = 0;
+    for (const r of rows) {
+      const hit =
+        (!text || r.dataset.gameName!.includes(text)) &&
+        fits(Number(r.dataset.min), Number(r.dataset.max), players) &&
+        (!kind || r.dataset.category === kind);
+      r.hidden = !hit;
+      if (hit) shown++;
+    }
+    groups.forEach((g) => (g.hidden = !g.querySelector('[data-game-name]:not([hidden])')));
+    empty.hidden = shown > 0;
+  };
+
+  // Arriving from the home page search with ?q=
+  q.value = new URLSearchParams(location.search).get('q') ?? '';
+  form.addEventListener('input', apply);
+  form.addEventListener('submit', (e) => e.preventDefault());
+  apply();
+</script>

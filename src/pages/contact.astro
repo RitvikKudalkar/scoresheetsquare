@@ -1,0 +1,36 @@
+---
+import ReadingPage from '../layouts/ReadingPage.astro';
+import { site } from '../lib/site';
+
+const subject = encodeURIComponent('ScoreSheetSquare: ');
+---
+
+<ReadingPage
+  title="Contact ScoreSheetSquare"
+  description="Contact ScoreSheetSquare to suggest a game, report a mistake on a score sheet, or ask a question about the site."
+  heading="Contact"
+  lead="Ask for a game, point out a mistake, or say hello."
+  crumb="Contact"
+>
+  <div class="measure prose">
+    <p>
+      Email <a href={`mailto:${site.email}?subject=${subject}`}>{site.email}</a> and you will get a reply from a person, usually
+      within a few days.
+    </p>
+    <h2 class="t-lead">Helpful to include</h2>
+    <ul>
+      <li>For a new game: its name, how many people play, and how a round is scored.</li>
+      <li>For a mistake: the page, the row or question that is wrong, and what it should say.</li>
+      <li>For a problem with the online sheet: the device and browser you were using.</li>
+    </ul>
+    <p class="t-soft">
+      Your email is used only to reply to you. See the <a href="/privacy">privacy policy</a> for details.
+    </p>
+  </div>
+</ReadingPage>
+
+<style>
+  .prose { display: grid; gap: 16px; }
+  .prose h2 { margin-block-start: 24px; }
+  .prose ul { margin: 0; padding-inline-start: 1.2em; display: grid; gap: 8px; }
+</style>

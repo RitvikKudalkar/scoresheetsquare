@@ -8,6 +8,6 @@ export default defineConfig({
   site: 'https://scoresheetsquare.com',
   trailingSlash: 'never',
   build: { format: 'file' },
-  integrations: [react(), sitemap()],
+  integrations: [react(), sitemap({ filter: (page) => !page.includes('/404') })],
   vite: { plugins: [tailwindcss()] },
 });

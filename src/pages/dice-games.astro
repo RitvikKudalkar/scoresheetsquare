@@ -1,0 +1,37 @@
+---
+import CategoryPage from '../components/CategoryPage.astro';
+---
+
+<CategoryPage
+  title="Dice Game Score Sheets – Free Printable PDFs"
+  description="Free printable score sheets for dice games like Yahtzee, Farkle and Bunco, in standard, large print and 2-per-page PDFs, with online scorekeepers."
+  heading="Dice game score sheets"
+  lead="Printable sheets and online scorekeepers for Yahtzee, Farkle, Bunco and other dice games."
+  crumb="Dice games"
+  categories={['dice']}
+  image={{
+    src: '/images/archive/etruscan-dice-tuscania.jpg',
+    width: 1060,
+    height: 808,
+    alt: 'Two worn bone dice from Tuscania, photographed with their faces unfolded side by side.',
+    caption: 'Etruscan dice found at Tuscania, Italy. Bibliothèque nationale de France.',
+  }}
+  sections={[
+    {
+      heading: 'Three ways dice games keep score',
+      paragraphs: [
+        'Most dice games score in one of three ways, and each sheet here is laid out for the way its game works.',
+        'Box games such as Yahtzee give every player a column of boxes. Each turn fills exactly one box, and the sheet adds up the sections, the bonuses and the grand total at the end.',
+        'Running-total games such as Farkle add each turn to a total that keeps growing until someone passes the target, often 10,000 points. Many tables play with a minimum score before you get on the board, and a final round once someone reaches the target.',
+        'Tally games such as Bunco are played in short rounds at several tables. Instead of points, the sheet counts each player’s wins, losses and buncos.',
+      ],
+    },
+    {
+      heading: 'Printing for a dice night',
+      paragraphs: [
+        'Every sheet comes as a standard PDF, a large print PDF with bigger type and bigger boxes, and a 2-per-page PDF that fits two sheets on one piece of paper for long evenings. Each one is ready for US Letter or A4.',
+        'If you would rather not print, open the game’s page on a phone and keep score on the sheet itself. It adds up as you go and remembers the game if the phone locks.',
+      ],
+    },
+  ]}
+/>

@@ -1,0 +1,58 @@
+---
+// Read-mode pages (A–Z index, legal pages): one column starting at the shared left edge.
+import Base from './Base.astro';
+import Header from '../components/Header.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  lead?: string;
+  crumb?: string;
+  schema?: Record<string, unknown>[];
+}
+
+const { title, description, heading, lead, crumb, schema = [] } = Astro.props;
+const breadcrumb = crumb
+  ? [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+          { '@type': 'ListItem', position: 2, name: crumb, item: new URL(Astro.url.pathname.replace(/\.html$/, ''), Astro.site).href },
+        ],
+      },
+    ]
+  : [];
+---
+
+<Base title={title} description={description} schema={[...schema, ...breadcrumb]}>
+  <Header slot="before-main" />
+  <article class="reading-page">
+    <header class="reading-head" data-reveal>
+      {
+        crumb && (
+          <nav aria-label="Breadcrumb" class="t-small t-soft crumbs">
+            <a href="/">Home</a>{' '}<span aria-hidden="true">›</span>{' '}<span aria-current="page">{crumb}</span>
+          </nav>
+        )
+      }
+      <h1 class="t-head">{heading}</h1>
+      {lead && <p class="t-lead measure">{lead}</p>}
+    </header>
+    <div class="reading-body">
+      <slot />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .reading-page { padding: 32px var(--gutter) var(--section); }
+  .reading-head { display: grid; gap: 20px; }
+  .reading-body { margin-block-start: 64px; }
+  .crumbs a { text-decoration: none; }
+  .crumbs a:hover { text-decoration: underline; }
+  @media (min-width: 1024px) {
+    .reading-page { padding-inline-start: 22vw; padding-block-start: 64px; }
+  }
+</style>
