@@ -1,0 +1,60 @@
+{
+  "slug": "hearts-score-sheet",
+  "name": "Hearts",
+  "category": "card",
+  "keywords": ["hearts score sheet", "hearts score sheet printable", "hearts card game score sheet", "hearts scorecard"],
+  "title": "Hearts Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Hearts score sheet that plays to 100 with the lowest score winning, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 3, "max": 6, "default": 4 },
+  "winCondition": "lowest",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 20,
+    "target": 100,
+    "finishRound": true,
+    "roundPoints": { "total": 26, "moon": "others" },
+    "targetOptions": [50, 100]
+  },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Card taken in a trick", "Points"],
+    "rows": [
+      ["Each heart", "1"],
+      ["Queen of spades", "13"],
+      ["Every other card", "0"],
+      ["All points in one hand", "26"],
+      ["Shooting the moon", "0 for you, 26 to everyone else"],
+      ["Game end", "When someone reaches 100"],
+      ["Winner", "Lowest total"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Hearts score sheet with room for twenty hands, or keep score on your phone. The sheet checks every hand adds up to 26 and watches for 100.",
+    "howToUse": [
+      "Write each player's name at the top of a column. After each hand, every player counts the cards they took in tricks: 1 point for each heart and 13 for the queen of spades. Write each player's points in the hand's row; the row should add up to 26.",
+      "If one player took all thirteen hearts and the queen of spades, they shot the moon. Most tables write 0 for the shooter and 26 for everyone else; some take 26 off the shooter's score instead. Choose your table's rule under Shooting the moon, and the online sheet flags any hand that doesn't add up.",
+      "The game ends when a player reaches 100 points at the end of a hand, and the player with the lowest total wins. Online, the sheet waits until everyone's score for that last hand is in, then shows the winner."
+    ],
+    "exampleRound": {
+      "caption": "Four players, first hand",
+      "rows": [
+        { "label": "Ana takes 4 hearts", "value": "4" },
+        { "label": "Ben takes the queen of spades and 2 hearts", "value": "15" },
+        { "label": "Cleo takes 7 hearts", "value": "7" },
+        { "label": "Dev takes no points", "value": "0" }
+      ],
+      "result": "4 + 15 + 7 + 0 = 26: Dev leads with 0"
+    },
+    "faqs": [
+      { "q": "How do you score Hearts?", "a": "At the end of each hand, each player scores 1 point for every heart they took in tricks and 13 points for the queen of spades. Points are bad: the player with the lowest total when someone reaches 100 wins." },
+      { "q": "What is shooting the moon in Hearts?", "a": "Taking all thirteen hearts and the queen of spades in one hand. Instead of scoring 26, the shooter scores 0 and every other player scores 26. Some groups let the shooter take 26 off their own score instead." },
+      { "q": "How many points do you play to in Hearts?", "a": "Usually 100. The game ends at the end of the hand in which someone reaches 100, and the lowest score wins. Some groups play to 50 for a shorter game; the online sheet lets you choose either." },
+      { "q": "How does passing work in Hearts?", "a": "Before each hand, everyone passes three cards: to the left in the first hand, to the right in the second, across in the third, and no pass in the fourth. Then the cycle repeats." },
+      { "q": "Can you lead hearts at any time?", "a": "No. Hearts cannot be led until a heart has been played on an earlier trick (hearts are broken), unless the player has nothing but hearts left." },
+      { "q": "How do you play Hearts with three or five players?", "a": "Remove the 2 of diamonds for three players, or the 2 of diamonds and 2 of clubs for five, so everyone has the same number of cards. There are still 26 points in each hand." }
+    ]
+  },
+  "related": ["spades-score-sheet", "oh-hell-score-sheet", "euchre-score-sheet", "wizard-score-sheet", "skyjo-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

@@ -1,0 +1,77 @@
+{
+  "slug": "golf-card-game-score-sheet",
+  "name": "Golf card game",
+  "aliases": ["Golf", "Six-card golf"],
+  "category": "card",
+  "keywords": ["golf card game score sheet", "golf card game score sheet printable", "6 card golf score sheet", "golf card game scorecard"],
+  "title": "Golf Card Game Score Sheet – Free Printable PDF",
+  "description": "Free printable score sheet for the Golf card game with nine holes and the card values, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 8, "default": 4 },
+  "winCondition": "lowest",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 9,
+    "roundLabels": [
+      "Hole 1",
+      "Hole 2",
+      "Hole 3",
+      "Hole 4",
+      "Hole 5",
+      "Hole 6",
+      "Hole 7",
+      "Hole 8",
+      "Hole 9",
+      "Hole 10",
+      "Hole 11",
+      "Hole 12",
+      "Hole 13",
+      "Hole 14",
+      "Hole 15",
+      "Hole 16",
+      "Hole 17",
+      "Hole 18"
+    ],
+    "roundOptions": [9, 18]
+  },
+  "pdf": { "rows": 9, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Card in your grid", "Points"],
+    "rows": [
+      ["Ace", "1"],
+      ["2", "−2"],
+      ["3 to 10", "Face value"],
+      ["Jack or Queen", "10"],
+      ["King", "0"],
+      ["A pair in the same column", "0 for both cards"],
+      ["After 9 holes", "Lowest total wins"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Golf card game score sheet with nine holes, or keep score on your phone. Like real golf, the lowest score wins.",
+    "howToUse": [
+      "Write each player's name at the top of a column. Each hand is a hole. In six-card Golf, everyone lays out six cards face down in two rows of three and turns any two face up.",
+      "When a player has turned all six cards face up, everyone else gets one more turn, then all cards are turned over and scored: Ace 1, 2 is minus 2, 3 to 10 face value, Jacks and Queens 10, Kings 0. Two matching cards in the same column cancel out and score 0. Write each player's total in that hole's row.",
+      "After nine holes the lowest total wins. For a full eighteen, choose 18 under Holes on the online sheet, or in Customise to print an 18-hole sheet."
+    ],
+    "exampleRound": {
+      "caption": "Three players, hole 1",
+      "rows": [
+        { "label": "Ana: K, 2, 5 over K, 3, 5 (Kings and 5s pair)", "value": "1" },
+        { "label": "Ben: 7, Q, A over 9, Q, 4 (Queens pair)", "value": "21" },
+        { "label": "Cleo: 2, 6, J over 8, 3, 10", "value": "35" }
+      ],
+      "result": "Ana is one over par; Cleo needs a better hole"
+    },
+    "faqs": [
+      { "q": "How do you score the Golf card game?", "a": "At the end of each hole, players add up the cards in their grid: Ace 1, 2 is minus 2, 3 to 10 face value, Jacks and Queens 10 and Kings 0. A pair of equal cards in the same column scores 0. The lowest total after nine holes wins." },
+      { "q": "How many rounds are in a game of Golf?", "a": "Nine, one for each hole, just like a round of golf. Some groups play eighteen holes; the online sheet and the custom PDF both offer 18." },
+      { "q": "Why do 2s score minus 2 in Golf?", "a": "It is the most common rule: 2s are the best cards to hold. Some groups make Jokers minus 2 instead, or play with no negative cards at all." },
+      { "q": "Do Kings count as zero?", "a": "In most versions, yes. A King scores 0, so a pair of Kings in a column is still 0. Some groups score Kings as 10 like the other face cards." },
+      { "q": "What happens when a player turns over their last card?", "a": "Each other player gets one final turn, then everyone turns over any face-down cards and the hole is scored." },
+      { "q": "How many people can play Golf?", "a": "Two to four with one deck, and up to eight with two decks shuffled together. The online scorekeeper takes up to eight players." }
+    ]
+  },
+  "related": ["skyjo-score-sheet", "five-crowns-score-sheet", "uno-score-sheet", "rummy-500-score-sheet", "phase-10-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

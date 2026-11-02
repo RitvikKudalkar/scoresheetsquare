@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { track } from '../lib/analytics';
 import { downloadSheetPdf, localPaper } from '../lib/client-pdf';
 import type { Paper, Version } from '../lib/print-layout';
-import type { SheetGame } from '../lib/sheet';
+import { applyOptions, optionChoices, type SheetGame } from '../lib/sheet';
 
 type Props = { game: SheetGame };
 
@@ -12,6 +12,9 @@ export default function CustomPdf({ game }: Props) {
   const [version, setVersion] = useState<Exclude<Version, '2-per-page'>>('standard');
   const [paper, setPaper] = useState<Paper>('letter');
   const [state, setState] = useState<'idle' | 'working' | 'error'>('idle');
+  // Golf: 9 or 18 holes on the printed sheet.
+  const choices = optionChoices(game.sheet);
+  const [rounds, setRounds] = useState(game.sheet.engine === 'round-totals' ? game.sheet.rounds : 0);
 
   useEffect(() => setPaper(localPaper()), []);
 
@@ -22,7 +25,7 @@ export default function CustomPdf({ game }: Props) {
       // A blank name still claims its column, so the sheet gets exactly `count` columns.
       const players = names.slice(0, count).map((n) => n.trim() || ' ');
       await downloadSheetPdf(
-        game,
+        { ...game, sheet: applyOptions(game.sheet, { rounds }) },
         { version, paper, players, siteUrl: `scoresheetsquare.com/${game.slug}` },
         `${game.slug}-custom${paper === 'a4' ? '-a4' : ''}.pdf`,
       );
@@ -44,6 +47,14 @@ export default function CustomPdf({ game }: Props) {
             ))}
           </select>
         </label>
+        {choices.rounds && (
+          <label className="custom-field">
+            <span>{choices.roundsName}</span>
+            <select value={rounds} onChange={(e) => setRounds(Number(e.target.value))}>
+              {choices.rounds.map((n) => <option key={n} value={n}>{n}</option>)}
+            </select>
+          </label>
+        )}
         <div className="custom-names">
           {Array.from({ length: count }, (_, p) => (
             <label key={p} className="custom-field">

@@ -15,7 +15,8 @@
     "overtricks": { "points": 1, "bags": { "every": 10, "penalty": 100 } },
     "missed": { "perBid": -10 },
     "nil": 100,
-    "target": 500
+    "target": 500,
+    "targetOptions": [300, 500]
   },
   "pdf": { "rows": 20, "showScoringChart": true },
   "scoringReference": {
@@ -50,7 +51,7 @@
       { "q": "What are bags in Spades?", "a": "Bags, or sandbags, are tricks won over a team's bid. Each one is worth 1 point, but every time a team collects 10 bags it loses 100 points and starts counting again." },
       { "q": "How does a nil bid work?", "a": "A player who bids nil promises to win no tricks. If they manage it, their team scores 100 points; if they win even one trick, the team loses 100. Their partner's bid is scored on its own." },
       { "q": "What happens if you don't make your bid?", "a": "The team is set: it loses 10 points for every trick it bid, and the tricks it did win score nothing." },
-      { "q": "How many points do you play to in Spades?", "a": "Usually 500. The first team to reach 500 at the end of a hand wins; if both teams pass 500 in the same hand, the higher score wins. Some groups play to 300 for a shorter game." },
+      { "q": "How many points do you play to in Spades?", "a": "Usually 500. The first team to reach 500 at the end of a hand wins; if both teams pass 500 in the same hand, the higher score wins. Some groups play to 300 for a shorter game, which you can choose on the online sheet." },
       { "q": "Can you play Spades with three players?", "a": "Yes, as cutthroat Spades: each player keeps their own score, bids alone and scores their own tricks. Give each player a column on the sheet." }
     ]
   },

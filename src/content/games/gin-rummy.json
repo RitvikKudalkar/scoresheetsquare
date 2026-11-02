@@ -1,0 +1,53 @@
+{
+  "slug": "gin-rummy-score-sheet",
+  "name": "Gin Rummy",
+  "aliases": ["Gin"],
+  "category": "card",
+  "keywords": ["gin rummy score sheet", "gin rummy score sheet printable", "gin rummy score card", "gin rummy scoring"],
+  "title": "Gin Rummy Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Gin Rummy score sheet for two players playing to 100, with knock, gin and undercut scoring, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 2, "default": 2 },
+  "winCondition": "highest",
+  "sheet": { "engine": "round-totals", "rounds": 20, "target": 100, "targetOptions": [100, 150, 250] },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Result of the hand", "Points"],
+    "rows": [
+      ["Knock", "Opponent's deadwood minus yours"],
+      ["Gin (no deadwood)", "25 + opponent's deadwood"],
+      ["Undercut (defender ties or beats the knocker)", "25 + the difference, to the defender"],
+      ["Deadwood: face cards", "10"],
+      ["Deadwood: Ace", "1"],
+      ["Deadwood: 2 to 10", "Face value"],
+      ["Game", "First to 100, then add the bonuses"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Gin Rummy score sheet for two players, or keep score on your phone. Knocks, gins and undercuts are all on this page.",
+    "howToUse": [
+      "Write both players' names at the top of the columns. Only one player scores each hand, so write the points in the winner's column and leave the other box empty.",
+      "When a player knocks, both players count their deadwood, the cards not in sets or runs: face cards 10, Aces 1 and the rest their face value. The knocker scores the difference. A player who goes gin, with no deadwood at all, scores 25 plus the opponent's deadwood. If the defender's deadwood is equal to or lower than the knocker's, that's an undercut: the defender scores 25 plus the difference.",
+      "The first player to reach 100 wins the game. Most players then add a 100-point game bonus and 25 points for every hand each player won, and double the bonus if the loser never scored. Play to 150 or 250 instead by choosing it under Play to on the online sheet."
+    ],
+    "exampleRound": {
+      "caption": "Two players, first three hands",
+      "rows": [
+        { "label": "Hand 1: Ana knocks with 5, Ben holds 27", "value": "22 to Ana" },
+        { "label": "Hand 2: Ben goes gin, Ana holds 18", "value": "43 to Ben" },
+        { "label": "Hand 3: Ana knocks with 8, Ben has 6", "value": "27 to Ben" }
+      ],
+      "result": "Hand 3 was an undercut: Ben leads 70 to 22"
+    },
+    "faqs": [
+      { "q": "How do you score Gin Rummy?", "a": "When a player knocks, they score the difference between their deadwood and their opponent's. Going gin scores 25 plus the opponent's deadwood. If the defender's deadwood is equal to or lower than the knocker's, the defender scores 25 plus the difference instead." },
+      { "q": "How many points do you play to in Gin Rummy?", "a": "100 is standard. Some players use 150 or 250 for a longer match; the online sheet offers all three." },
+      { "q": "What are the end-of-game bonuses in Gin Rummy?", "a": "The winner adds a 100-point game bonus. Each player then adds 25 points for every hand they won (a line or box bonus). If the loser did not win a single hand, the winner's game bonus is often doubled." },
+      { "q": "When can you knock in Gin Rummy?", "a": "When your deadwood adds up to 10 points or less. You lay your melds down, discard, and your opponent can lay off cards on your melds before counting." },
+      { "q": "What is an undercut in Gin Rummy?", "a": "If the defender's deadwood, after laying off, is equal to or lower than the knocker's, the defender undercuts and scores 25 points plus the difference. You cannot be undercut when you go gin." },
+      { "q": "How much is deadwood worth?", "a": "Face cards count 10, Aces count 1 and every other card counts its number." }
+    ]
+  },
+  "related": ["rummy-500-score-sheet", "canasta-score-sheet", "shanghai-rummy-score-sheet", "3-13-score-sheet", "hand-and-foot-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

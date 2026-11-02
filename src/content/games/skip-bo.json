@@ -1,0 +1,49 @@
+{
+  "slug": "skip-bo-score-sheet",
+  "name": "Skip-Bo",
+  "category": "card",
+  "keywords": ["skip bo score sheet", "skip-bo score sheet printable", "skip bo scoring", "skip bo score card"],
+  "title": "Skip-Bo Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Skip-Bo score sheet for playing to 500 points, with the scoring rules, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 6, "default": 4 },
+  "winCondition": "highest",
+  "sheet": { "engine": "round-totals", "rounds": 20, "target": 500 },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["When a player empties their stockpile", "Points to the winner"],
+    "rows": [
+      ["Winning the hand", "25"],
+      ["Each card left in an opponent's stockpile", "5"],
+      ["Everyone else", "0"],
+      ["Game", "First to 500"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Skip-Bo score sheet for playing to 500, or keep score on your phone. One hand is quick; a game to 500 takes an evening, and the sheet keeps track.",
+    "howToUse": [
+      "Write each player's name at the top of a column. A hand ends when one player plays the last card from their stockpile. That player wins the hand and is the only one who scores.",
+      "The winner scores 25 points, plus 5 points for every card still in the other players' stockpiles. Count those cards, work out the total and write it in the winner's column; leave the others empty.",
+      "Keep playing hands until someone reaches 500 points. Online, the sheet adds every hand and shows the winner as soon as someone passes 500. For a shorter game, just play one hand and skip the scoring."
+    ],
+    "exampleRound": {
+      "caption": "Three players, first hand",
+      "rows": [
+        { "label": "Ana empties her stockpile", "value": "25" },
+        { "label": "Ben has 6 cards left in his stockpile", "value": "30 to Ana" },
+        { "label": "Cleo has 3 cards left", "value": "15 to Ana" }
+      ],
+      "result": "Ana writes 70; nobody else scores this hand"
+    },
+    "faqs": [
+      { "q": "How do you score Skip-Bo?", "a": "The player who empties their stockpile first wins the hand and scores 25 points, plus 5 points for each card left in their opponents' stockpiles. The other players score nothing that hand." },
+      { "q": "How many points do you need to win Skip-Bo?", "a": "500. Players keep playing hands until someone's total reaches 500. Many families play a single hand instead, and the first to empty their stockpile wins." },
+      { "q": "How many cards are in each stockpile?", "a": "30 cards each for two to four players, and 20 cards each for five or six players." },
+      { "q": "What do Skip-Bo cards do?", "a": "Skip-Bo cards are wild. They can be played as any number on a building pile." },
+      { "q": "What happens when a building pile reaches 12?", "a": "The completed pile is set aside and shuffled back into the draw pile when it runs out, and a new building pile can be started with a 1 or a Skip-Bo card." },
+      { "q": "How many people can play Skip-Bo?", "a": "Two to six players, or six in teams of two. The printable sheet and the online scorekeeper both have room for six." }
+    ]
+  },
+  "related": ["uno-score-sheet", "phase-10-score-sheet", "dutch-blitz-score-sheet", "five-crowns-score-sheet", "nertz-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

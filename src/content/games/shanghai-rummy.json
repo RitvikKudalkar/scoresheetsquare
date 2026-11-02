@@ -1,0 +1,57 @@
+{
+  "slug": "shanghai-rummy-score-sheet",
+  "name": "Shanghai Rummy",
+  "aliases": ["Shanghai", "Contract Rummy"],
+  "category": "card",
+  "keywords": ["shanghai rummy score sheet", "shanghai score sheet printable", "contract rummy score sheet", "shanghai rummy scoring"],
+  "title": "Shanghai Rummy Score Sheet – Free Printable PDF",
+  "description": "Free printable Shanghai Rummy score sheet with the contract for all seven rounds, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 3, "max": 8, "default": 4 },
+  "winCondition": "lowest",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 7,
+    "roundLabels": ["2 sets of 3", "1 set of 3, 1 run of 4", "2 runs of 4", "3 sets of 3", "2 sets of 3, 1 run of 4", "1 set of 3, 2 runs of 4", "3 runs of 4"]
+  },
+  "pdf": { "rows": 7, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Card left in your hand", "Points"],
+    "rows": [
+      ["2 to 9", "5"],
+      ["10, Jack, Queen, King", "10"],
+      ["Ace", "15 (20 at some tables)"],
+      ["Joker", "50 (25 at some tables)"],
+      ["Going out", "0"],
+      ["After 7 rounds", "Lowest total wins"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Shanghai Rummy score sheet with each round's contract written in, from two sets of three to three runs of four, or keep score on your phone.",
+    "howToUse": [
+      "Write each player's name at the top of a column. Each row is one round, labelled with its contract: the sets (cards of the same rank) and runs (cards in sequence in one suit) a player must lay down before anything else. Rounds 1 to 3 are usually dealt 10 cards and rounds 4 to 7 get 12.",
+      "When a player goes out, everyone else counts the cards left in their hand: 5 points for 2 to 9, 10 for 10 to King, 15 for an Ace and 50 for a Joker. The player who went out writes 0. Tables vary on Aces and Jokers, so agree on values before you start.",
+      "After the seventh round, the lowest total wins. On a phone, tap a box to write a round's points; the sheet keeps every total and circles whoever is lowest."
+    ],
+    "exampleRound": {
+      "caption": "Four players, round 1 (2 sets of 3)",
+      "rows": [
+        { "label": "Ana goes out", "value": "0" },
+        { "label": "Ben holds a 4 and a King", "value": "15" },
+        { "label": "Cleo holds an Ace and a Joker", "value": "65" },
+        { "label": "Dev holds 7, 8 and 9", "value": "15" }
+      ],
+      "result": "Ana leads with 0 going into round 2"
+    },
+    "faqs": [
+      { "q": "How do you score Shanghai Rummy?", "a": "When someone goes out, every other player adds up the cards left in their hand: 5 points for 2 to 9, 10 for 10 to King, 15 for an Ace and 50 for a Joker. The player who went out scores 0, and the lowest total after all rounds wins." },
+      { "q": "What are the contracts in Shanghai Rummy?", "a": "In the seven-round game: two sets of 3; a set of 3 and a run of 4; two runs of 4; three sets of 3; two sets of 3 and a run of 4; a set of 3 and two runs of 4; and three runs of 4, with no discard in the last round at many tables." },
+      { "q": "How many rounds are in Shanghai Rummy?", "a": "Seven in the most common version. Some families play ten or eleven rounds with different contracts; the online sheet follows the seven-round game." },
+      { "q": "What does buying a card mean in Shanghai?", "a": "A player who wants the top discard when it isn't their turn can ask to buy it. If the player whose turn it is doesn't take it, the buyer takes the discard plus a penalty card from the stock. Most tables limit buys to three per round." },
+      { "q": "What do Aces and Jokers score in Shanghai?", "a": "It varies by table. Aces are usually 15 or 20 and Jokers 25 or 50. Whichever you choose, write the total points for each hand on the sheet." },
+      { "q": "How many people can play Shanghai Rummy?", "a": "Three to eight. Most groups shuffle two decks with Jokers together, and add a third deck for six or more players." }
+    ]
+  },
+  "related": ["phase-10-score-sheet", "rummy-500-score-sheet", "3-13-score-sheet", "five-crowns-score-sheet", "gin-rummy-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

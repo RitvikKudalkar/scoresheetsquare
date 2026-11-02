@@ -1,0 +1,63 @@
+{
+  "slug": "canasta-score-sheet",
+  "name": "Canasta",
+  "category": "card",
+  "keywords": ["canasta score sheet", "canasta score sheet printable", "canasta score card", "canasta scoring"],
+  "title": "Canasta Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Canasta score sheet for teams playing to 5,000, with canasta bonuses and card values, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 3, "default": 2 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 20,
+    "target": 5000,
+    "finishRound": true,
+    "teams": true,
+    "meldMinimums": [{ "from": -999999, "points": 15 }, { "from": 0, "points": 50 }, { "from": 1500, "points": 90 }, { "from": 3000, "points": 120 }]
+  },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Scores", "Points"],
+    "rows": [
+      ["Natural canasta (no wild cards)", "500"],
+      ["Mixed canasta", "300"],
+      ["Each red 3", "100 (all four: 800)"],
+      ["Going out", "100 (200 if concealed)"],
+      ["Joker", "50"],
+      ["2 or Ace", "20"],
+      ["8 to King", "10"],
+      ["4 to 7, or a black 3", "5"],
+      ["Cards left in hand", "Minus their value"],
+      ["First meld needed", "15 below 0, 50 up to 1,495, 90 up to 2,995, 120 from 3,000"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Canasta score sheet with a column for each team, or keep score on your phone. The sheet tells each team what its first meld must reach.",
+    "howToUse": [
+      "Write each team's name at the top of a column; with three players, each plays alone and gets a column. At the end of every hand, each team adds its bonuses: 500 for each natural canasta, 300 for each mixed canasta, 100 for each red 3 (800 for all four) and 100 for going out, or 200 if the player went out concealed.",
+      "Then add the value of every card the team melded and take away the cards left in its players' hands: Jokers 50, 2s and Aces 20, 8 to King 10, 4 to 7 and black 3s 5. A team that hasn't melded at all scores its red 3s as a penalty instead. Write the hand's total in the team's column.",
+      "The first meld a team makes in a hand must be worth at least 50 points, rising to 90 at 1,500 and 120 at 3,000, or just 15 when the team's score is below zero. The online sheet shows each team's minimum after every hand. The first team to 5,000 wins."
+    ],
+    "exampleRound": {
+      "caption": "Two teams, first hand",
+      "rows": [
+        { "label": "Ana and Ben: 2 natural, 1 mixed, two red 3s, go out", "value": "1,600" },
+        { "label": "Ana and Ben: cards melded 410", "value": "+410" },
+        { "label": "Cleo and Dev: 1 natural, one red 3", "value": "600" },
+        { "label": "Cleo and Dev: cards melded 285, left in hand 65", "value": "+220" }
+      ],
+      "result": "Ana and Ben write 2,010 and now need 90 to meld; Cleo and Dev write 820"
+    },
+    "faqs": [
+      { "q": "How do you score Canasta?", "a": "Each team scores bonuses for canastas (500 natural, 300 mixed), red 3s (100 each, 800 for all four) and going out (100, or 200 concealed), plus the value of the cards it melded. The value of cards left in its players' hands is taken off." },
+      { "q": "How many points do you need to win Canasta?", "a": "5,000. The team that reaches 5,000 first, at the end of a hand, wins. If both teams pass it in the same hand, the higher score wins." },
+      { "q": "What is the minimum meld in Canasta?", "a": "It depends on the team's score: 15 points when the score is below zero, 50 from 0 to 1,495, 90 from 1,500 to 2,995, and 120 from 3,000 up." },
+      { "q": "What is the difference between a natural and a mixed canasta?", "a": "A canasta is a meld of seven cards of the same rank. A natural canasta has no wild cards and scores 500; a mixed canasta includes one to three wild cards and scores 300." },
+      { "q": "How do red 3s score in Canasta?", "a": "Each red 3 is laid down as soon as it is drawn and scores 100, or 800 for all four. If the team has not melded anything by the end of the hand, the red 3s count against it instead." },
+      { "q": "How many people can play Canasta?", "a": "Classic Canasta is for four players in two partnerships. It can also be played by two or three people, each playing alone." }
+    ]
+  },
+  "related": ["hand-and-foot-score-sheet", "rummy-500-score-sheet", "gin-rummy-score-sheet", "pinochle-score-sheet", "shanghai-rummy-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

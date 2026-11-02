@@ -1,0 +1,56 @@
+{
+  "slug": "3-13-score-sheet",
+  "name": "3-13",
+  "aliases": ["Three Thirteen"],
+  "category": "card",
+  "keywords": ["3 13 score sheet", "3-13 card game score sheet", "three thirteen score sheet", "3 13 card game"],
+  "title": "3-13 Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable 3-13 card game score sheet with all 11 rounds labelled by their wild card, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 8, "default": 4 },
+  "winCondition": "lowest",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 11,
+    "roundLabels": ["3s wild", "4s wild", "5s wild", "6s wild", "7s wild", "8s wild", "9s wild", "10s wild", "Jacks wild", "Queens wild", "Kings wild"]
+  },
+  "pdf": { "rows": 11, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Card left unmelded", "Points"],
+    "rows": [
+      ["Ace", "1"],
+      ["2 to 10", "Face value"],
+      ["Jack, Queen, King", "10"],
+      ["Going out", "0"],
+      ["Round 1 to 11", "3 to 13 cards; the matching rank is wild"],
+      ["After 11 rounds", "Lowest total wins"]
+    ]
+  },
+  "content": {
+    "intro": "Print a 3-13 score sheet with every round labelled by its wild card, from 3s wild to Kings wild, or keep score on your phone.",
+    "howToUse": [
+      "Write each player's name at the top of a column. There are 11 rounds: round one deals 3 cards and 3s are wild, round two deals 4 cards and 4s are wild, and so on up to 13 cards with Kings wild. Each row is labelled with its wild card.",
+      "When a player goes out by melding their whole hand into sets and runs, everyone else gets one more turn. Then each player counts the cards they couldn't meld: Aces 1, 2 to 10 face value, and Jacks, Queens and Kings 10. The player who went out writes 0.",
+      "After the Kings wild round, the lowest total wins. On a phone, tap a box to write a round's points; the sheet keeps the totals and circles whoever is lowest."
+    ],
+    "exampleRound": {
+      "caption": "Three players, round 3 (5s wild, 5 cards)",
+      "rows": [
+        { "label": "Ana goes out with a run and a set", "value": "0" },
+        { "label": "Ben is left with a 9", "value": "9" },
+        { "label": "Cleo is left with a Queen and an Ace", "value": "11" }
+      ],
+      "result": "Ana gains on everyone this round"
+    },
+    "faqs": [
+      { "q": "How do you score 3-13?", "a": "At the end of each round, players add up the cards they could not meld: Aces 1, 2 to 10 face value and face cards 10. The player who went out scores 0. The lowest total after 11 rounds wins." },
+      { "q": "What is wild in each round of 3-13?", "a": "The card matching the number of cards dealt: 3s in the 3-card round, 4s in the 4-card round, then up through Jacks (11 cards), Queens (12) and Kings (13). Some groups add Jokers as extra wild cards." },
+      { "q": "How many rounds are in 3-13?", "a": "Eleven, dealing 3 cards in the first and 13 in the last." },
+      { "q": "Is 3-13 the same as Five Crowns?", "a": "They share the idea of growing hands and a changing wild card. Five Crowns uses its own five-suit deck with Jokers and different card values; 3-13 is played with one or two standard decks." },
+      { "q": "What counts as a meld in 3-13?", "a": "A set of three or more cards of the same rank, or a run of three or more cards in sequence in the same suit. Wild cards can stand in for any card." },
+      { "q": "How many people can play 3-13?", "a": "Two to four with one deck, and up to eight with two decks shuffled together." }
+    ]
+  },
+  "related": ["five-crowns-score-sheet", "shanghai-rummy-score-sheet", "rummy-500-score-sheet", "phase-10-score-sheet", "gin-rummy-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

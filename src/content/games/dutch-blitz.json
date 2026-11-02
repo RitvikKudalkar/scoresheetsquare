@@ -1,0 +1,49 @@
+{
+  "slug": "dutch-blitz-score-sheet",
+  "name": "Dutch Blitz",
+  "category": "card",
+  "keywords": ["dutch blitz score sheet", "dutch blitz score sheet printable", "dutch blitz score pad", "dutch blitz scoring"],
+  "title": "Dutch Blitz Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Dutch Blitz score sheet for playing to 75 points, with the plus and minus scoring, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 8, "default": 4 },
+  "winCondition": "highest",
+  "sheet": { "engine": "round-totals", "rounds": 20, "target": 75, "finishRound": true },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["At the end of a hand", "Points"],
+    "rows": [
+      ["Each of your cards in the Dutch piles", "+1"],
+      ["Each card left in your Blitz pile", "−2"],
+      ["Blitz pile", "10 cards at the start"],
+      ["Game", "First to 75"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Dutch Blitz score sheet for playing to 75, or keep score on your phone. The plus and minus scoring is on this page.",
+    "howToUse": [
+      "Write each player's name at the top of a column. A hand ends the moment a player empties their Blitz pile and calls out Blitz.",
+      "Sort the Dutch piles in the middle by the back of each card. Every player scores 1 point for each of their cards in the Dutch piles and loses 2 points for each card still in their Blitz pile. Write the result for each player in the hand's row; it can be negative.",
+      "The first player to reach 75 points wins. If two players pass 75 in the same hand, the higher total wins; online, the sheet waits until every score for that hand is in."
+    ],
+    "exampleRound": {
+      "caption": "Three players, first hand",
+      "rows": [
+        { "label": "Ana calls Blitz with 18 cards in the middle", "value": "18" },
+        { "label": "Ben has 14 in the middle, 3 left in his Blitz pile", "value": "8" },
+        { "label": "Cleo has 9 in the middle, 6 left in her Blitz pile", "value": "−3" }
+      ],
+      "result": "Ana leads; Cleo's Blitz pile cost her 12 points"
+    },
+    "faqs": [
+      { "q": "How do you score Dutch Blitz?", "a": "When someone calls Blitz, each player scores 1 point for every one of their cards in the Dutch piles in the middle and loses 2 points for every card left in their Blitz pile." },
+      { "q": "How many points do you need to win Dutch Blitz?", "a": "75. The first player to reach 75 points at the end of a hand wins the game." },
+      { "q": "Can you get a negative score in Dutch Blitz?", "a": "Yes. If you have few cards in the middle and many left in your Blitz pile, your score for the hand is negative and comes off your total." },
+      { "q": "How do you know whose cards are in the Dutch piles?", "a": "Each player's deck has its own symbol on the back: a pump, carriage, plow or bucket. Sort the piles by the backs and count each player's cards." },
+      { "q": "How many cards are in the Blitz pile?", "a": "Ten, dealt face down with the top card turned up. Emptying it ends the hand." },
+      { "q": "How many people can play Dutch Blitz?", "a": "Two to four with the basic set, and up to eight with an expansion pack." }
+    ]
+  },
+  "related": ["nertz-score-sheet", "skip-bo-score-sheet", "uno-score-sheet", "phase-10-score-sheet", "golf-card-game-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

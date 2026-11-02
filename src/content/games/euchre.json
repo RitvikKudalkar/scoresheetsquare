@@ -1,0 +1,79 @@
+{
+  "slug": "euchre-score-sheet",
+  "name": "Euchre",
+  "category": "card",
+  "keywords": ["euchre score sheet", "euchre score sheet printable", "euchre score card", "euchre scoring"],
+  "title": "Euchre Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Euchre score sheet for two teams playing to 10 points, with a scoring chart, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 2, "default": 2 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 20,
+    "target": 10,
+    "teams": true,
+    "roundLabels": [
+      "Hand 1",
+      "Hand 2",
+      "Hand 3",
+      "Hand 4",
+      "Hand 5",
+      "Hand 6",
+      "Hand 7",
+      "Hand 8",
+      "Hand 9",
+      "Hand 10",
+      "Hand 11",
+      "Hand 12",
+      "Hand 13",
+      "Hand 14",
+      "Hand 15",
+      "Hand 16",
+      "Hand 17",
+      "Hand 18",
+      "Hand 19",
+      "Hand 20"
+    ],
+    "targetOptions": [5, 7, 10, 11]
+  },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Result of the hand", "Points"],
+    "rows": [
+      ["Makers win 3 or 4 tricks", "1 to the makers"],
+      ["Makers win all 5 (a march)", "2 to the makers"],
+      ["Lone hand wins 3 or 4 tricks", "1 to the makers"],
+      ["Lone hand wins all 5", "4 to the makers"],
+      ["Makers win fewer than 3 (euchred)", "2 to the defenders"],
+      ["Game", "First team to 10"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Euchre score sheet with a column for each team and a row for every hand, or keep score on your phone instead of counting with cards.",
+    "howToUse": [
+      "Write each team's name at the top of a column. In every hand only one team scores, so after the hand write the points in that team's column and leave the other box empty.",
+      "The team that chose trump is the makers. If they win three or four tricks they score 1 point, and all five tricks (a march) scores 2. A player who goes alone and wins all five scores 4. If the makers win fewer than three tricks they are euchred, and the other team scores 2.",
+      "The first team to reach 10 points wins. If your table plays to 5, 7 or 11, choose it under Play to below the online sheet; it adds every hand and shows the winning team as soon as one gets there."
+    ],
+    "exampleRound": {
+      "caption": "Two teams, first three hands",
+      "rows": [
+        { "label": "Hand 1: Ana and Ben call hearts, win 3 tricks", "value": "1 to Ana and Ben" },
+        { "label": "Hand 2: Cleo goes alone, wins all 5", "value": "4 to Cleo and Dev" },
+        { "label": "Hand 3: Ana and Ben call clubs, win 2 tricks", "value": "2 to Cleo and Dev" }
+      ],
+      "result": "Cleo and Dev lead 6 to 1"
+    },
+    "faqs": [
+      { "q": "How do you score Euchre?", "a": "The makers (the team that chose trump) score 1 point for winning three or four tricks and 2 points for all five. A player going alone scores 4 for all five tricks. If the makers win fewer than three tricks, the defenders score 2." },
+      { "q": "How many points do you play to in Euchre?", "a": "Ten is standard. Some groups play to 5 or 7 for a quicker game, or to 11; choose your target under Play to on the online sheet." },
+      { "q": "What does it mean to be euchred?", "a": "The makers are euchred when they fail to win at least three of the five tricks. The defending team scores 2 points for it." },
+      { "q": "What are the right and left bowers?", "a": "The right bower is the jack of the trump suit, the highest card in the hand. The left bower is the other jack of the same colour, which counts as the second-highest trump." },
+      { "q": "What does going alone mean in Euchre?", "a": "The player who called trump can play without their partner, whose cards are laid face down. Winning all five tricks alone scores 4 points instead of 2." },
+      { "q": "How do people usually keep score in Euchre?", "a": "Many players use a 4 and a 6 from the unused cards, uncovering pips as they score. A score sheet keeps a record of every hand, which helps when a game is close or disputed." }
+    ]
+  },
+  "related": ["spades-score-sheet", "hearts-score-sheet", "pinochle-score-sheet", "oh-hell-score-sheet", "hand-and-foot-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

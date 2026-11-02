@@ -1,0 +1,52 @@
+{
+  "slug": "rummy-500-score-sheet",
+  "name": "Rummy 500",
+  "aliases": ["500 Rum", "Pinochle Rummy"],
+  "category": "card",
+  "keywords": ["rummy 500 score sheet", "rummy 500 score sheet printable", "500 rummy score sheet", "rummy score sheet"],
+  "title": "Rummy 500 Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Rummy 500 score sheet with card values, for playing to 500 points, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 8, "default": 4 },
+  "winCondition": "highest",
+  "sheet": { "engine": "round-totals", "rounds": 20, "target": 500, "finishRound": true },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Card", "Points"],
+    "rows": [
+      ["Ace", "15 (1 in a low run of A-2-3)"],
+      ["King, Queen, Jack, 10", "10"],
+      ["2 to 9", "Face value"],
+      ["Cards you melded", "Added to your score"],
+      ["Cards left in your hand", "Taken off your score"],
+      ["Game", "First to 500"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Rummy 500 score sheet with room for twenty hands, or keep score on your phone. The card values are on this page and the sheet watches for 500.",
+    "howToUse": [
+      "Write each player's name at the top of a column. When a player goes out, the hand ends and everyone scores: add up the cards you melded on the table, including cards you laid off on other players' melds, then take away the cards still in your hand.",
+      "Aces are worth 15, or 1 when melded low in A-2-3. Kings, Queens, Jacks and 10s are worth 10, and 2 to 9 their face value. A hand score can be negative if you were caught holding high cards.",
+      "The game is won by the first player to reach 500 points. If more than one player passes 500 in the same hand, the highest total wins; online, the sheet waits until every score for that hand is in."
+    ],
+    "exampleRound": {
+      "caption": "Three players, first hand",
+      "rows": [
+        { "label": "Ana goes out with 65 melded", "value": "65" },
+        { "label": "Ben melded 40, holds a King and an Ace", "value": "15" },
+        { "label": "Cleo melded 10, holds 30 in cards", "value": "−20" }
+      ],
+      "result": "Ana leads with 65"
+    },
+    "faqs": [
+      { "q": "How do you score Rummy 500?", "a": "At the end of each hand, every player adds up the value of the cards they melded and takes away the value of the cards left in their hand. Aces are worth 15 (or 1 in a low run), face cards and 10s are worth 10, and 2 to 9 are worth their number." },
+      { "q": "How many points do you need to win Rummy 500?", "a": "500. The first player to reach 500 wins; if two players pass it in the same hand, the higher score wins." },
+      { "q": "Can you have a negative score in Rummy 500?", "a": "Yes. If the cards left in your hand are worth more than the cards you melded, your score for the hand is negative and comes off your total." },
+      { "q": "How do you pick up from the discard pile in Rummy 500?", "a": "You may take any card from the discard pile, but you must also take every card above it, and you must meld the card you reached for straight away." },
+      { "q": "What is the difference between Rummy 500 and Gin Rummy?", "a": "In Rummy 500 everyone melds on the table, can lay off on other players' melds, and scores the cards they melded. In Gin Rummy players keep their melds in hand and score from the difference in deadwood." },
+      { "q": "How many people can play Rummy 500?", "a": "Two to eight. Up to four play with one deck; five or more usually shuffle two decks together." }
+    ]
+  },
+  "related": ["gin-rummy-score-sheet", "shanghai-rummy-score-sheet", "canasta-score-sheet", "hand-and-foot-score-sheet", "phase-10-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

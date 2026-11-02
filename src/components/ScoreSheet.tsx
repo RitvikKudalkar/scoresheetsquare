@@ -2,8 +2,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { track } from '../lib/analytics';
 import { downloadSheetPdf, localPaper } from '../lib/client-pdf';
 import {
+  applyOptions,
   bidKey,
   bidPoints,
+  optionChoices,
+  type GameOptions,
   isComplete,
   layoutSheet,
   leaderOf,
@@ -61,11 +64,15 @@ function demoScores(game: SheetGame, count: number): Scores {
   return scores;
 }
 
-function PointsSheet({ game, mode }: Props) {
+function PointsSheet({ game: base, mode }: Props) {
   const live = mode === 'live';
-  const initialCount = game.players.default;
+  const initialCount = base.players.default;
   const [players, setPlayers] = useState<string[]>(() => (live ? Array(initialCount).fill('') : DEMO_NAMES.slice(0, initialCount)));
-  const [scores, setScores] = useState<Scores>(() => (live ? emptyScores(game, initialCount) : demoScores(game, initialCount)));
+  const [scores, setScores] = useState<Scores>(() => (live ? emptyScores(base, initialCount) : demoScores(base, initialCount)));
+  // The table's choices (target, rounds, moon rule); `game` below is the sheet as they play it.
+  const [options, setOptions] = useState<GameOptions>({});
+  const game = useMemo(() => ({ ...base, sheet: applyOptions(base.sheet, options) }), [base, options]);
+  const choices = optionChoices(base.sheet);
   const [history, setHistory] = useState<{ players: string[]; scores: Scores }[]>([]);
   const [largePrint, setLargePrint] = useState(false);
   const [wakeOn, setWakeOn] = useWakeLock();
@@ -76,10 +83,11 @@ function PointsSheet({ game, mode }: Props) {
   const started = useRef(false);
 
   const hasScores = Object.values(scores).some((v) => v.some((x) => x !== null));
-  const saved = useMemo(() => ({ players, scores }), [players, scores]);
+  const saved = useMemo(() => ({ players, scores, options }), [players, scores, options]);
   const { resume, takeResume, dropResume, clearSaved } = useSaved(live, game.slug, saved, hasScores, (s) => {
     setPlayers(s.players);
     setScores(s.scores);
+    setOptions(s.options ?? {});
   });
 
   const layout = useMemo(() => layoutSheet(game.sheet, scores, players.length), [game.sheet, scores, players.length]);
@@ -393,6 +401,31 @@ function PointsSheet({ game, mode }: Props) {
           <button type="button" className="btn btn-quiet" onClick={addPlayer} disabled={players.length >= game.players.max}>Add {column.toLowerCase()}</button>
           <button type="button" className="btn btn-quiet" onClick={printGame} disabled={printing}>{printing ? 'Making PDF…' : 'Print this game'}</button>
           {done && !winnerOpen && <button type="button" className="btn btn-quiet" onClick={() => setWinnerOpen(true)}>Show the winner</button>}
+          {choices.targets && (
+            <label className="pill">
+              Play to
+              <select value={'target' in game.sheet ? game.sheet.target : undefined} onChange={(e) => setOptions((o) => ({ ...o, target: Number(e.target.value) }))}>
+                {choices.targets.map((t) => <option key={t} value={t}>{t.toLocaleString('en-US')}</option>)}
+              </select>
+            </label>
+          )}
+          {choices.rounds && game.sheet.engine === 'round-totals' && (
+            <label className="pill">
+              {choices.roundsName}
+              <select value={game.sheet.rounds} onChange={(e) => setOptions((o) => ({ ...o, rounds: Number(e.target.value) }))}>
+                {choices.rounds.map((n) => <option key={n} value={n}>{n}</option>)}
+              </select>
+            </label>
+          )}
+          {choices.moon && game.sheet.engine === 'round-totals' && (
+            <label className="pill">
+              Shooting the moon
+              <select value={game.sheet.roundPoints?.moon} onChange={(e) => setOptions((o) => ({ ...o, moon: e.target.value as GameOptions['moon'] }))}>
+                <option value="others">26 to everyone else</option>
+                <option value="self">26 off the shooter</option>
+              </select>
+            </label>
+          )}
           <label className="pill">
             <input type="checkbox" checked={wakeOn} onChange={(e) => setWakeOn(e.target.checked)} />
             Keep screen on

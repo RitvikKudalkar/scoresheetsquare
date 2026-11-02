@@ -128,6 +128,11 @@ p { margin: 0; text-wrap: pretty; }
   cursor: pointer;
 }
 .pill input { accent-color: var(--color-pad-ink); inline-size: 18px; block-size: 18px; margin: 0; }
+.pill select {
+  min-block-size: 32px; padding: 0 6px;
+  border: 1px solid color-mix(in oklab, var(--color-pad-ink) 30%, transparent); border-radius: 6px;
+  background: var(--color-sheet); color: var(--color-pad-ink); font: inherit; cursor: pointer;
+}
 
 /* ── Header ─────────────────────────────────────────────────── */
 .site-header {

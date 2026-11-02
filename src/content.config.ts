@@ -28,6 +28,10 @@ const sheet = z.discriminatedUnion('engine', [
     phases: z.number().int().min(1).optional(),
     finishRound: z.boolean().optional(),
     teams: z.boolean().optional(),
+    roundPoints: z.object({ total: z.number(), moon: z.enum(['others', 'self']).optional() }).optional(),
+    targetOptions: z.array(z.number()).optional(),
+    roundOptions: z.array(z.number().int().min(1)).optional(),
+    meldMinimums: z.array(z.object({ from: z.number(), points: z.number() })).optional(),
   }),
   z.object({
     engine: z.literal('running-turns'),
@@ -54,6 +58,7 @@ const sheet = z.discriminatedUnion('engine', [
     missed: z.object({ perBid: z.number().optional(), perOff: z.number().optional() }),
     nil: z.number().optional(),
     target: z.number().optional(),
+    targetOptions: z.array(z.number()).optional(),
   }),
 ]);
 
@@ -94,6 +99,10 @@ const games = defineCollection({
     // A live game ships a full page, so it must carry its page text and scoring reference.
     .refine((g) => g.status !== 'live' || (g.content && g.scoringReference), {
       message: 'A live game needs content and scoringReference',
+    })
+    // Every round a table can choose needs its label.
+    .refine((g) => g.sheet.engine !== 'round-totals' || !g.sheet.roundLabels || Math.max(g.sheet.rounds, ...(g.sheet.roundOptions ?? [])) <= g.sheet.roundLabels.length, {
+      message: 'roundLabels needs a label for every round, including the largest roundOptions',
     })
     .refine((g) => g.sheet.engine !== 'bid-and-make' || !g.sheet.hands || g.sheet.hands.length === g.sheet.rounds, {
       message: 'A bid sheet with hands needs one hand size per round',

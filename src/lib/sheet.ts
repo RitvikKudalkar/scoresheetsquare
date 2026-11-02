@@ -29,7 +29,18 @@ export type RoundsConfig = {
   finishRound?: boolean;
   /** Columns are partnerships (Hand and Foot). */
   teams?: boolean;
+  /** Hearts: every round's points add up to `total`. Shooting the moon gives `total` to everyone else
+   * ('others') or takes it off the shooter ('self'). */
+  roundPoints?: { total: number; moon?: MoonRule };
+  /** Targets a table can choose instead of `target` (Euchre to 5, 7, 10 or 11). */
+  targetOptions?: number[];
+  /** Round counts a table can choose instead of `rounds` (Golf's 9 or 18 holes). */
+  roundOptions?: number[];
+  /** Canasta: the first meld must reach `points` once a column's total is at least `from` (lowest `from` first). */
+  meldMinimums?: { from: number; points: number }[];
 };
+
+export type MoonRule = 'others' | 'self';
 
 export type TurnsConfig = {
   engine: 'running-turns';
@@ -65,6 +76,7 @@ export type BidConfig = {
   /** Spades: a nil bid made or failed is worth ± this. */
   nil?: number;
   target?: number;
+  targetOptions?: number[];
 };
 
 export type SheetConfig = CategoryConfig | RoundsConfig | TurnsConfig | TallyConfig | BidConfig;
@@ -97,6 +109,35 @@ export const phaseKey = (rowId: string) => `phase:${rowId}`;
 export const bidKey = (rowId: string) => `bid:${rowId}`;
 export const tookKey = (rowId: string) => `took:${rowId}`;
 export const nilKey = (rowId: string) => `nil:${rowId}`;
+
+/** Choices a table makes before it plays: the target, the number of rounds and Hearts' moon rule. */
+export type GameOptions = { target?: number; rounds?: number; moon?: MoonRule };
+
+/** The sheet as this table plays it. Choices the game doesn't offer are ignored. */
+export function applyOptions(config: SheetConfig, o: GameOptions): SheetConfig {
+  if (config.engine === 'bid-and-make') {
+    return o.target && config.targetOptions?.includes(o.target) ? { ...config, target: o.target } : config;
+  }
+  if (config.engine !== 'round-totals') return config;
+  const next = { ...config };
+  if (o.target && config.targetOptions?.includes(o.target)) next.target = o.target;
+  if (o.rounds && config.roundOptions?.includes(o.rounds)) next.rounds = o.rounds;
+  if (o.moon && config.roundPoints?.moon) next.roundPoints = { ...config.roundPoints, moon: o.moon };
+  return next;
+}
+
+/** What the scorekeeper offers to change, and what to call a round ("Holes" for Golf). */
+export function optionChoices(config: SheetConfig) {
+  const rounds = config.engine === 'round-totals' ? config : null;
+  const targets = config.engine === 'round-totals' || config.engine === 'bid-and-make' ? config.targetOptions : undefined;
+  const word = rounds?.roundLabels?.[0]?.split(' ')[0];
+  return {
+    targets,
+    rounds: rounds?.roundOptions,
+    roundsName: word && /^[A-Z][a-z]+$/.test(word) ? `${word}s` : 'Rounds',
+    moon: !!rounds?.roundPoints?.moon,
+  };
+}
 
 /** Whether each column is a partnership rather than one player (Spades, Hand and Foot). */
 export const teamColumns = (config: SheetConfig) => (config.engine === 'category' || config.engine === 'round-totals' || config.engine === 'bid-and-make') && !!config.teams;
@@ -232,10 +273,13 @@ export function layoutSheet(config: SheetConfig, scores: Scores, playerCount: nu
 
 const hasPlayed = (scores: Scores, p: number) => Object.values(scores).some((vals) => vals[p] != null);
 
-/** Index of the leading player, or -1 until two players have scored, or while the lead is tied.
- * Players with nothing written yet are left out, so an empty column never "leads" a lowest-wins game. */
+/** Index of the leading player, or -1 before anyone has scored, or while the lead is tied.
+ * In a lowest-wins game a column with nothing written is left out, so it never "leads" on 0; in a
+ * highest-wins game it stays in, because in Euchre or Uno a side that never scores has simply lost. */
 export function leaderOf(config: SheetConfig, totals: number[], win: WinCondition, scores: Scores): number {
-  const playing = rankPlayers(config, totals, win, scores).filter((i) => hasPlayed(scores, i));
+  const ranked = rankPlayers(config, totals, win, scores);
+  if (!ranked.some((i) => hasPlayed(scores, i))) return -1;
+  const playing = win === 'highest' ? ranked : ranked.filter((i) => hasPlayed(scores, i));
   if (playing.length < 2) return -1;
   const [a, b] = playing.map((i) => rankKey(config, totals, win, scores, i));
   return a[0] === b[0] && a[1] === b[1] ? -1 : playing[0];
@@ -295,6 +339,7 @@ export function isComplete(config: SheetConfig, scores: Scores, playerCount: num
 /** Plain-language notes the sheet shows above the grid while a game is in play. */
 export function notices(config: SheetConfig, scores: Scores, names: string[], totals: number[]): string[] {
   if (config.engine === 'bid-and-make') return bidNotices(config, scores, names.length);
+  if (config.engine === 'round-totals') return [...roundPointNotices(config, scores, names.length), ...meldNotices(config, scores, names, totals)];
   if (config.engine !== 'running-turns') return [];
   const out: string[] = [];
   const ids = rowIds(config);
@@ -322,4 +367,29 @@ function bidNotices(config: BidConfig, scores: Scores, playerCount: number): str
       const total = took.reduce<number>((a, b) => a + (b ?? 0), 0);
       return total === cards ? [] : [`Round ${r + 1}: the tricks add up to ${total}, but there were ${cards} to win.`];
     });
+}
+
+/** Hearts: a written round that doesn't add up to the points in the deck has a slip in it. */
+function roundPointNotices(config: RoundsConfig, scores: Scores, playerCount: number): string[] {
+  if (!config.roundPoints) return [];
+  const { total, moon } = config.roundPoints;
+  // Shooting the moon: 26 to everyone else, or 26 off the shooter's own score.
+  const moonSum = moon === 'others' ? total * (playerCount - 1) : moon === 'self' ? -total : undefined;
+  const allowed = moonSum === undefined ? [total] : [total, moonSum];
+  return rowIds(config).flatMap((id, r) => {
+    const row = Array.from({ length: playerCount }, (_, p) => scores[id]?.[p]);
+    if (row.some((v) => v == null)) return [];
+    const sum = row.reduce<number>((a, b) => a + (b ?? 0), 0);
+    if (allowed.includes(sum)) return [];
+    const label = config.roundLabels?.[r] ?? `Round ${r + 1}`;
+    return [`${label} adds up to ${sum}. Every round should add up to ${total}${moonSum === undefined ? '' : `, or ${String(moonSum).replace('-', '−')} when someone shoots the moon`}.`];
+  });
+}
+
+/** Canasta: what each column's first meld must reach in the next hand, once the game has begun. */
+function meldNotices(config: RoundsConfig, scores: Scores, names: string[], totals: number[]): string[] {
+  const steps = config.meldMinimums;
+  if (!steps || !rowIds(config).some((id) => scores[id]?.some((v) => v != null))) return [];
+  const needs = names.map((name, p) => `${name} ${[...steps].reverse().find((s) => totals[p] >= s.from)?.points ?? steps[0].points}`);
+  return [`First meld next hand: ${needs.join(', ')}.`];
 }
