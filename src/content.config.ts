@@ -18,6 +18,7 @@ const sheet = z.discriminatedUnion('engine', [
       }),
     ),
     grandTotal: z.string(),
+    teams: z.boolean().optional(),
   }),
   z.object({
     engine: z.literal('round-totals'),
@@ -25,6 +26,8 @@ const sheet = z.discriminatedUnion('engine', [
     roundLabels: z.array(z.string()).optional(),
     target: z.number().optional(),
     phases: z.number().int().min(1).optional(),
+    finishRound: z.boolean().optional(),
+    teams: z.boolean().optional(),
   }),
   z.object({
     engine: z.literal('running-turns'),
@@ -37,6 +40,20 @@ const sheet = z.discriminatedUnion('engine', [
     tallies: z.array(z.object({ id: z.string(), label: z.string() })).min(1),
     sets: z.number().int().min(1),
     roundsPerSet: z.number().int().min(1),
+  }),
+  z.object({
+    engine: z.literal('bid-and-make'),
+    rounds: z.number().int().min(1),
+    hands: z.array(z.number().int().min(1)).optional(),
+    deckSize: z.number().int().optional(),
+    teams: z.boolean().optional(),
+    made: z.object({ base: z.number(), perBid: z.number() }),
+    overtricks: z
+      .object({ points: z.number(), bags: z.object({ every: z.number().int().min(1), penalty: z.number() }).optional() })
+      .optional(),
+    missed: z.object({ perBid: z.number().optional(), perOff: z.number().optional() }),
+    nil: z.number().optional(),
+    target: z.number().optional(),
   }),
 ]);
 
@@ -77,6 +94,9 @@ const games = defineCollection({
     // A live game ships a full page, so it must carry its page text and scoring reference.
     .refine((g) => g.status !== 'live' || (g.content && g.scoringReference), {
       message: 'A live game needs content and scoringReference',
+    })
+    .refine((g) => g.sheet.engine !== 'bid-and-make' || !g.sheet.hands || g.sheet.hands.length === g.sheet.rounds, {
+      message: 'A bid sheet with hands needs one hand size per round',
     }),
 });
 

@@ -1,0 +1,50 @@
+{
+  "slug": "skyjo-score-sheet",
+  "name": "Skyjo",
+  "category": "card",
+  "keywords": ["skyjo score sheet", "skyjo score sheet printable", "skyjo score card", "skyjo scoring"],
+  "title": "Skyjo Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Skyjo score sheet that keeps every round's points until someone reaches 100, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 8, "default": 4 },
+  "winCondition": "lowest",
+  "sheet": { "engine": "round-totals", "rounds": 15, "target": 100, "finishRound": true },
+  "pdf": { "rows": 15, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["At the end of a round", "Points"],
+    "rows": [
+      ["Each card in your grid", "Its value, from −2 to 12"],
+      ["A column of three matching cards", "Discarded, so 0"],
+      ["Ending the round without the lowest score", "Your round score is doubled"],
+      ["Game end", "When someone reaches 100"],
+      ["Winner", "Lowest total"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Skyjo score sheet with room for every round, or keep score on your phone. The sheet watches for 100 and tells you who won.",
+    "howToUse": [
+      "Write each player's name at the top of a column. When a round ends, every player turns over their face-down cards and adds up the values in their grid, from −2 to 12. Write that total in the round's row; it can be zero or negative.",
+      "The player who revealed all their cards first ends the round. If they do not have the lowest score of the round, their score for that round is doubled, so double it before you write it down.",
+      "The game ends at the end of the round in which a player reaches 100 points or more, and the lowest total wins. Online, the sheet waits for everyone's score in that last round, then shows the winner."
+    ],
+    "exampleRound": {
+      "caption": "Three players, first round",
+      "rows": [
+        { "label": "Ana ends the round with 14", "value": "28" },
+        { "label": "Ben scores 9", "value": "9" },
+        { "label": "Cleo cleared a column and scores −1", "value": "−1" }
+      ],
+      "result": "Ana went out first without the lowest score, so her 14 was doubled"
+    },
+    "faqs": [
+      { "q": "How do you score Skyjo?", "a": "At the end of each round, every player adds up the values of the cards in their grid, from −2 to 12. The player who ended the round has their score doubled if someone else scored lower or the same. Scores add up from round to round." },
+      { "q": "When does a game of Skyjo end?", "a": "At the end of the round in which at least one player reaches 100 points. The player with the lowest total then wins." },
+      { "q": "What happens if you get three of the same card in a column?", "a": "If a column has three face-up cards of the same value, the whole column is discarded. Those cards no longer count towards your score." },
+      { "q": "Is a negative score doubled in Skyjo?", "a": "The doubling penalty only applies to a positive score. If the player who ended the round has zero or less, their score stays as it is." },
+      { "q": "How many cards does each player get in Skyjo?", "a": "Twelve, laid face down in three rows of four. At the start, each player turns two of them face up." },
+      { "q": "How many people can play Skyjo?", "a": "Two to eight players. The printable sheet has six columns; the online scorekeeper takes all eight." }
+    ]
+  },
+  "related": ["five-crowns-score-sheet", "golf-card-game-score-sheet", "uno-score-sheet", "phase-10-score-sheet", "wizard-score-sheet"],
+  "phase": 1,
+  "status": "live"
+}

@@ -1,0 +1,58 @@
+{
+  "slug": "oh-hell-score-sheet",
+  "name": "Oh Hell",
+  "aliases": ["Up and Down the River", "Oh Well", "Blackout"],
+  "category": "card",
+  "keywords": ["oh hell score sheet", "oh hell score sheet printable", "up and down the river score sheet"],
+  "title": "Oh Hell Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Oh Hell score sheet for Up and Down the River, with bid and trick boxes for 7 cards down to 1 and back, plus an online scorekeeper.",
+  "players": { "min": 3, "max": 7, "default": 4 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "bid-and-make",
+    "rounds": 13,
+    "hands": [7, 6, 5, 4, 3, 2, 1, 2, 3, 4, 5, 6, 7],
+    "made": { "base": 10, "perBid": 1 },
+    "missed": {}
+  },
+  "pdf": { "rows": 13, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Result", "Points"],
+    "rows": [
+      ["Win exactly the tricks you bid", "10 + 1 for each trick"],
+      ["Bid 0 and win no tricks", "10"],
+      ["Win more or fewer than you bid", "0"],
+      ["Hands", "7 cards down to 1, then back up to 7"],
+      ["Dealer's bid", "Can't make the bids add up to the cards dealt"]
+    ]
+  },
+  "content": {
+    "intro": "Print an Oh Hell score sheet with a row for every hand from 7 cards down to 1 and back, or keep score on your phone while you play Up and Down the River.",
+    "howToUse": [
+      "Write each player's name at the top of a column. Each row is one hand, and its label shows how many cards to deal. Before the hand, write each player's bid in the first box; after it, write the tricks they won in the second.",
+      "A player who wins exactly the number of tricks they bid scores 10 points plus 1 for each trick. Anyone who wins more or fewer scores nothing for the hand. The sheet works out the points under each pair of boxes and keeps the totals.",
+      "The dealer bids last and may not bid a number that makes everyone's bids add up to the cards in the hand, so someone always misses. If the tricks written for a hand don't add up to the cards dealt, the online sheet points it out."
+    ],
+    "exampleRound": {
+      "caption": "Four players, the 5-card hand",
+      "rows": [
+        { "label": "Ana bids 2, wins 2", "value": "12" },
+        { "label": "Ben bids 0, wins 0", "value": "10" },
+        { "label": "Cleo bids 2, wins 1", "value": "0" },
+        { "label": "Dev deals, bids 2, wins 2", "value": "12" }
+      ],
+      "result": "The bids came to 6 against 5 tricks, so the dealer's bid was allowed"
+    },
+    "faqs": [
+      { "q": "How do you score Oh Hell?", "a": "A player who wins exactly the tricks they bid scores 10 points plus 1 point per trick. A player who wins more or fewer than their bid scores nothing for that hand. The highest total after the last hand wins." },
+      { "q": "Is Oh Hell the same as Up and Down the River?", "a": "Yes. Up and Down the River, Oh Well and Blackout are other names for it. The name usually describes the hand sizes, which go down from 7 cards to 1 and then back up." },
+      { "q": "What is the dealer's rule in Oh Hell?", "a": "The dealer bids last and is not allowed to make the total of all the bids equal the number of tricks in the hand. That way at least one player cannot make their bid." },
+      { "q": "Can you bid zero in Oh Hell?", "a": "Yes. A player who bids zero and wins no tricks scores 10 points. If they win any tricks, they score nothing." },
+      { "q": "How is trump chosen in Oh Hell?", "a": "After dealing, the next card of the pack is turned face up and its suit is trump for that hand. Players must follow suit if they can." },
+      { "q": "How many players can play Oh Hell?", "a": "Three to seven players. With 7 cards a hand, seven players use 49 of the 52 cards, so there is always a card left to turn up for trump." }
+    ]
+  },
+  "related": ["spades-score-sheet", "wizard-score-sheet", "hearts-score-sheet", "euchre-score-sheet", "five-crowns-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

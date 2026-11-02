@@ -1,0 +1,60 @@
+{
+  "slug": "spades-score-sheet",
+  "name": "Spades",
+  "category": "card",
+  "keywords": ["spades score sheet", "spades score sheet printable", "spades scorecard", "spades score keeper"],
+  "title": "Spades Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Spades score sheet with boxes for bids, tricks and bags, in three PDF versions, plus an online scorekeeper that adds it up.",
+  "players": { "min": 2, "max": 4, "default": 2 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "bid-and-make",
+    "rounds": 20,
+    "teams": true,
+    "made": { "base": 0, "perBid": 10 },
+    "overtricks": { "points": 1, "bags": { "every": 10, "penalty": 100 } },
+    "missed": { "perBid": -10 },
+    "nil": 100,
+    "target": 500
+  },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Result", "Points"],
+    "rows": [
+      ["Make your bid", "10 for each trick bid"],
+      ["Each trick over your bid (a bag)", "1"],
+      ["Every 10 bags", "−100"],
+      ["Miss your bid (set)", "−10 for each trick bid"],
+      ["Nil bid made", "100"],
+      ["Nil bid failed", "−100"],
+      ["Game", "First to 500"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Spades score sheet with a box for each team's bid, tricks won and points, or keep score on your phone. The sheet counts the bags for you.",
+    "howToUse": [
+      "Write each team's name at the top of a column; for cutthroat Spades, give each player a column instead. Before each hand, add the partners' bids together and write the team's bid. After the hand, write the tricks the team won.",
+      "A team that wins at least as many tricks as it bid scores 10 points for each trick bid, plus 1 point for each extra trick. Those extra tricks are bags: every tenth bag costs the team 100 points. A team that wins fewer tricks than it bid loses 10 points for each trick bid.",
+      "If a player bids nil, leave them out of the team's bid and tap Nil in that round once the hand is over: once for a nil made (100 points), twice for a nil failed (−100). The first team to 500 wins."
+    ],
+    "exampleRound": {
+      "caption": "Two teams, first hand",
+      "rows": [
+        { "label": "Ana and Ben bid 4 + 3 = 7, win 8 tricks", "value": "71" },
+        { "label": "Cleo and Dev bid 3 + 2 = 5, win 5 tricks", "value": "50" }
+      ],
+      "result": "Ana and Ben lead 71 to 50 and carry 1 bag"
+    },
+    "faqs": [
+      { "q": "How do you score Spades?", "a": "A team that makes its bid scores 10 points for each trick it bid, plus 1 point for each trick over the bid. A team that falls short loses 10 points for each trick it bid. Nil bids add or lose 100 points." },
+      { "q": "What are bags in Spades?", "a": "Bags, or sandbags, are tricks won over a team's bid. Each one is worth 1 point, but every time a team collects 10 bags it loses 100 points and starts counting again." },
+      { "q": "How does a nil bid work?", "a": "A player who bids nil promises to win no tricks. If they manage it, their team scores 100 points; if they win even one trick, the team loses 100. Their partner's bid is scored on its own." },
+      { "q": "What happens if you don't make your bid?", "a": "The team is set: it loses 10 points for every trick it bid, and the tricks it did win score nothing." },
+      { "q": "How many points do you play to in Spades?", "a": "Usually 500. The first team to reach 500 at the end of a hand wins; if both teams pass 500 in the same hand, the higher score wins. Some groups play to 300 for a shorter game." },
+      { "q": "Can you play Spades with three players?", "a": "Yes, as cutthroat Spades: each player keeps their own score, bids alone and scores their own tricks. Give each player a column on the sheet." }
+    ]
+  },
+  "related": ["oh-hell-score-sheet", "wizard-score-sheet", "euchre-score-sheet", "hearts-score-sheet", "pinochle-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

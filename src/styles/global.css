@@ -461,6 +461,23 @@ input[type='search']::-webkit-search-cancel-button { appearance: none; }
 .phase-tick.is-made { background: var(--color-pad-ink); border-color: var(--color-pad-ink); }
 .phase-tick.is-made svg { stroke: var(--color-sheet); }
 
+/* ── Bid rounds: bid | won, with the round's points under them ─ */
+.sheet-grid td.bid-cell { min-inline-size: 88px; block-size: auto; }
+.bid-pair { display: grid; grid-template-columns: 1fr 1fr; }
+.cell-input.is-bid, .cell-input.is-took { block-size: calc(var(--cell) * 0.78); font-size: calc(var(--score) * 0.85); }
+.cell-input.is-bid { border-inline-end: 1px dashed color-mix(in oklab, var(--color-pad-ink) 30%, transparent); }
+.cell-input.is-bid::placeholder, .cell-input.is-took::placeholder { color: var(--color-pad-ink-soft); opacity: 0.6; font-size: 0.75rem; }
+.bid-points { display: block; min-block-size: 1.4em; padding-block-end: 2px; text-align: center; font-size: 0.875rem; color: var(--color-pad-ink-soft); }
+.nil-toggle {
+  position: absolute; inset-block-end: 2px; inset-inline-start: 2px;
+  padding: 1px 4px; border: 1px solid transparent; border-radius: 2px;
+  background: transparent; color: var(--color-pad-ink-soft); font: inherit; font-size: 0.6875rem; cursor: pointer;
+}
+.nil-toggle.is-made { background: var(--color-pad-ink); color: var(--color-sheet); }
+.nil-toggle.is-failed { border-color: var(--color-pad-ink-soft); color: var(--color-pad-ink); text-decoration: line-through; }
+.bid-cell:has(.nil-toggle) .bid-points { text-align: end; padding-inline-end: 6px; }
+@media (max-width: 559px) { .sheet-grid td.bid-cell { min-inline-size: 76px; } }
+
 /* ── Phone keypad: the one floating element ─────────────────── */
 .keypad {
   position: fixed; inset-inline: 0; inset-block-end: 0; z-index: 40;

@@ -1,0 +1,53 @@
+{
+  "slug": "uno-score-sheet",
+  "name": "Uno",
+  "category": "card",
+  "keywords": ["uno score sheet", "uno score sheet printable", "uno score card", "uno scoring"],
+  "title": "Uno Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Uno score sheet for playing to 500 points, with a card values chart, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 10, "default": 4 },
+  "winCondition": "highest",
+  "sheet": { "engine": "round-totals", "rounds": 20, "target": 500 },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Card left in an opponent's hand", "Points to the winner"],
+    "rows": [
+      ["Number cards 0 to 9", "Face value"],
+      ["Draw Two", "20"],
+      ["Reverse", "20"],
+      ["Skip", "20"],
+      ["Wild", "50"],
+      ["Wild Draw Four", "50"],
+      ["Game", "First to 500"]
+    ]
+  },
+  "content": {
+    "intro": "Print an Uno score sheet for playing to 500, or keep score on your phone. The card values are on this page, and the sheet tells you who got there first.",
+    "howToUse": [
+      "Write each player's name at the top of a column. When someone plays their last card, they win the hand and score points for every card still held by the other players.",
+      "Count the cards left in everyone else's hands: face value for number cards, 20 for each Draw Two, Reverse and Skip, and 50 for each Wild and Wild Draw Four. Write the total in the winner's column for that hand and leave the other boxes empty or write 0.",
+      "The first player to reach 500 points wins the game. Online, the sheet adds every hand and shows the winner as soon as someone passes 500."
+    ],
+    "exampleRound": {
+      "caption": "Four players, first hand",
+      "rows": [
+        { "label": "Ana goes out", "value": "62" },
+        { "label": "Ben holds a 4 and a Skip", "value": "24 to Ana" },
+        { "label": "Cleo holds a Wild", "value": "50 to Ana" },
+        { "label": "Dev holds an 8", "value": "8 to Ana" }
+      ],
+      "result": "Ana writes 82; nobody else scores this hand"
+    },
+    "faqs": [
+      { "q": "How do you score Uno?", "a": "The player who goes out first scores points for the cards left in the other players' hands: face value for number cards, 20 for Draw Two, Reverse and Skip cards, and 50 for Wild and Wild Draw Four cards." },
+      { "q": "How many points do you need to win Uno?", "a": "500. The first player to reach 500 points across several hands wins the game." },
+      { "q": "Do the other players score anything in Uno?", "a": "Not in the standard rules: only the hand's winner scores. In a common alternative, everyone writes down the value of their own cards each hand, a player is out at 500 and the lowest total wins." },
+      { "q": "What happens if you forget to say Uno?", "a": "If another player catches you with one card before the next player starts their turn, you draw two cards. It does not change the scoring." },
+      { "q": "How much is a Wild Draw Four worth?", "a": "50 points to the player who goes out, the same as a plain Wild card." },
+      { "q": "How many people can play Uno?", "a": "Two to ten players. The printable sheet has six columns and the online scorekeeper takes up to ten." }
+    ]
+  },
+  "related": ["phase-10-score-sheet", "skip-bo-score-sheet", "five-crowns-score-sheet", "skyjo-score-sheet", "dutch-blitz-score-sheet"],
+  "phase": 1,
+  "status": "live"
+}

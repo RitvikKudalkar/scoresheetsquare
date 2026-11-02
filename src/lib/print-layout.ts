@@ -1,7 +1,7 @@
 // One layout for every paper sheet: the build-time PDFs, their preview PNGs, the browser's custom PDF
 // and "Print this game". It returns plain drawing operations in points, origin top-left; each backend
 // (pdf-lib, SVG) only has to draw rectangles, lines and text.
-import { layoutSheet, type Scores, type SheetGame } from './sheet.ts';
+import { bidKey, bidPoints, layoutSheet, nilKey, teamColumns, tookKey, type Scores, type SheetGame } from './sheet.ts';
 
 export type Paper = 'letter' | 'a4';
 export type Version = 'standard' | 'large-print' | '2-per-page';
@@ -68,12 +68,16 @@ function drawSheet(
         (_, p) => names[p] ?? '',
       );
   const columns = heads.length;
-  const layout = layoutSheet(game.sheet, opts.scores ?? {}, columns);
+  // A blank sheet (no names) keeps every Wizard round, so it suits any number of players.
+  const layout = layoutSheet(game.sheet, opts.scores ?? {}, columns, names.length === 0);
   const phased = game.sheet.engine === 'round-totals' && !!game.sheet.phases;
+  const bidding = game.sheet.engine === 'bid-and-make' ? game.sheet : null;
 
   // Rows: header row, then each group's label, rows and computed rows.
-  type Row = { kind: 'head' | 'group' | 'entry' | 'computed'; label: string; hint?: string; id?: string; strong?: boolean; values?: number[] };
-  const rows: Row[] = [{ kind: 'head', label: tally ? (opts.cardName?.trim() ? `Name: ${opts.cardName.trim()}` : 'Name') : 'Players' }];
+  type Row = { kind: 'head' | 'sub' | 'group' | 'entry' | 'computed'; label: string; hint?: string; id?: string; strong?: boolean; values?: number[] };
+  const rows: Row[] = [{ kind: 'head', label: tally ? (opts.cardName?.trim() ? `Name: ${opts.cardName.trim()}` : 'Name') : teamColumns(game.sheet) ? 'Teams' : 'Players' }];
+  // Bid games split each column into bid, tricks won and points.
+  if (bidding) rows.push({ kind: 'sub', label: '' });
   for (const g of layout.groups) {
     if (g.label) rows.push({ kind: 'group', label: g.label });
     for (const r of g.rows) rows.push({ kind: 'entry', label: r.label, hint: r.hint, id: r.id });
@@ -83,7 +87,7 @@ function drawSheet(
 
   const bandH = s.band * 2.1;
   const footH = s.label * 2;
-  const weightOf = (r: Row) => (r.kind === 'group' ? 0.75 : 1);
+  const weightOf = (r: Row) => (r.kind === 'group' ? 0.75 : r.kind === 'sub' ? 0.6 : 1);
   const units = rows.reduce((a, r) => a + weightOf(r), 0);
   const rowH = Math.min(s.maxRow, (box.h - bandH - footH) / units);
   const labelW = Math.max(box.w * 0.34, Math.min(box.w * 0.42, 150));
@@ -110,6 +114,13 @@ function drawSheet(
           ops.push({ kind: 'text', x: cx, y: base, text: fit(name, s.label, 'bold', colW - 6, measure), size: s.label, weight: 'bold', color: GRAPHITE, align: 'center' });
         }
       }
+    } else if (r.kind === 'sub') {
+      for (let p = 0; p < columns; p++) {
+        ['Bid', 'Won', 'Pts'].forEach((t, i) => {
+          const cx = box.x + labelW + colW * p + (colW / 3) * (i + 0.5);
+          ops.push({ kind: 'text', x: cx, y: y + h / 2 + s.label * 0.25, text: t, size: s.label * 0.7, weight: 'regular', color: INK_SOFT, align: 'center' });
+        });
+      }
     } else if (r.kind === 'group') {
       ops.push({ kind: 'text', x: box.x + 4, y: y + h - 4, text: r.label, size: s.label * 0.9, weight: 'bold', color: INK, align: 'left' });
     } else {
@@ -118,6 +129,22 @@ function drawSheet(
       ops.push({ kind: 'text', x: box.x + 4, y: labelY, text: fit(r.label, s.label, r.strong ? 'bold' : 'regular', labelW - 8, measure), size: s.label, weight: r.strong ? 'bold' : 'regular', color: INK, align: 'left' });
       if (showHint) ops.push({ kind: 'text', x: box.x + 4, y: labelY + s.hint + 2, text: fit(r.hint!, s.hint, 'regular', labelW - 8, measure), size: s.hint, weight: 'regular', color: INK_SOFT, align: 'left' });
       for (let p = 0; p < columns; p++) {
+        if (bidding && r.kind === 'entry') {
+          const third = colW / 3;
+          const x0 = box.x + labelW + colW * p;
+          ops.push({ kind: 'line', x1: x0 + third, y1: y + h * 0.2, x2: x0 + third, y2: y + h * 0.8, width: 0.4, color: ruleColor });
+          ops.push({ kind: 'line', x1: x0 + third * 2, y1: y, x2: x0 + third * 2, y2: y + h, width: 0.4, color: ruleColor });
+          const sc = opts.scores;
+          const bid = sc?.[bidKey(r.id!)]?.[p];
+          const took = sc?.[tookKey(r.id!)]?.[p];
+          const nil = sc?.[nilKey(r.id!)]?.[p];
+          const points = sc ? bidPoints(bidding, bid, took, nil) : null;
+          const size = s.score * 0.8;
+          [bid == null ? null : nil ? `${bid}N` : String(bid), took == null ? null : String(took), points == null ? null : String(points)].forEach((t, i) => {
+            if (t !== null) ops.push({ kind: 'text', x: x0 + third * (i + 0.5), y: base + (size - s.label) * 0.3, text: t, size, weight: 'regular', color: GRAPHITE, align: 'center' });
+          });
+          continue;
+        }
         const value = r.kind === 'computed' ? (opts.scores ? r.values![p] : null) : opts.scores?.[r.id!]?.[p] ?? null;
         if (value !== null && value !== undefined) {
           const cx = box.x + labelW + colW * p + colW / 2;
@@ -140,8 +167,8 @@ function drawSheet(
       }
     }
     y += h;
-    // Rule under the row: heavier under computed rows, none under group labels.
-    if (r.kind !== 'group') {
+    // Rule under the row: heavier under computed rows, none under group labels or the bid sub-heads.
+    if (r.kind !== 'group' && r.kind !== 'sub') {
       const heavy = r.kind === 'computed' || r.kind === 'head';
       ops.push({ kind: 'line', x1: box.x, y1: y, x2: box.x + box.w, y2: y, width: heavy ? 1.2 : rule, color: heavy ? INK : ruleColor });
     }
@@ -152,8 +179,13 @@ function drawSheet(
     ops.push({ kind: 'line', x1: x, y1: tableTop, x2: x, y2: y, width: rule, color: ruleColor });
   }
 
-  if (phased) {
-    ops.push({ kind: 'text', x: box.x, y: y + footH * 0.8 + s.label * 0.95, text: 'Tick the box in a round when the phase is made.', size: s.label * 0.75, weight: 'regular', color: INK_SOFT, align: 'left' });
+  const note = phased
+    ? 'Tick the box in a round when the phase is made.'
+    : bidding
+      ? `Write the bids before the hand and the tricks won after it.${bidding.nil ? ' Mark a nil bid with N.' : ''}`
+      : null;
+  if (note) {
+    ops.push({ kind: 'text', x: box.x, y: y + footH * 0.8 + s.label * 0.95, text: note, size: s.label * 0.75, weight: 'regular', color: INK_SOFT, align: 'left' });
   }
   if (opts.siteUrl) {
     ops.push({ kind: 'text', x: box.x, y: y + footH * 0.8, text: `Free printable and online scorekeeper: ${opts.siteUrl}`, size: s.label * 0.75, weight: 'regular', color: INK_SOFT, align: 'left' });

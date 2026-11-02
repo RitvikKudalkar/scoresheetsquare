@@ -1,0 +1,59 @@
+{
+  "slug": "wizard-score-sheet",
+  "name": "Wizard",
+  "category": "card",
+  "keywords": ["wizard score sheet", "wizard score sheet printable", "wizard card game score sheet", "wizard scorecard"],
+  "title": "Wizard Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Wizard card game score sheet with bid and trick boxes for every round, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 3, "max": 6, "default": 4 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "bid-and-make",
+    "rounds": 20,
+    "deckSize": 60,
+    "made": { "base": 20, "perBid": 10 },
+    "missed": { "perOff": -10 }
+  },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Result", "Points"],
+    "rows": [
+      ["Win exactly the tricks you bid", "20 + 10 for each trick"],
+      ["Bid 0 and win no tricks", "20"],
+      ["Each trick over or under your bid", "−10"],
+      ["3 players", "20 rounds"],
+      ["4 players", "15 rounds"],
+      ["5 players", "12 rounds"],
+      ["6 players", "10 rounds"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Wizard score sheet with a bid box and a trick box for every round, or keep score on your phone. The sheet works out the plus and minus points for you.",
+    "howToUse": [
+      "Write each player's name at the top of a column. In round 1 everyone gets one card, in round 2 two cards, and so on until the deck runs out. Before each round, write every player's bid; after it, write the tricks they won.",
+      "A player who wins exactly what they bid scores 20 points plus 10 for each trick. A player who misses loses 10 points for each trick they were over or under. Totals can go below zero.",
+      "The printed sheet has 20 rounds, enough for three players; four players stop after round 15, five after 12 and six after 10. The online sheet shows only the rounds your group will play and tells you if a round's tricks don't add up."
+    ],
+    "exampleRound": {
+      "caption": "Four players, round 3",
+      "rows": [
+        { "label": "Ana bids 1, wins 1", "value": "30" },
+        { "label": "Ben bids 0, wins 0", "value": "20" },
+        { "label": "Cleo bids 2, wins 1", "value": "−10" },
+        { "label": "Dev bids 0, wins 1", "value": "−10" }
+      ],
+      "result": "Three tricks played, three tricks written: the round adds up"
+    },
+    "faqs": [
+      { "q": "How do you score Wizard?", "a": "A player who wins exactly the number of tricks they bid scores 20 points plus 10 points per trick. A player who misses their bid loses 10 points for every trick they were over or under. The highest total at the end wins." },
+      { "q": "How many rounds are there in Wizard?", "a": "The 60-card deck is divided by the number of players: 20 rounds for three players, 15 for four, 12 for five and 10 for six. Round 1 deals one card each, and each round deals one more." },
+      { "q": "What do the Wizard and Jester cards do?", "a": "A Wizard wins the trick it is played to; if more than one Wizard is played, the first one wins. A Jester always loses the trick. Either can be played at any time, even when you could follow suit." },
+      { "q": "How is trump chosen in Wizard?", "a": "After dealing, the top card of the remaining deck is turned up and its suit is trump. If it is a Jester there is no trump; if it is a Wizard, the dealer chooses trump. In the last round all the cards are dealt, so there is no trump." },
+      { "q": "Can the bids add up to the number of tricks?", "a": "In the standard rules, yes. Many groups play that the total of the bids must not equal the tricks in the round, so someone always misses; the score sheet works the same either way." },
+      { "q": "Can your score go negative in Wizard?", "a": "Yes. Missed bids lose points, so scores below zero are common in the early rounds. Write the minus sign; the online sheet has a ± key for it." }
+    ]
+  },
+  "related": ["oh-hell-score-sheet", "spades-score-sheet", "hearts-score-sheet", "skyjo-score-sheet", "phase-10-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

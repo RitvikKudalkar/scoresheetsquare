@@ -1,0 +1,263 @@
+{
+  "slug": "hand-and-foot-score-sheet",
+  "name": "Hand and Foot",
+  "category": "card",
+  "keywords": [
+    "hand and foot score sheet",
+    "hand and foot score sheet printable",
+    "hand and foot scoring sheet",
+    "hand and foot score card"
+  ],
+  "title": "Hand and Foot Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Hand and Foot score sheet for teams, with the meld minimum for each round and a scoring chart, plus an online scorekeeper.",
+  "players": {
+    "min": 2,
+    "max": 4,
+    "default": 2
+  },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "category",
+    "teams": true,
+    "sections": [
+      {
+        "id": "r1",
+        "label": "Round 1: meld 50",
+        "rows": [
+          {
+            "id": "r1-clean",
+            "label": "Clean books",
+            "hint": "500 each"
+          },
+          {
+            "id": "r1-dirty",
+            "label": "Dirty books",
+            "hint": "300 each"
+          },
+          {
+            "id": "r1-out",
+            "label": "Going out",
+            "hint": "100"
+          },
+          {
+            "id": "r1-down",
+            "label": "Cards laid down",
+            "hint": "Their value"
+          },
+          {
+            "id": "r1-left",
+            "label": "Cards left",
+            "hint": "Minus their value"
+          }
+        ],
+        "total": "Round 1 total"
+      },
+      {
+        "id": "r2",
+        "label": "Round 2: meld 90",
+        "rows": [
+          {
+            "id": "r2-clean",
+            "label": "Clean books",
+            "hint": "500 each"
+          },
+          {
+            "id": "r2-dirty",
+            "label": "Dirty books",
+            "hint": "300 each"
+          },
+          {
+            "id": "r2-out",
+            "label": "Going out",
+            "hint": "100"
+          },
+          {
+            "id": "r2-down",
+            "label": "Cards laid down",
+            "hint": "Their value"
+          },
+          {
+            "id": "r2-left",
+            "label": "Cards left",
+            "hint": "Minus their value"
+          }
+        ],
+        "total": "Round 2 total"
+      },
+      {
+        "id": "r3",
+        "label": "Round 3: meld 120",
+        "rows": [
+          {
+            "id": "r3-clean",
+            "label": "Clean books",
+            "hint": "500 each"
+          },
+          {
+            "id": "r3-dirty",
+            "label": "Dirty books",
+            "hint": "300 each"
+          },
+          {
+            "id": "r3-out",
+            "label": "Going out",
+            "hint": "100"
+          },
+          {
+            "id": "r3-down",
+            "label": "Cards laid down",
+            "hint": "Their value"
+          },
+          {
+            "id": "r3-left",
+            "label": "Cards left",
+            "hint": "Minus their value"
+          }
+        ],
+        "total": "Round 3 total"
+      },
+      {
+        "id": "r4",
+        "label": "Round 4: meld 150",
+        "rows": [
+          {
+            "id": "r4-clean",
+            "label": "Clean books",
+            "hint": "500 each"
+          },
+          {
+            "id": "r4-dirty",
+            "label": "Dirty books",
+            "hint": "300 each"
+          },
+          {
+            "id": "r4-out",
+            "label": "Going out",
+            "hint": "100"
+          },
+          {
+            "id": "r4-down",
+            "label": "Cards laid down",
+            "hint": "Their value"
+          },
+          {
+            "id": "r4-left",
+            "label": "Cards left",
+            "hint": "Minus their value"
+          }
+        ],
+        "total": "Round 4 total"
+      }
+    ],
+    "grandTotal": "Game total"
+  },
+  "pdf": {
+    "rows": 20,
+    "showScoringChart": true
+  },
+  "scoringReference": {
+    "columns": [
+      "Scores",
+      "Points"
+    ],
+    "rows": [
+      [
+        "Clean book (7 natural cards)",
+        "500"
+      ],
+      [
+        "Dirty book (with wild cards)",
+        "300"
+      ],
+      [
+        "Going out",
+        "100"
+      ],
+      [
+        "Joker",
+        "50"
+      ],
+      [
+        "2 or Ace",
+        "20"
+      ],
+      [
+        "8 to King",
+        "10"
+      ],
+      [
+        "4 to 7, or a black 3",
+        "5"
+      ],
+      [
+        "Cards left in your hand and foot",
+        "Minus their value"
+      ]
+    ]
+  },
+  "content": {
+    "intro": "Print a Hand and Foot score sheet with a column for each team and the meld minimum on every round, or keep score on your phone.",
+    "howToUse": [
+      "Write each team's name at the top of a column; if you play without partners, give each player a column. The game has four rounds, and each round's heading shows the points a team needs for its first meld: 50, then 90, 120 and 150.",
+      "At the end of a round, fill in the team's lines: 500 for each clean book, 300 for each dirty book, 100 for going out, then the value of all the cards it laid down. On the last line write the value of the cards still held in hand and foot as a minus number. The sheet adds up the round and the game.",
+      "After four rounds the highest game total wins. Groups play Hand and Foot with many house rules, such as bonuses for red 3s or wild card books; add those to the cards laid down line the way your table plays."
+    ],
+    "exampleRound": {
+      "caption": "Two teams, round 1",
+      "rows": [
+        {
+          "label": "Ana and Ben: 2 clean books, 1 dirty, go out",
+          "value": "1,400"
+        },
+        {
+          "label": "Ana and Ben: cards laid down",
+          "value": "+285"
+        },
+        {
+          "label": "Cleo and Dev: 1 clean book, 2 dirty",
+          "value": "1,100"
+        },
+        {
+          "label": "Cleo and Dev: cards down 310, left in hand 95",
+          "value": "+215"
+        }
+      ],
+      "result": "Ana and Ben write 1,685; Cleo and Dev write 1,315"
+    },
+    "faqs": [
+      {
+        "q": "How do you score Hand and Foot?",
+        "a": "Each team scores 500 for every clean book, 300 for every dirty book and 100 for going out, plus the value of every card it melded. The value of cards left in a team's hand and foot is taken off. The four round scores are added together."
+      },
+      {
+        "q": "What are the card values in Hand and Foot?",
+        "a": "Jokers are worth 50, 2s and Aces 20, 8s to Kings 10, and 4s to 7s and black 3s 5 points each. Red 3s are scored differently at different tables, often as a 100-point bonus or penalty."
+      },
+      {
+        "q": "What is the difference between a clean and a dirty book?",
+        "a": "A book is seven cards of the same rank. A clean (natural) book has no wild cards and is worth 500; a dirty (mixed) book includes wild cards and is worth 300."
+      },
+      {
+        "q": "What are the meld minimums in Hand and Foot?",
+        "a": "A common set is 50 points in round one, 90 in round two, 120 in round three and 150 in round four. The first meld a team lays down in a round must add up to at least that."
+      },
+      {
+        "q": "How many rounds are in a game of Hand and Foot?",
+        "a": "Usually four, one for each meld minimum. The team with the highest total after the fourth round wins."
+      },
+      {
+        "q": "How many people can play Hand and Foot?",
+        "a": "It is usually played by four people in two partnerships, and works for two to six. Each team or player gets a column on the sheet."
+      }
+    ]
+  },
+  "related": [
+    "canasta-score-sheet",
+    "five-crowns-score-sheet",
+    "phase-10-score-sheet",
+    "rummy-500-score-sheet",
+    "spades-score-sheet"
+  ],
+  "phase": 1,
+  "status": "live"
+}

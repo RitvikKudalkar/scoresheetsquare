@@ -1,0 +1,56 @@
+{
+  "slug": "five-crowns-score-sheet",
+  "name": "Five Crowns",
+  "category": "card",
+  "keywords": ["five crowns score sheet", "five crowns score sheet printable", "five crowns score card", "5 crowns score sheet"],
+  "title": "Five Crowns Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Five Crowns score sheet with all 11 rounds labelled from 3s wild to Kings wild, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 7, "default": 4 },
+  "winCondition": "lowest",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 11,
+    "roundLabels": ["3s wild", "4s wild", "5s wild", "6s wild", "7s wild", "8s wild", "9s wild", "10s wild", "Jacks wild", "Queens wild", "Kings wild"]
+  },
+  "pdf": { "rows": 11, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Card left in your hand", "Points"],
+    "rows": [
+      ["3 to 10", "Face value"],
+      ["Jack", "11"],
+      ["Queen", "12"],
+      ["King", "13"],
+      ["The round's wild card", "20"],
+      ["Joker", "50"],
+      ["Going out", "0"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Five Crowns score sheet with every round labelled by its wild card, from 3s wild to Kings wild, or keep score on your phone.",
+    "howToUse": [
+      "Write each player's name at the top of a column. The game has 11 rounds: round one deals 3 cards and 3s are wild, round two deals 4 cards and 4s are wild, and so on up to 13 cards with Kings wild. Each row is labelled with its wild card, so nobody loses track.",
+      "When a player goes out, everyone else gets one more turn to lay down what they can. Then each player adds up the cards still in their hand: face value for 3 to 10, 11 for a Jack, 12 for a Queen, 13 for a King, 20 for the round's wild card and 50 for a Joker. The player who went out writes 0.",
+      "After the Kings wild round, the lowest total wins. On a phone, tap a box to write a round's points; the sheet keeps the totals and circles whoever is lowest."
+    ],
+    "exampleRound": {
+      "caption": "Three players, round 1 (3s wild)",
+      "rows": [
+        { "label": "Ana goes out", "value": "0" },
+        { "label": "Ben holds a 7 and a Queen", "value": "19" },
+        { "label": "Cleo holds a Joker", "value": "50" }
+      ],
+      "result": "Ana leads with 0; Cleo learns to play her Jokers"
+    },
+    "faqs": [
+      { "q": "How do you score Five Crowns?", "a": "At the end of each round, players add up the cards left in their hand: face value for 3 to 10, 11 for a Jack, 12 for a Queen, 13 for a King, 20 for each of that round's wild cards and 50 for each Joker. Going out scores 0. Low scores are good." },
+      { "q": "How many rounds are in Five Crowns?", "a": "Eleven. The first round deals 3 cards each and the last deals 13, one more card every round." },
+      { "q": "What is wild in each round of Five Crowns?", "a": "The card matching the number of cards dealt: 3s in the first round, 4s in the second, up to Jacks with 11 cards, Queens with 12 and Kings with 13. The six Jokers are wild in every round." },
+      { "q": "Who wins Five Crowns?", "a": "The player with the lowest total after all 11 rounds." },
+      { "q": "What happens after someone goes out?", "a": "Every other player gets one final turn, then the round ends and everyone counts the cards they could not lay down." },
+      { "q": "How many people can play Five Crowns?", "a": "One to seven players, though it is best with two or more. The printable sheet has six columns and the online scorekeeper takes up to seven." }
+    ]
+  },
+  "related": ["phase-10-score-sheet", "skyjo-score-sheet", "uno-score-sheet", "hand-and-foot-score-sheet", "oh-hell-score-sheet"],
+  "phase": 1,
+  "status": "live"
+}

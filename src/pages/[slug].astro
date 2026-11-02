@@ -22,7 +22,10 @@ const url = new URL(`/${game.slug}`, site).href;
 const categoryLabel = categoryNames[game.category as keyof typeof categoryNames] ?? 'Games';
 const categoryHref = categoryHrefs[game.category as keyof typeof categoryHrefs] ?? '/all-games';
 
+// Related games without a live page yet are left out until they ship.
+const live = new Set((await getCollection('games', (g) => g.data.status === 'live')).map((g) => g.data.slug));
 const related = game.related
+  .filter((slug) => live.has(slug))
   .map((slug) => catalogue.find((c) => c.slug === slug))
   .filter((c): c is NonNullable<typeof c> => Boolean(c));
 
@@ -66,7 +69,7 @@ const schema = [
       </div>
       <p class="measure">{content.intro}</p>
 
-      <DownloadBlock slug={game.slug} alt={game.sheet.engine === 'tally' ? `Printable ${game.name} tally card with columns for wins, losses and buncos in every round` : `Printable ${game.name} score sheet with a column for each player and a row for every ${game.sheet.engine === 'category' ? 'scoring box' : game.sheet.engine === 'running-turns' ? 'turn' : 'round'}`}>
+      <DownloadBlock slug={game.slug} alt={game.sheet.engine === 'tally' ? `Printable ${game.name} tally card with columns for wins, losses and buncos in every round` : `Printable ${game.name} score sheet with a column for each player and a row for every ${game.sheet.engine === 'category' ? 'scoring box' : game.sheet.engine === 'running-turns' ? 'turn' : game.sheet.engine === 'bid-and-make' ? 'round, with boxes for the bid, tricks won and points' : 'round'}`}>
         <CustomPdf client:idle game={sheetGame} />
       </DownloadBlock>
       <div class="ad-slot" aria-hidden="true"></div>

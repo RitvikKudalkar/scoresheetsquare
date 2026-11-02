@@ -1,7 +1,23 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { track } from '../lib/analytics';
 import { downloadSheetPdf, localPaper } from '../lib/client-pdf';
-import { isComplete, layoutSheet, leaderOf, notices, phaseKey, phasesMade, rankPlayers, rowIds, type Scores, type SheetGame } from '../lib/sheet';
+import {
+  bidKey,
+  bidPoints,
+  isComplete,
+  layoutSheet,
+  leaderOf,
+  nilKey,
+  notices,
+  phaseKey,
+  phasesMade,
+  rankPlayers,
+  rowIds,
+  teamColumns,
+  tookKey,
+  type Scores,
+  type SheetGame,
+} from '../lib/sheet';
 import TallySheet from './TallySheet';
 import { PencilCircle, useSaved, useWakeLock } from './sheet-shared';
 
@@ -69,17 +85,21 @@ function PointsSheet({ game, mode }: Props) {
   const layout = useMemo(() => layoutSheet(game.sheet, scores, players.length), [game.sheet, scores, players.length]);
   const leader = leaderOf(game.sheet, layout.totals, game.winCondition, scores);
   const done = live && isComplete(game.sheet, scores, players.length, layout.totals);
-  const nameOf = (p: number) => players[p] || `Player ${p + 1}`;
+  const teams = teamColumns(game.sheet);
+  const column = teams ? 'Team' : 'Player';
+  const nameOf = (p: number) => players[p] || `${column} ${p + 1}`;
   const notes = live ? notices(game.sheet, scores, players.map((_, p) => nameOf(p)), layout.totals) : [];
   const phased = game.sheet.engine === 'round-totals' && !!game.sheet.phases;
+  const bidding = game.sheet.engine === 'bid-and-make' ? game.sheet : null;
 
   // A phone gets the on-screen keypad instead of the system keyboard.
   useEffect(() => {
     const mq = matchMedia('(pointer: coarse)');
     setCoarse(mq.matches);
     // A cell tapped before the sheet finished loading is already focused: pick it up.
-    const [, rowId, p] = (document.activeElement as HTMLElement | null)?.dataset.cell?.split(':') ?? [];
-    if (rowId && document.activeElement?.closest('.scorekeeper')) setActive({ rowId, p: Number(p) });
+    const parts = (document.activeElement as HTMLElement | null)?.dataset.cell?.split(':') ?? [];
+    const rowId = parts.slice(1, -1).join(':');
+    if (rowId && document.activeElement?.closest('.scorekeeper')) setActive({ rowId, p: Number(parts.at(-1)) });
     const on = () => setCoarse(mq.matches);
     mq.addEventListener('change', on);
     return () => mq.removeEventListener('change', on);
@@ -127,6 +147,13 @@ function PointsSheet({ game, mode }: Props) {
   const togglePhase = (rowId: string, p: number) => {
     pushHistory();
     setValue(phaseKey(rowId), p, scores[phaseKey(rowId)]?.[p] === 1 ? null : 1);
+  };
+
+  // Spades nil: none → made → failed → none.
+  const cycleNil = (rowId: string, p: number) => {
+    pushHistory();
+    const now = scores[nilKey(rowId)]?.[p];
+    setValue(nilKey(rowId), p, now == null ? 1 : now === 1 ? -1 : null);
   };
 
   const rename = (p: number, name: string) => setPlayers((ps) => ps.map((n, i) => (i === p ? name : n)));
@@ -182,8 +209,14 @@ function PointsSheet({ game, mode }: Props) {
     }
   };
 
-  // Keypad: Next walks across the players in a row, then down to the next row.
-  const entryRows = layout.groups.flatMap((g) => g.rows.map((r) => r.id));
+  // Keypad: Next walks across the players in a row, then down to the next row. A bid round is two
+  // rows: everyone's bid, then everyone's tricks.
+  const entries = layout.groups.flatMap((g) =>
+    g.rows.flatMap((r) =>
+      r.bid ? [{ id: bidKey(r.id), label: `${r.label}, bid` }, { id: tookKey(r.id), label: `${r.label}, tricks won` }] : [{ id: r.id, label: r.label }],
+    ),
+  );
+  const entryRows = entries.map((e) => e.id);
   const focusCell = (rowId: string, p: number) =>
     document.querySelector<HTMLInputElement>(`[data-cell="${game.slug}:${rowId}:${p}"]`)?.focus();
   const nextCell = () => {
@@ -203,7 +236,30 @@ function PointsSheet({ game, mode }: Props) {
   };
 
   const ranked = rankPlayers(game.sheet, layout.totals, game.winCondition, scores);
-  const activeLabel = active ? `${nameOf(active.p)}, ${entryRows.includes(active.rowId) ? layout.groups.flatMap((g) => g.rows).find((r) => r.id === active.rowId)?.label : ''}` : '';
+  const activeLabel = active ? `${nameOf(active.p)}, ${entries.find((e) => e.id === active.rowId)?.label ?? ''}` : '';
+
+  const cellInput = (key: string, p: number, label: string, className = 'cell-input', placeholder?: string) => (
+    <input
+      className={className}
+      inputMode={coarse ? 'none' : 'numeric'}
+      enterKeyHint="next"
+      autoComplete="off"
+      value={scores[key]?.[p] ?? ''}
+      placeholder={placeholder}
+      data-cell={`${game.slug}:${key}:${p}`}
+      aria-label={`${nameOf(p)}, ${label}`}
+      onFocus={(e) => {
+        snapshot();
+        setActive({ rowId: key, p });
+        if (coarse) e.currentTarget.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }}
+      onBlur={() => {
+        commit();
+        setActive(null);
+      }}
+      onChange={(e) => writeScore(key, p, e.target.value)}
+    />
+  );
 
   return (
     <div className={`scorekeeper${largePrint ? ' is-large' : ''}`}>
@@ -241,8 +297,8 @@ function PointsSheet({ game, mode }: Props) {
                     <input
                       className="cell-input is-name"
                       value={name}
-                      placeholder={`P${p + 1}`}
-                      aria-label={`Player ${p + 1} name`}
+                      placeholder={teams ? `Team ${p + 1}` : `P${p + 1}`}
+                      aria-label={`${column} ${p + 1} name`}
                       onFocus={snapshot}
                       onBlur={commit}
                       onChange={(e) => rename(p, e.target.value)}
@@ -270,29 +326,34 @@ function PointsSheet({ game, mode }: Props) {
                       {row.hint && <span className="sheet-hint">{row.hint}</span>}
                     </th>
                     {players.map((_, p) => {
-                      const v = scores[row.id]?.[p];
+                      if (bidding && row.bid) {
+                        const nil = scores[nilKey(row.id)]?.[p];
+                        const points = bidPoints(bidding, scores[bidKey(row.id)]?.[p], scores[tookKey(row.id)]?.[p], nil);
+                        return (
+                          <td key={p} className="bid-cell">
+                            <div className="bid-pair">
+                              {cellInput(bidKey(row.id), p, `${row.label}, bid`, 'cell-input is-bid', 'bid')}
+                              {cellInput(tookKey(row.id), p, `${row.label}, tricks won`, 'cell-input is-took', 'won')}
+                            </div>
+                            <output className="bid-points" aria-label={`${nameOf(p)}, ${row.label}, points`}>{points ?? ''}</output>
+                            {/* Nil shows once the round's bid is in, so empty rounds stay quiet. */}
+                            {bidding.nil && (nil != null || scores[bidKey(row.id)]?.[p] != null) && (
+                              <button
+                                type="button"
+                                className={`nil-toggle${nil === 1 ? ' is-made' : nil === -1 ? ' is-failed' : ''}`}
+                                aria-label={`${nameOf(p)}, ${row.label}, nil bid: ${nil === 1 ? 'made' : nil === -1 ? 'failed' : 'none'}`}
+                                onClick={() => cycleNil(row.id, p)}
+                              >
+                                {nil === 1 ? `Nil +${bidding.nil}` : nil === -1 ? `Nil −${bidding.nil}` : 'Nil'}
+                              </button>
+                            )}
+                          </td>
+                        );
+                      }
                       const made = scores[phaseKey(row.id)]?.[p] === 1;
                       return (
                         <td key={p} className={row.phase ? 'has-phase' : undefined}>
-                          <input
-                            className="cell-input"
-                            inputMode={coarse ? 'none' : 'numeric'}
-                            enterKeyHint="next"
-                            autoComplete="off"
-                            value={v ?? ''}
-                            data-cell={`${game.slug}:${row.id}:${p}`}
-                            aria-label={`${nameOf(p)}, ${row.label}`}
-                            onFocus={(e) => {
-                              snapshot();
-                              setActive({ rowId: row.id, p });
-                              if (coarse) e.currentTarget.scrollIntoView({ block: 'center', behavior: 'smooth' });
-                            }}
-                            onBlur={() => {
-                              commit();
-                              setActive(null);
-                            }}
-                            onChange={(e) => writeScore(row.id, p, e.target.value)}
-                          />
+                          {cellInput(row.id, p, row.label)}
                           {row.phase && (
                             <button
                               type="button"
@@ -329,7 +390,7 @@ function PointsSheet({ game, mode }: Props) {
       {live && (
         <div className="sheet-controls">
           <button type="button" className="btn btn-quiet" onClick={undo} disabled={history.length === 0}>Undo</button>
-          <button type="button" className="btn btn-quiet" onClick={addPlayer} disabled={players.length >= game.players.max}>Add player</button>
+          <button type="button" className="btn btn-quiet" onClick={addPlayer} disabled={players.length >= game.players.max}>Add {column.toLowerCase()}</button>
           <button type="button" className="btn btn-quiet" onClick={printGame} disabled={printing}>{printing ? 'Making PDF…' : 'Print this game'}</button>
           {done && !winnerOpen && <button type="button" className="btn btn-quiet" onClick={() => setWinnerOpen(true)}>Show the winner</button>}
           <label className="pill">

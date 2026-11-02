@@ -15,6 +15,7 @@ export type CategoryConfig = {
   engine: 'category';
   sections: CategorySection[];
   grandTotal: string;
+  teams?: boolean;
 };
 
 export type RoundsConfig = {
@@ -24,6 +25,10 @@ export type RoundsConfig = {
   target?: number;
   /** Phase 10: each round can be ticked as "phase made"; most phases wins, lowest points breaks ties. */
   phases?: number;
+  /** Skyjo: reaching the target ends the game only once that round's scores are all in. */
+  finishRound?: boolean;
+  /** Columns are partnerships (Hand and Foot). */
+  teams?: boolean;
 };
 
 export type TurnsConfig = {
@@ -41,7 +46,28 @@ export type TallyConfig = {
   roundsPerSet: number;
 };
 
-export type SheetConfig = CategoryConfig | RoundsConfig | TurnsConfig | TallyConfig;
+/** Trick-taking games: each round every column bids, then writes the tricks it won. */
+export type BidConfig = {
+  engine: 'bid-and-make';
+  rounds: number;
+  /** Cards dealt each round (Oh Hell's 7 down to 1 and back). */
+  hands?: number[];
+  /** Wizard: round n deals n cards and the game lasts deckSize ÷ players rounds. */
+  deckSize?: number;
+  /** Columns are partnerships (Spades). */
+  teams?: boolean;
+  /** Points for making the bid exactly: base + perBid × bid. */
+  made: { base: number; perBid: number };
+  /** Spades: taking more than the bid still makes it, and each extra trick is a bag. */
+  overtricks?: { points: number; bags?: { every: number; penalty: number } };
+  /** Points for missing: perBid × bid plus perOff × tricks off (both usually negative). */
+  missed: { perBid?: number; perOff?: number };
+  /** Spades: a nil bid made or failed is worth ± this. */
+  nil?: number;
+  target?: number;
+};
+
+export type SheetConfig = CategoryConfig | RoundsConfig | TurnsConfig | TallyConfig | BidConfig;
 
 export type WinCondition = 'highest' | 'lowest';
 
@@ -54,11 +80,12 @@ export type SheetGame = {
 };
 
 /** Scores keyed by row id → one value per player column (null = not yet written).
- * Phase ticks live under `phase:<rowId>` with 1 for "made". */
+ * Phase ticks live under `phase:<rowId>` with 1 for "made". Bid rounds keep `bid:<rowId>` and
+ * `took:<rowId>`, and `nil:<rowId>` with 1 for made and -1 for failed. */
 export type Scores = Record<string, (number | null)[]>;
 
 export type ComputedRow = { id: string; label: string; values: number[]; strong?: boolean };
-export type SheetRow = { id: string; label: string; hint?: string; phase?: boolean };
+export type SheetRow = { id: string; label: string; hint?: string; phase?: boolean; bid?: boolean };
 
 export type SheetLayout = {
   groups: { id: string; label?: string; rows: SheetRow[]; computed: ComputedRow[] }[];
@@ -67,11 +94,52 @@ export type SheetLayout = {
 
 const sum = (xs: (number | null | undefined)[]) => xs.reduce<number>((a, b) => a + (b ?? 0), 0);
 export const phaseKey = (rowId: string) => `phase:${rowId}`;
+export const bidKey = (rowId: string) => `bid:${rowId}`;
+export const tookKey = (rowId: string) => `took:${rowId}`;
+export const nilKey = (rowId: string) => `nil:${rowId}`;
+
+/** Whether each column is a partnership rather than one player (Spades, Hand and Foot). */
+export const teamColumns = (config: SheetConfig) => (config.engine === 'category' || config.engine === 'round-totals' || config.engine === 'bid-and-make') && !!config.teams;
+
+/** Rounds a bid game lasts with this many columns. */
+export function bidRounds(config: BidConfig, playerCount: number): number {
+  if (config.deckSize) return Math.min(config.rounds, Math.floor(config.deckSize / Math.max(1, playerCount)));
+  return config.rounds;
+}
+
+/** Cards each player holds in round `r` (0-based), when the game fixes it. */
+export function cardsIn(config: BidConfig, r: number): number | undefined {
+  return config.hands?.[r] ?? (config.deckSize ? r + 1 : undefined);
+}
+
+/** One column's points for one round, or null until both the bid and the tricks are written. */
+export function bidPoints(config: BidConfig, bid: number | null | undefined, took: number | null | undefined, nil?: number | null): number | null {
+  if (bid == null || took == null) return null;
+  const off = took - bid;
+  let points =
+    off === 0 || (off > 0 && config.overtricks)
+      ? config.made.base + config.made.perBid * bid + (off > 0 ? off * config.overtricks!.points : 0)
+      : (config.missed.perBid ?? 0) * bid + (config.missed.perOff ?? 0) * Math.abs(off);
+  if (config.nil && nil) points += nil * config.nil;
+  return points;
+}
+
+/** Spades: bags since the last penalty, and the points lost to every full set of them. */
+function bagsOf(config: BidConfig, scores: Scores, ids: string[], p: number) {
+  if (!config.overtricks?.bags) return { bags: 0, penalty: 0 };
+  const bags = ids.reduce((n, id) => {
+    const bid = scores[bidKey(id)]?.[p];
+    const took = scores[tookKey(id)]?.[p];
+    return bid != null && took != null && took > bid ? n + took - bid : n;
+  }, 0);
+  const { every, penalty } = config.overtricks.bags;
+  return { bags: bags % every, penalty: Math.floor(bags / every) * penalty };
+}
 
 export function rowIds(config: SheetConfig): string[] {
   if (config.engine === 'category') return config.sections.flatMap((s) => s.rows.map((r) => r.id));
   if (config.engine === 'tally') return config.tallies.map((t) => t.id);
-  const n = config.engine === 'round-totals' ? config.rounds : config.turns;
+  const n = config.engine === 'running-turns' ? config.turns : config.rounds;
   return Array.from({ length: n }, (_, i) => `r${i + 1}`);
 }
 
@@ -88,8 +156,9 @@ export function phasesMade(config: SheetConfig, scores: Scores, p: number): numb
   return rowIds(config).filter((id) => scores[phaseKey(id)]?.[p] === 1).length;
 }
 
-/** Works out every printed row, computed row and player total from the written scores. */
-export function layoutSheet(config: SheetConfig, scores: Scores, playerCount: number): SheetLayout {
+/** Works out every printed row, computed row and player total from the written scores.
+ * `allRounds` keeps every row of a Wizard sheet, so a blank printed sheet suits any player count. */
+export function layoutSheet(config: SheetConfig, scores: Scores, playerCount: number, allRounds = false): SheetLayout {
   const col = (id: string, p: number) => scores[id]?.[p] ?? null;
   const players = Array.from({ length: playerCount }, (_, p) => p);
 
@@ -121,6 +190,28 @@ export function layoutSheet(config: SheetConfig, scores: Scores, playerCount: nu
       groups: tallyRounds(config).map((s) => ({ id: `set-${s.set}`, label: `Set ${s.set}`, rows: s.rounds, computed: [] })),
       totals,
     };
+  }
+
+  if (config.engine === 'bid-and-make') {
+    const ids = rowIds(config).slice(0, allRounds ? undefined : bidRounds(config, playerCount));
+    const cardsLabel = (n: number) => `${n} ${n === 1 ? 'card' : 'cards'}`;
+    const rows = ids.map((id, i) => {
+      const cards = cardsIn(config, i);
+      return config.hands
+        ? { id, label: cardsLabel(cards!), bid: true }
+        : { id, label: `Round ${i + 1}`, hint: cards ? cardsLabel(cards) : undefined, bid: true };
+    });
+    const bags = players.map((p) => bagsOf(config, scores, ids, p));
+    const totals = players.map(
+      (p) => sum(ids.map((id) => bidPoints(config, col(bidKey(id), p), col(tookKey(id), p), col(nilKey(id), p)))) - bags[p].penalty,
+    );
+    const computed: ComputedRow[] = [];
+    if (config.overtricks?.bags) {
+      const { every, penalty } = config.overtricks.bags;
+      computed.push({ id: 'bags', label: `Bags (${every} = −${penalty})`, values: bags.map((b) => b.bags) });
+    }
+    computed.push({ id: 'grand-total', label: 'Total', values: totals, strong: true });
+    return { groups: [{ id: 'rounds', rows, computed }], totals };
   }
 
   const ids = rowIds(config);
@@ -171,6 +262,16 @@ export function isComplete(config: SheetConfig, scores: Scores, playerCount: num
   const ids = rowIds(config);
   const players = Array.from({ length: playerCount }, (_, p) => p);
   if (config.engine === 'tally') return false;
+  if (config.engine === 'bid-and-make') {
+    const played = ids.slice(0, bidRounds(config, playerCount));
+    const written = (id: string) => players.every((p) => scores[bidKey(id)]?.[p] != null && scores[tookKey(id)]?.[p] != null);
+    // Played to a target: over once someone reaches it and every round begun is written in.
+    if (config.target !== undefined) {
+      const begun = played.filter((id) => players.some((p) => scores[tookKey(id)]?.[p] != null));
+      return totals.some((t) => t >= config.target!) && begun.every(written);
+    }
+    return played.every(written);
+  }
   if (config.engine === 'running-turns') {
     // Someone passed the target and everyone has had the same number of turns: the final round is over.
     if (!totals.some((t) => t >= config.target)) return false;
@@ -182,12 +283,18 @@ export function isComplete(config: SheetConfig, scores: Scores, playerCount: num
     const finalRow = ids.find((_, r) => players.some((p) => ids.slice(0, r + 1).filter((id) => scores[phaseKey(id)]?.[p] === 1).length >= config.phases!));
     return !!finalRow && players.every((p) => scores[finalRow]?.[p] != null);
   }
-  if (config.engine === 'round-totals' && config.target !== undefined) return totals.some((t) => t >= config.target!);
+  if (config.engine === 'round-totals' && config.target !== undefined) {
+    if (!totals.some((t) => t >= config.target!)) return false;
+    if (!config.finishRound) return true;
+    const begun = ids.filter((id) => players.some((p) => scores[id]?.[p] != null));
+    return begun.every((id) => players.every((p) => scores[id]?.[p] != null));
+  }
   return ids.every((id) => players.every((p) => scores[id]?.[p] != null));
 }
 
 /** Plain-language notes the sheet shows above the grid while a game is in play. */
 export function notices(config: SheetConfig, scores: Scores, names: string[], totals: number[]): string[] {
+  if (config.engine === 'bid-and-make') return bidNotices(config, scores, names.length);
   if (config.engine !== 'running-turns') return [];
   const out: string[] = [];
   const ids = rowIds(config);
@@ -202,4 +309,17 @@ export function notices(config: SheetConfig, scores: Scores, names: string[], to
     });
   }
   return out;
+}
+
+/** A round whose tricks don't add up to the cards dealt has a slip in it. */
+function bidNotices(config: BidConfig, scores: Scores, playerCount: number): string[] {
+  return rowIds(config)
+    .slice(0, bidRounds(config, playerCount))
+    .flatMap((id, r) => {
+      const cards = cardsIn(config, r);
+      const took = Array.from({ length: playerCount }, (_, p) => scores[tookKey(id)]?.[p]);
+      if (cards === undefined || took.some((t) => t == null)) return [];
+      const total = took.reduce<number>((a, b) => a + (b ?? 0), 0);
+      return total === cards ? [] : [`Round ${r + 1}: the tricks add up to ${total}, but there were ${cards} to win.`];
+    });
 }

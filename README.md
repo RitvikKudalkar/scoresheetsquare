@@ -27,7 +27,7 @@ Copy `.env.example` to `.env` (or set the same variables in Cloudflare Pages):
 | Path | What |
 |---|---|
 | `src/content/games/*.json` | One file per game, validated by `src/content.config.ts`. `status: "live"` builds the page. |
-| `src/lib/sheet.ts` | Scoring maths shared by every sheet (category, round totals, running turns). |
+| `src/lib/sheet.ts` | Scoring maths shared by every sheet (category, round totals, running turns, bid and make). |
 | `src/components/ScoreSheet.tsx` | The sheet and scorekeeper island (demo and live modes). |
 | `src/lib/print-layout.ts` | Paper sheet layout shared by the build PDFs, previews, Customise and Print this game. |
 | `scripts/build-sheets.ts` | Writes every live game's PDFs (3 versions × Letter/A4) and preview PNG. |
