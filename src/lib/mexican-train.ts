@@ -160,7 +160,7 @@ export function play(g: Game, move: Move): Game {
   );
   const players = g.players.map((p, i) => (i === g.turn ? { ...p, hand } : p));
   const who = player.human ? 'You' : player.name;
-  let next: Game = { ...g, players, trains, passes: 0, message: `${who} played the ${tileName(tile)} on ${trainName(g, move.train)}.` };
+  let next: Game = { ...g, players, trains, passes: 0, message: `${who} played the ${tileName([placed.a, placed.b])} on ${trainName(g, move.train)}.` };
 
   // Going out ends the round, even on a double.
   if (hand.length === 0) return endRound(next, g.turn);
