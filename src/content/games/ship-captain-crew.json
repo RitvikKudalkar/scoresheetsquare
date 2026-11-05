@@ -1,0 +1,57 @@
+{
+  "slug": "ship-captain-crew-score-sheet",
+  "name": "Ship Captain Crew",
+  "aliases": ["Ship, Captain and Crew", "Clickety Clack"],
+  "category": "dice",
+  "keywords": ["ship captain crew score sheet", "ship captain and crew dice game", "ship captain crew printable", "ship captain crew rules"],
+  "title": "Ship Captain Crew Score Sheet – Free Printable PDF",
+  "description": "Free printable Ship Captain Crew score sheet that adds up every player's cargo, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 8, "default": 4 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 10,
+    "roundOptions": [5, 10, 20],
+    "roundLabels": ["Round 1", "Round 2", "Round 3", "Round 4", "Round 5", "Round 6", "Round 7", "Round 8", "Round 9", "Round 10", "Round 11", "Round 12", "Round 13", "Round 14", "Round 15", "Round 16", "Round 17", "Round 18", "Round 19", "Round 20"]
+  },
+  "pdf": { "rows": 10, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Roll", "Means"],
+    "rows": [
+      ["6", "Your ship: must come first"],
+      ["5", "Your captain: needs the ship"],
+      ["4", "Your crew: needs the captain"],
+      ["Other two dice", "Your cargo: their total is your score"],
+      ["No ship, captain and crew after 3 rolls", "0"],
+      ["Best cargo", "12 (two 6s)"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Ship Captain Crew score sheet that adds up every player's cargo, or keep score on your phone. Pick 5, 10 or 20 rounds online.",
+    "howToUse": [
+      "Write each player's name at the top of a column. On your turn, roll all five dice up to three times. You need a 6 (the ship), then a 5 (the captain), then a 4 (the crew), in that order; set each aside as you get it.",
+      "Once you have all three, the other two dice are your cargo and their total is your score, from 2 to 12. If you have rolls left you may reroll both cargo dice to try for more. Without a ship, captain and crew after three rolls, you score 0.",
+      "Write each player's cargo in the round's row. After the last round the highest total wins. Bar games often play single rounds for the best cargo instead; the sheet works for that too, just compare the row."
+    ],
+    "exampleRound": {
+      "caption": "Three players, round 1",
+      "rows": [
+        { "label": "Ana: 6, 5, 4 on the first roll, cargo 3 and 6", "value": "9" },
+        { "label": "Ben: ship and captain, no crew after three rolls", "value": "0" },
+        { "label": "Cleo: all three by roll two, rerolls cargo to 6 and 5", "value": "11" }
+      ],
+      "result": "Cleo wins the round with 11"
+    },
+    "faqs": [
+      { "q": "How do you score Ship Captain Crew?", "a": "Once you have a 6, a 5 and a 4 (ship, captain and crew), the other two dice are your cargo, and their total is your score for the turn. If you don't get all three in three rolls, you score 0." },
+      { "q": "Do you have to get the ship, captain and crew in order?", "a": "Yes. A 5 counts only once you have a 6, and a 4 only once you have the 5. If you roll a 5 and a 4 with no 6, you roll all the dice again." },
+      { "q": "Can you reroll your cargo?", "a": "Yes, if you still have rolls left. Most players reroll both cargo dice together, and the last roll stands." },
+      { "q": "What is the best score in Ship Captain Crew?", "a": "12, with two 6s as cargo." },
+      { "q": "How many rounds do you play?", "a": "As many as you like. Bar games often play one round at a time for the best cargo; for a longer game, add up the cargo over 5, 10 or 20 rounds." },
+      { "q": "How many dice do you need?", "a": "Five ordinary dice and a cup, shared by everyone. Any number of people can play." }
+    ]
+  },
+  "related": ["farkle-score-sheet", "yahtzee-score-sheet", "tenzi-score-sheet", "bunco-score-sheet", "kismet-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

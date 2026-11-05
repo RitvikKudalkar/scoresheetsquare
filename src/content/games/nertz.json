@@ -1,0 +1,50 @@
+{
+  "slug": "nertz-score-sheet",
+  "name": "Nertz",
+  "aliases": ["Pounce", "Racing Demon"],
+  "category": "card",
+  "keywords": ["nertz score sheet", "nertz score sheet printable", "nertz scoring", "pounce card game score sheet"],
+  "title": "Nertz Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Nertz score sheet for playing to 100, with the plus one and minus two scoring, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 8, "default": 4 },
+  "winCondition": "highest",
+  "sheet": { "engine": "round-totals", "rounds": 20, "target": 100, "finishRound": true, "targetOptions": [100, 150] },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["At the end of a hand", "Points"],
+    "rows": [
+      ["Each of your cards in the centre piles", "+1"],
+      ["Each card left in your Nertz pile", "−2"],
+      ["Nertz pile", "13 cards at the start"],
+      ["Game", "First to 100"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Nertz score sheet for playing to 100, or keep score on your phone. Everyone scores every hand, and the sheet keeps the running totals.",
+    "howToUse": [
+      "Write each player's name at the top of a column. A hand ends when a player plays the last card of their Nertz pile and calls Nertz, or when everyone is stuck.",
+      "Sort the centre piles by the backs of the cards. Each player scores 1 point for every one of their cards in the centre and loses 2 points for every card left in their Nertz pile. Write each player's result in the hand's row; it can be negative.",
+      "The first player to reach 100 wins, or 150 for a longer game. If two players pass the target in the same hand, the higher total wins; online, the sheet waits until every score for that hand is in."
+    ],
+    "exampleRound": {
+      "caption": "Three players, first hand",
+      "rows": [
+        { "label": "Ana calls Nertz with 16 cards in the centre", "value": "16" },
+        { "label": "Ben has 12 in the centre, 4 left in his Nertz pile", "value": "4" },
+        { "label": "Cleo has 7 in the centre, 6 left", "value": "−5" }
+      ],
+      "result": "Ana leads with 16"
+    },
+    "faqs": [
+      { "q": "How do you score Nertz?", "a": "At the end of each hand, every player scores 1 point for each of their cards in the centre piles and loses 2 points for each card left in their Nertz pile." },
+      { "q": "How many points do you play to in Nertz?", "a": "Usually 100. Some groups play to 150 or more for a longer game; the online sheet lets you choose 100 or 150." },
+      { "q": "Why does each player need a deck with a different back?", "a": "Everyone plays onto the same centre piles, so the backs are how you count whose cards are whose at the end of the hand." },
+      { "q": "What happens if everyone gets stuck?", "a": "If no one can play, each player moves the top card of their stock to the bottom and play continues. If everyone is still stuck, the hand ends and is scored as it stands." },
+      { "q": "Is Nertz the same as Pounce?", "a": "They are the same family of game. Pounce, Racing Demon and Nerts are names for the same idea, with small differences in the layout and scoring." },
+      { "q": "How many people can play Nertz?", "a": "Two or more, each with their own deck. Six to eight players is common, as long as there is room around the centre." }
+    ]
+  },
+  "related": ["dutch-blitz-score-sheet", "skip-bo-score-sheet", "uno-score-sheet", "golf-card-game-score-sheet", "phase-10-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

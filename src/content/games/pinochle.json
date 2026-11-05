@@ -1,0 +1,57 @@
+{
+  "slug": "pinochle-score-sheet",
+  "name": "Pinochle",
+  "category": "card",
+  "keywords": ["pinochle score sheet", "pinochle score sheet printable", "pinochle score pad", "pinochle scoring"],
+  "title": "Pinochle Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Pinochle score sheet for partners, with boxes for the bid, meld and counters, a meld chart, and an online scorekeeper.",
+  "players": { "min": 2, "max": 3, "default": 2 },
+  "winCondition": "highest",
+  "sheet": { "engine": "bid-and-make", "rounds": 20, "teams": true, "meld": true, "trickPoints": 25, "target": 150 },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Meld or trick", "Points"],
+    "rows": [
+      ["Run (A, 10, K, Q, J of trump)", "15"],
+      ["Royal marriage (K and Q of trump)", "4"],
+      ["Marriage (K and Q of another suit)", "2"],
+      ["Pinochle (Q of spades, J of diamonds)", "4"],
+      ["Double pinochle", "30"],
+      ["Aces around (one of each suit)", "10"],
+      ["Kings around", "8"],
+      ["Queens around", "6"],
+      ["Jacks around", "4"],
+      ["Dix (9 of trump)", "1"],
+      ["Each Ace, 10 or King won in tricks", "1"],
+      ["Last trick", "1"],
+      ["Bidders short of their bid", "Lose the bid"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Pinochle score sheet with boxes for the bid, meld and counters in every hand, or keep score on your phone. The sheet works out whether the bid was made.",
+    "howToUse": [
+      "Write each team's name at the top of a column; for three-handed Pinochle, give each player a column. After the bidding, the team that won it writes its bid in the first box; the other team leaves its bid box empty. Each team then writes its meld in the second box.",
+      "After the hand, each team counts its counters: 1 point for every Ace, 10 and King won in tricks, plus 1 for the last trick, 25 in all. Write them in the third box. If the bidding team's meld and counters reach its bid, it scores both; if not, it is set and loses the amount of the bid. The other team scores its meld and counters.",
+      "At many tables a team that takes no tricks loses its meld. If yours plays that way, write 0 for that team's meld. The first team to 150 wins; online, the sheet does the sums, checks that the counters add up to 25, and shows the winner."
+    ],
+    "exampleRound": {
+      "caption": "Two teams, first hand",
+      "rows": [
+        { "label": "Ana and Ben bid 30, meld 14, take 18 counters", "value": "32" },
+        { "label": "Cleo and Dev meld 9, take 7 counters", "value": "16" }
+      ],
+      "result": "Ana and Ben needed 30 and made 32, so they keep it all"
+    },
+    "faqs": [
+      { "q": "How do you score Pinochle?", "a": "Each hand, both teams score their meld plus the counters they win in tricks (Aces, 10s and Kings are 1 point each, and the last trick is 1). The team that won the bidding must reach its bid with meld and counters together, or it loses the amount of the bid instead." },
+      { "q": "What happens if you don't make your bid in Pinochle?", "a": "The bidding team is set: its meld and counters for the hand don't count, and the amount of the bid is taken off its score." },
+      { "q": "How many points are in a hand of Pinochle?", "a": "In single-deck Pinochle with modern counting there are 25 trick points: 24 counters (the 8 Aces, 8 tens and 8 Kings) and 1 for the last trick. Meld comes on top." },
+      { "q": "How many points do you play to in Pinochle?", "a": "150 is common with this counting. Groups that use the older count (Aces 11, tens 10 and so on) play to 1,500, and double-deck Pinochle usually plays to 500." },
+      { "q": "Do you have to take a trick to save your meld?", "a": "At many tables, yes: a team that takes no tricks loses the meld it laid down. Some groups require a counter rather than just a trick. If your rule applies, write 0 for that team's meld." },
+      { "q": "How many people can play Pinochle?", "a": "The classic game is for four players in two partnerships. Three-handed Pinochle, where each player scores alone, is also popular." }
+    ]
+  },
+  "related": ["euchre-score-sheet", "spades-score-sheet", "canasta-score-sheet", "hearts-score-sheet", "oh-hell-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

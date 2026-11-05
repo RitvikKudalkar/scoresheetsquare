@@ -10,6 +10,7 @@ import {
   isComplete,
   layoutSheet,
   leaderOf,
+  meldKey,
   nilKey,
   notices,
   phaseKey,
@@ -221,7 +222,13 @@ function PointsSheet({ game: base, mode }: Props) {
   // rows: everyone's bid, then everyone's tricks.
   const entries = layout.groups.flatMap((g) =>
     g.rows.flatMap((r) =>
-      r.bid ? [{ id: bidKey(r.id), label: `${r.label}, bid` }, { id: tookKey(r.id), label: `${r.label}, tricks won` }] : [{ id: r.id, label: r.label }],
+      r.bid
+        ? [
+            { id: bidKey(r.id), label: `${r.label}, bid` },
+            ...(bidding?.meld ? [{ id: meldKey(r.id), label: `${r.label}, meld` }] : []),
+            { id: tookKey(r.id), label: `${r.label}, ${bidding?.meld ? 'counters' : 'tricks won'}` },
+          ]
+        : [{ id: r.id, label: r.label }],
     ),
   );
   const entryRows = entries.map((e) => e.id);
@@ -336,12 +343,13 @@ function PointsSheet({ game: base, mode }: Props) {
                     {players.map((_, p) => {
                       if (bidding && row.bid) {
                         const nil = scores[nilKey(row.id)]?.[p];
-                        const points = bidPoints(bidding, scores[bidKey(row.id)]?.[p], scores[tookKey(row.id)]?.[p], nil);
+                        const points = bidPoints(bidding, scores[bidKey(row.id)]?.[p], scores[tookKey(row.id)]?.[p], nil, scores[meldKey(row.id)]?.[p]);
                         return (
-                          <td key={p} className="bid-cell">
+                          <td key={p} className={bidding.meld ? 'bid-cell has-meld' : 'bid-cell'}>
                             <div className="bid-pair">
                               {cellInput(bidKey(row.id), p, `${row.label}, bid`, 'cell-input is-bid', 'bid')}
-                              {cellInput(tookKey(row.id), p, `${row.label}, tricks won`, 'cell-input is-took', 'won')}
+                              {bidding.meld && cellInput(meldKey(row.id), p, `${row.label}, meld`, 'cell-input is-bid', 'meld')}
+                              {cellInput(tookKey(row.id), p, `${row.label}, ${bidding.meld ? 'counters' : 'tricks won'}`, 'cell-input is-took', 'won')}
                             </div>
                             <output className="bid-points" aria-label={`${nameOf(p)}, ${row.label}, points`}>{points ?? ''}</output>
                             {/* Nil shows once the round's bid is in, so empty rounds stay quiet. */}

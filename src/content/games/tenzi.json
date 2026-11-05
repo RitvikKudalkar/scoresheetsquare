@@ -1,0 +1,48 @@
+{
+  "slug": "tenzi-score-sheet",
+  "name": "Tenzi",
+  "category": "dice",
+  "keywords": ["tenzi score sheet", "tenzi score sheet printable", "tenzi scoring", "tenzi dice game"],
+  "title": "Tenzi Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Tenzi score sheet that tallies the rounds each player wins, first to 5 or 10, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 4, "default": 4 },
+  "winCondition": "highest",
+  "sheet": { "engine": "round-totals", "rounds": 20, "target": 5, "targetOptions": [3, 5, 10] },
+  "pdf": { "rows": 20, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Result", "Points"],
+    "rows": [
+      ["First to roll all ten dice the same and call Tenzi", "1"],
+      ["Everyone else", "0"],
+      ["Match", "First to 5 rounds won"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Tenzi score sheet to tally who wins each round, or keep score on your phone and play first to 3, 5 or 10.",
+    "howToUse": [
+      "Write each player's name at the top of a column. Everyone rolls their ten dice at the same time, keeps dice of one number and rerolls the rest, as fast as they can. The first player with all ten dice the same calls Tenzi and wins the round.",
+      "Write 1 in the winner's column for that round and leave the other boxes empty. The first player to win five rounds wins the match; online, choose 3, 5 or 10 under Play to.",
+      "Tenzi has many variations, such as calling the number to roll or stacking the dice. Whichever you play, the round winner gets the point."
+    ],
+    "exampleRound": {
+      "caption": "Four players, first three rounds",
+      "rows": [
+        { "label": "Round 1: Ana calls Tenzi first", "value": "1 to Ana" },
+        { "label": "Round 2: Dev gets ten 4s", "value": "1 to Dev" },
+        { "label": "Round 3: Ana again", "value": "1 to Ana" }
+      ],
+      "result": "Ana leads 2 to 1; three more wins and she takes the match"
+    },
+    "faqs": [
+      { "q": "How do you keep score in Tenzi?", "a": "A single round has no points: the first player to get all ten dice showing the same number wins. To play a match, give the round winner 1 point and play until someone reaches an agreed number, such as 5." },
+      { "q": "How many rounds do you play in Tenzi?", "a": "Rounds take about a minute, so most groups play first to 5 or 10 round wins. The online sheet offers 3, 5 or 10." },
+      { "q": "Can you pick which number to collect in Tenzi?", "a": "In the basic game, yes: each player picks any number and changes their mind as often as they like. Some variations name the number before the round starts." },
+      { "q": "How many players can play Tenzi?", "a": "The basic set has dice for four players. More players can join with a second set." },
+      { "q": "What happens if two players call Tenzi at the same time?", "a": "Most groups replay the round, or give both players the point." },
+      { "q": "Is there another way to score Tenzi?", "a": "Some families count the number of rolls each player needed and play for the lowest total. If you play that way, write each player's rolls in the round's row." }
+    ]
+  },
+  "related": ["ship-captain-crew-score-sheet", "farkle-score-sheet", "yahtzee-score-sheet", "bunco-score-sheet", "kismet-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

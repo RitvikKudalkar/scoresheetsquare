@@ -1,0 +1,92 @@
+{
+  "slug": "kismet-score-sheet",
+  "name": "Kismet",
+  "category": "dice",
+  "keywords": ["kismet score sheet", "kismet score sheet printable", "kismet dice game score card", "kismet scoring"],
+  "title": "Kismet Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Kismet dice game score sheet with all 15 boxes and the three bonus levels, in three PDF versions, plus an online scorekeeper.",
+  "players": { "min": 1, "max": 8, "default": 4 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "category",
+    "sections": [
+      {
+        "id": "basic",
+        "label": "Basic section",
+        "rows": [
+          { "id": "aces", "label": "Aces", "hint": "Add only the 1s" },
+          { "id": "deuces", "label": "Deuces", "hint": "Add only the 2s" },
+          { "id": "treys", "label": "Treys", "hint": "Add only the 3s" },
+          { "id": "fours", "label": "Fours", "hint": "Add only the 4s" },
+          { "id": "fives", "label": "Fives", "hint": "Add only the 5s" },
+          { "id": "sixes", "label": "Sixes", "hint": "Add only the 6s" }
+        ],
+        "subtotal": "Basic score",
+        "bonus": { "threshold": 63, "points": 35, "label": "Bonus (63: 35, 71: 55, 78: 75)", "tiers": [{ "threshold": 71, "points": 55 }, { "threshold": 78, "points": 75 }] },
+        "total": "Basic total"
+      },
+      {
+        "id": "kismet",
+        "label": "Kismet section",
+        "rows": [
+          { "id": "two-pair-color", "label": "2 pair same color", "hint": "Add all five dice" },
+          { "id": "three-kind", "label": "3 of a kind", "hint": "Add all five dice" },
+          { "id": "straight", "label": "Straight", "hint": "30" },
+          { "id": "flush", "label": "Flush", "hint": "35" },
+          { "id": "full-house", "label": "Full house", "hint": "All dice + 15" },
+          { "id": "full-house-color", "label": "Full house same color", "hint": "All dice + 20" },
+          { "id": "four-kind", "label": "4 of a kind", "hint": "All dice + 25" },
+          { "id": "yarborough", "label": "Yarborough", "hint": "Add all five dice" },
+          { "id": "kismet", "label": "Kismet", "hint": "All dice + 50" }
+        ],
+        "total": "Kismet total"
+      }
+    ],
+    "grandTotal": "Grand total"
+  },
+  "pdf": { "rows": 15, "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Box", "Scores"],
+    "rows": [
+      ["Aces to Sixes", "The total of that number"],
+      ["Basic bonus", "35 for 63+, 55 for 71+, 75 for 78+"],
+      ["2 pair same color", "Total of all dice"],
+      ["3 of a kind", "Total of all dice"],
+      ["Straight (5 in a row)", "30"],
+      ["Flush (all one color)", "35"],
+      ["Full house", "Total of all dice + 15"],
+      ["Full house same color", "Total of all dice + 20"],
+      ["4 of a kind", "Total of all dice + 25"],
+      ["Yarborough (anything)", "Total of all dice"],
+      ["Kismet (5 of a kind)", "Total of all dice + 50"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Kismet score sheet with all fifteen boxes and the three bonus levels, or keep score on your phone. The sheet works out which bonus you earned.",
+    "howToUse": [
+      "Write each player's name at the top of a column. On each turn a player rolls up to three times, then writes a score in one empty box, or a 0 if nothing fits. After fifteen turns every box is filled.",
+      "Kismet dice are coloured in pairs: 1 and 6 are black, 2 and 5 are red, 3 and 4 are green. That's what the colour boxes mean: a flush is five dice of one colour, and a same-colour full house or two pair uses dice of one colour only.",
+      "The basic section earns a bonus of 35 for 63 or more, 55 for 71 or more, and 75 for 78 or more. The online sheet works out the bonus and every total, and circles whoever is ahead."
+    ],
+    "exampleRound": {
+      "caption": "One player, three turns",
+      "rows": [
+        { "label": "Rolls 3, 4, 3, 4, 4: full house same color (all green)", "value": "38" },
+        { "label": "Rolls 2, 2, 5, 5, 1: 2 pair same color (red pairs)", "value": "15" },
+        { "label": "Rolls 6, 6, 6, 6, 6: Kismet", "value": "80" }
+      ],
+      "result": "Three boxes filled: 133 points so far"
+    },
+    "faqs": [
+      { "q": "How do you score Kismet?", "a": "Each turn you write a score in one of fifteen boxes. Aces to Sixes score the total of that number. The Kismet section scores the total of the dice for some boxes, with extra points for the harder ones: a straight is 30, a flush 35, a full house the total plus 15, and a Kismet the total plus 50." },
+      { "q": "What is the bonus in Kismet?", "a": "If your basic section adds up to 63 or more you get 35 points. At 71 or more the bonus is 55, and at 78 or more it is 75." },
+      { "q": "What colours are Kismet dice?", "a": "The pips are coloured in pairs that add up to 7: 1 and 6 are black, 2 and 5 are red, and 3 and 4 are green." },
+      { "q": "What is a flush in Kismet?", "a": "All five dice showing the same colour, such as 3, 4, 4, 3, 3 (all green). It scores 35." },
+      { "q": "How is Kismet different from Yahtzee?", "a": "Kismet adds coloured pips and colour boxes, has three bonus levels instead of one, adds points to the total for its harder boxes, and has fifteen boxes to Yahtzee's thirteen." },
+      { "q": "What is a Yarborough?", "a": "Kismet's name for chance: any roll at all, scored as the total of the five dice." }
+    ]
+  },
+  "related": ["yahtzee-score-sheet", "triple-yahtzee-score-sheet", "farkle-score-sheet", "qwixx-score-sheet", "bunco-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

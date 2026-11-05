@@ -13,7 +13,9 @@ const sheet = z.discriminatedUnion('engine', [
         label: z.string(),
         rows: z.array(row).min(1),
         subtotal: z.string().optional(),
-        bonus: z.object({ threshold: z.number(), points: z.number(), label: z.string() }).optional(),
+        bonus: z
+          .object({ threshold: z.number(), points: z.number(), label: z.string(), tiers: z.array(z.object({ threshold: z.number(), points: z.number() })).optional() })
+          .optional(),
         total: z.string().optional(),
       }),
     ),
@@ -51,11 +53,13 @@ const sheet = z.discriminatedUnion('engine', [
     hands: z.array(z.number().int().min(1)).optional(),
     deckSize: z.number().int().optional(),
     teams: z.boolean().optional(),
-    made: z.object({ base: z.number(), perBid: z.number() }),
+    meld: z.boolean().optional(),
+    trickPoints: z.number().int().optional(),
+    made: z.object({ base: z.number(), perBid: z.number() }).optional(),
     overtricks: z
       .object({ points: z.number(), bags: z.object({ every: z.number().int().min(1), penalty: z.number() }).optional() })
       .optional(),
-    missed: z.object({ perBid: z.number().optional(), perOff: z.number().optional() }),
+    missed: z.object({ perBid: z.number().optional(), perOff: z.number().optional() }).optional(),
     nil: z.number().optional(),
     target: z.number().optional(),
     targetOptions: z.array(z.number()).optional(),
@@ -106,6 +110,9 @@ const games = defineCollection({
     })
     .refine((g) => g.sheet.engine !== 'bid-and-make' || !g.sheet.hands || g.sheet.hands.length === g.sheet.rounds, {
       message: 'A bid sheet with hands needs one hand size per round',
+    })
+    .refine((g) => g.sheet.engine !== 'bid-and-make' || g.sheet.meld || (g.sheet.made && g.sheet.missed), {
+      message: 'A bid sheet needs made and missed points unless it scores meld',
     }),
 });
 
