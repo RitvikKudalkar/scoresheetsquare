@@ -493,7 +493,10 @@ export default function MexicanTrainGame() {
             {game.boneyard.length > 1 && <DominoBack />}
             {game.boneyard.length > 2 && <DominoBack />}
           </span>
-          <span className="t-small">{game.boneyard.length ? `Boneyard ${game.boneyard.length}` : 'Boneyard empty'}</span>
+          <span className="t-small">
+            <span className="mt-wide-only">Boneyard </span>
+            {game.boneyard.length || 'empty'}
+          </span>
         </span>
         <span className="mt-round">
           Round {game.round + 1} of {game.rounds}

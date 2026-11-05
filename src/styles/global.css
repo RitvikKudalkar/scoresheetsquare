@@ -631,7 +631,8 @@ html.table-open { overflow: hidden; }
 .mt-options-toggle[aria-expanded='true'] { background: var(--color-pad-ink); color: var(--color-pad-paper); }
 @media (max-width: 1023px) {
   .mt-bar { gap: 8px 12px; }
-  .mt-round-hub { display: none; }
+  .mt-round-hub, .mt-wide-only { display: none; }
+  .mt-bar .boneyard { gap: 8px; }
   .mt-options-toggle { display: inline-flex; margin-inline-start: auto; }
   .mt-leave-phone { display: inline-flex; }
   .mt-leave { display: none; }
