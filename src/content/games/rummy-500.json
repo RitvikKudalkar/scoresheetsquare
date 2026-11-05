@@ -3,7 +3,7 @@
   "name": "Rummy 500",
   "aliases": ["500 Rum", "Pinochle Rummy"],
   "category": "card",
-  "keywords": ["rummy 500 score sheet", "rummy 500 score sheet printable", "500 rummy score sheet", "rummy score sheet"],
+  "keywords": ["rummy 500 score sheet", "rummy 500 score sheet printable", "500 rummy score sheet", "rummy 500 score card"],
   "title": "Rummy 500 Score Sheet – Free Printable PDF & Scorekeeper",
   "description": "Free printable Rummy 500 score sheet with card values, for playing to 500 points, in three PDF versions, plus an online scorekeeper.",
   "players": { "min": 2, "max": 8, "default": 4 },

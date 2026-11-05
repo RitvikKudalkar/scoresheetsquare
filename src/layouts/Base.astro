@@ -8,11 +8,13 @@ interface Props {
   description: string;
   image?: string;
   schema?: Record<string, unknown>[];
+  noindex?: boolean;
 }
 
-const { title, description, image = '/images/archive/ace-of-clubs-grimaud.jpg', schema = [] } = Astro.props;
+const { title, description, image = '/images/archive/ace-of-clubs-grimaud.jpg', schema = [], noindex = false } = Astro.props;
 // Canonical comes from the real path, never a hardcoded default (functional plan: SEO rules).
-const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/', Astro.site).href;
+// With build.format 'file' the home page's path is /index.html, so /index is stripped too.
+const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/(index)?$/, '') || '/', Astro.site).href;
 const ogImage = new URL(image, Astro.site).href;
 ---
 
@@ -23,6 +25,7 @@ const ogImage = new URL(image, Astro.site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />

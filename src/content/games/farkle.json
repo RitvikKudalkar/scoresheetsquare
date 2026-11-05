@@ -57,7 +57,7 @@
       { "q": "How many people can play Farkle?", "a": "Two or more. The printable sheet has six columns and the online scorekeeper takes up to eight players." }
     ]
   },
-  "related": ["yahtzee-score-sheet", "bunco-score-sheet", "phase-10-score-sheet"],
+  "related": ["yahtzee-score-sheet", "ship-captain-crew-score-sheet", "tenzi-score-sheet", "kismet-score-sheet", "bunco-score-sheet"],
   "phase": 1,
   "status": "live"
 }

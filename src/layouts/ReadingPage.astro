@@ -10,9 +10,10 @@ interface Props {
   lead?: string;
   crumb?: string;
   schema?: Record<string, unknown>[];
+  noindex?: boolean;
 }
 
-const { title, description, heading, lead, crumb, schema = [] } = Astro.props;
+const { title, description, heading, lead, crumb, schema = [], noindex = false } = Astro.props;
 const breadcrumb = crumb
   ? [
       {
@@ -26,7 +27,7 @@ const breadcrumb = crumb
   : [];
 ---
 
-<Base title={title} description={description} schema={[...schema, ...breadcrumb]}>
+<Base title={title} description={description} schema={[...schema, ...breadcrumb]} noindex={noindex}>
   <Header slot="before-main" />
   <article class="reading-page">
     <header class="reading-head" data-reveal>

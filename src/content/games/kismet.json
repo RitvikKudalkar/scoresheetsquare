@@ -2,7 +2,7 @@
   "slug": "kismet-score-sheet",
   "name": "Kismet",
   "category": "dice",
-  "keywords": ["kismet score sheet", "kismet score sheet printable", "kismet dice game score card", "kismet scoring"],
+  "keywords": ["kismet score sheet", "kismet score sheet printable", "kismet dice game score card", "kismet score sheet pdf"],
   "title": "Kismet Score Sheet – Free Printable PDF & Scorekeeper",
   "description": "Free printable Kismet dice game score sheet with all 15 boxes and the three bonus levels, in three PDF versions, plus an online scorekeeper.",
   "players": { "min": 1, "max": 8, "default": 4 },
@@ -86,7 +86,7 @@
       { "q": "What is a Yarborough?", "a": "Kismet's name for chance: any roll at all, scored as the total of the five dice." }
     ]
   },
-  "related": ["yahtzee-score-sheet", "triple-yahtzee-score-sheet", "farkle-score-sheet", "qwixx-score-sheet", "bunco-score-sheet"],
+  "related": ["yahtzee-score-sheet", "tenzi-score-sheet", "farkle-score-sheet", "ship-captain-crew-score-sheet", "bunco-score-sheet"],
   "phase": 2,
   "status": "live"
 }

@@ -3,7 +3,7 @@
   "name": "Nertz",
   "aliases": ["Pounce", "Racing Demon"],
   "category": "card",
-  "keywords": ["nertz score sheet", "nertz score sheet printable", "nertz scoring", "pounce card game score sheet"],
+  "keywords": ["nertz score sheet", "nertz score sheet printable", "nertz score sheet pdf", "pounce card game score sheet"],
   "title": "Nertz Score Sheet – Free Printable PDF & Scorekeeper",
   "description": "Free printable Nertz score sheet for playing to 100, with the plus one and minus two scoring, in three PDF versions, plus an online scorekeeper.",
   "players": { "min": 2, "max": 8, "default": 4 },

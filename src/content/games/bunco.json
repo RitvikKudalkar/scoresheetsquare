@@ -53,7 +53,7 @@
       { "q": "How many rounds are in a game of Bunco?", "a": "Six rounds make a set, one for each number on the dice. Most groups play three or four sets in a night; the tally card has room for three." }
     ]
   },
-  "related": ["farkle-score-sheet", "yahtzee-score-sheet", "mexican-train-score-sheet"],
+  "related": ["farkle-score-sheet", "yahtzee-score-sheet", "tenzi-score-sheet", "ship-captain-crew-score-sheet", "kismet-score-sheet"],
   "phase": 1,
   "status": "live"
 }

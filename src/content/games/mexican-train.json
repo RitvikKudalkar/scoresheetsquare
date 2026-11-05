@@ -27,7 +27,8 @@
     "howToUse": [
       "Write each player's name at the top of a column. Each round starts with the double printed in its row, from the double-12 in round one down to the double-blank in round thirteen.",
       "When a round ends, every player adds up the pips on the tiles left in front of them and writes that number in the round's row. The player who went out writes a zero. After the last round, the lowest total wins.",
-      "On a phone, tap a box to write a round's pips. The sheet keeps every player's total and circles whoever is lowest."
+      "On a phone, tap a box to write a round's pips. The sheet keeps every player's total and circles whoever is lowest.",
+      "For older players or a dim game room, print the large print PDF, which has bigger boxes and type. The 2-per-page version fits two sheets on one page to save paper. Both come in US Letter and A4."
     ],
     "exampleRound": {
       "caption": "Three players, round one (double 12)",
@@ -43,10 +44,13 @@
       { "q": "Who wins Mexican Train?", "a": "The player with the lowest total after all 13 rounds." },
       { "q": "Which double starts each round?", "a": "With a double-12 set, the first round starts with the double-12, the second with the double-11, and so on down to the double-blank in round thirteen. The sheet labels every round so nobody loses track." },
       { "q": "What is the double-blank worth?", "a": "Its pips add up to zero, but many tables count it as 50 points if you are left holding it. Agree on the rule before you start." },
-      { "q": "How many people can play Mexican Train?", "a": "Two to eight players with a double-12 set. The printable sheet has six columns; the online scorekeeper takes up to eight." }
+      { "q": "How many people can play Mexican Train?", "a": "Two to eight players with a double-12 set. The printable sheet has six columns; the online scorekeeper takes up to eight." },
+      { "q": "How many dominoes does each player start with?", "a": "With a double-12 set, the usual deal is 15 tiles each for two to four players, 12 for five or six, and 10 for seven or eight. The rest stay face down in the boneyard." },
+      { "q": "What if you can't play a tile?", "a": "Draw one tile from the boneyard. If you still can't play, put a marker on your own train so other players can add to it until you play on it again." },
+      { "q": "Can you play a shorter game?", "a": "Yes. With a double-9 set the game runs ten rounds, from double-9 down to double-blank. Leave the top rows of the sheet empty and start at the Double 9 row." }
     ]
   },
-  "related": ["phase-10-score-sheet", "farkle-score-sheet", "yahtzee-score-sheet"],
+  "related": ["phase-10-score-sheet", "five-crowns-score-sheet", "uno-score-sheet", "farkle-score-sheet", "yahtzee-score-sheet"],
   "phase": 1,
   "status": "live"
 }

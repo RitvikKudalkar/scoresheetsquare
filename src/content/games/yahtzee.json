@@ -86,7 +86,7 @@
       { "q": "How many people can play Yahtzee?", "a": "Any number from one up. The printable sheet has six columns; the online scorekeeper takes up to ten players." }
     ]
   },
-  "related": ["farkle-score-sheet", "phase-10-score-sheet", "mexican-train-score-sheet"],
+  "related": ["kismet-score-sheet", "farkle-score-sheet", "tenzi-score-sheet", "ship-captain-crew-score-sheet", "phase-10-score-sheet"],
   "phase": 1,
   "status": "live"
 }

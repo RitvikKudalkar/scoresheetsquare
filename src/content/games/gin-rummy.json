@@ -3,7 +3,7 @@
   "name": "Gin Rummy",
   "aliases": ["Gin"],
   "category": "card",
-  "keywords": ["gin rummy score sheet", "gin rummy score sheet printable", "gin rummy score card", "gin rummy scoring"],
+  "keywords": ["gin rummy score sheet", "gin rummy score sheet printable", "gin rummy score card", "gin rummy score sheet pdf"],
   "title": "Gin Rummy Score Sheet – Free Printable PDF & Scorekeeper",
   "description": "Free printable Gin Rummy score sheet for two players playing to 100, with knock, gin and undercut scoring, plus an online scorekeeper.",
   "players": { "min": 2, "max": 2, "default": 2 },
