@@ -1,7 +1,9 @@
 // Mexican Train against up to three computer players. The rules live in lib/mexican-train; this is the table.
-// Every change of state is read back as a physical event (a tile played, drawn or dealt, a marker put out)
-// and shown as one, so the board never just swaps one picture for the next.
+// Setting up happens on the page; playing happens at a full-screen table that covers the page, so the
+// board and your tiles are always in view together. Every change of state is shown as a physical event
+// (a tile played, drawn or dealt, a marker put out) rather than one picture swapping for the next.
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { createPortal } from 'react-dom';
 import Domino, { DominoBack } from './Domino';
 import TrainBoard, { type BoardRow } from './TrainBoard';
 import { PencilCircle } from './sheet-shared';
@@ -28,6 +30,8 @@ const KEY = 'sss:game:mexican-train-online';
 const SOUND_KEY = 'sss:mexican-train-sound';
 const COMPUTERS = ['Rosa', 'Walt', 'June'];
 const STEP_MS = 800;
+/** Time for the last tile of a round to land before the count is shown. */
+const SETTLE_MS = 900;
 
 function load(): Game | null {
   try {
@@ -71,8 +75,25 @@ function CountUp({ value, delay }: { value: number; delay: number }) {
   return <>{shown}</>;
 }
 
+/** How many tiles of each train fit across the table at this width. */
+function useTrainLength() {
+  const [show, setShow] = useState(5);
+  useEffect(() => {
+    const fit = () => {
+      const tile = innerWidth >= 1024 ? 76 : 68;
+      const side = innerWidth >= 1024 ? 380 : 56;
+      setShow(Math.max(4, Math.min(14, Math.floor((innerWidth - side) / tile))));
+    };
+    fit();
+    addEventListener('resize', fit);
+    return () => removeEventListener('resize', fit);
+  }, []);
+  return show;
+}
+
 export default function MexicanTrainGame() {
   const [game, setGame] = useState<Game | null>(null);
+  const [atTable, setAtTable] = useState(false);
   const [offer, setOffer] = useState<Game | null>(null);
   const [name, setName] = useState('');
   const [opponents, setOpponents] = useState(2);
@@ -80,13 +101,16 @@ export default function MexicanTrainGame() {
   const [selected, setSelected] = useState<number | null>(null);
   const [numbers, setNumbers] = useState(false);
   const [sound, setSoundState] = useState(false);
+  const [fullScreen, setFullScreen] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+  const [options, setOptions] = useState(false);
   const [log, setLog] = useState<string[]>([]);
+  const show = useTrainLength();
 
-  const root = useRef<HTMLDivElement>(null);
+  const table = useRef<HTMLDivElement>(null);
   const prev = useRef<Game | null>(null);
   /** Where the tile you just played was sitting in your hand, measured before it leaves. */
   const fromHand = useRef<DOMRect | null>(null);
-  const countRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setOffer(load());
@@ -95,50 +119,73 @@ export default function MexicanTrainGame() {
     } catch {
       // No stored preference: sound stays off.
     }
+    const onFull = () => setFullScreen(Boolean(document.fullscreenElement));
+    document.addEventListener('fullscreenchange', onFull);
+    return () => document.removeEventListener('fullscreenchange', onFull);
   }, []);
 
   useEffect(() => {
     if (game) save(game);
   }, [game]);
 
+  // The table covers the page: the page stops scrolling under it, and Escape leaves.
+  useEffect(() => {
+    if (!atTable) return;
+    document.documentElement.classList.add('table-open');
+    table.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && !document.fullscreenElement) leave();
+    };
+    addEventListener('keydown', onKey);
+    return () => {
+      document.documentElement.classList.remove('table-open');
+      removeEventListener('keydown', onKey);
+    };
+  }, [atTable]);
+
   // Keep the last few lines so a quick run of computer turns can still be read.
   useEffect(() => {
     if (game?.message) setLog((l) => (l[l.length - 1] === game.message ? l : [...l.slice(-3), game.message]));
   }, [game?.message]);
 
-  // Computer turns run one action at a time so each play can be watched.
+  // Computer turns run one action at a time so each play can be watched; nothing moves while you are away.
   useEffect(() => {
-    if (!game || game.phase !== 'play' || game.players[game.turn].human) return;
+    if (!atTable || !game || game.phase !== 'play' || game.players[game.turn].human) return;
     const id = window.setTimeout(() => setGame((g) => (g ? computerStep(g) : g)), STEP_MS);
     return () => window.clearTimeout(id);
-  }, [game]);
+  }, [game, atTable]);
 
+  // When a round ends, let the last tile land before turning to the count.
   useEffect(() => {
-    if (game?.phase === 'game-over') track('game_finished', { game: 'mexican-train-online', players: game.players.length });
-    if (game && game.phase !== 'play') {
-      countRef.current?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'nearest' });
+    if (!game || game.phase === 'play') {
+      setShowResult(false);
+      return;
     }
-  }, [game?.phase]);
+    if (game.phase === 'game-over') track('game_finished', { game: 'mexican-train-online', players: game.players.length });
+    const id = window.setTimeout(() => setShowResult(true), reducedMotion() ? 0 : SETTLE_MS);
+    return () => window.clearTimeout(id);
+  }, [game?.phase, game?.round]);
 
   // Read what just happened and play it out on the table.
   useLayoutEffect(() => {
     const before = prev.current;
     prev.current = game;
-    const el = root.current;
+    const el = table.current;
     if (!game || !el || reducedMotion()) return;
     const q = (selector: string) => el.querySelector(selector);
     const boneyard = q('[data-boneyard]')?.getBoundingClientRect();
 
-    // A new round (or a new game): deal your hand out of the boneyard, one tile after another.
+    // A new round, a new game or sitting back down: deal your hand out of the boneyard, one tile after another.
     if (!before || before.round !== game.round || (before.phase !== 'play' && game.phase === 'play')) {
       if (!boneyard || game.phase !== 'play') return;
       el.querySelectorAll<HTMLElement>('[data-hand-tile] .domino').forEach((tile, k) => {
-        fly({ from: boneyard, to: tile, flip: true, duration: 460, delay: 120 + k * 55, strength: 0.35 });
+        fly({ from: boneyard, to: tile, flip: true, duration: 460, delay: 140 + k * 55, strength: 0.35 });
       });
       return;
     }
 
     const actor = before.turn;
+    const seatOf = (player: number) => before.trains.findIndex((t) => t.owner === player);
     game.trains.forEach((train, i) => {
       if (train.tiles.length !== before.trains[i].tiles.length + 1) return;
       const rail = q(`[data-train-tiles="${i}"]`);
@@ -146,8 +193,7 @@ export default function MexicanTrainGame() {
       const end = q(`[data-train-tiles="${i}"] .is-end`);
       if (!end) return;
       const human = before.players[actor].human;
-      const stack = q(`[data-hand-stack="${before.trains.findIndex((t) => t.owner === actor)}"]`)?.getBoundingClientRect();
-      const from = human ? fromHand.current : stack;
+      const from = human ? fromHand.current : q(`[data-hand-stack="${seatOf(actor)}"]`)?.getBoundingClientRect();
       if (from) fly({ from, to: end, flip: !human, duration: human ? 440 : 560 });
       fromHand.current = null;
     });
@@ -158,7 +204,7 @@ export default function MexicanTrainGame() {
         const tile = drawn && q(`[data-hand-tile="${tileKey(drawn)}"] .domino`);
         if (tile) fly({ from: boneyard, to: tile, flip: true, duration: 520, strength: 0.6 });
       } else {
-        const stack = q(`[data-hand-stack="${before.trains.findIndex((t) => t.owner === actor)}"] svg`);
+        const stack = q(`[data-hand-stack="${seatOf(actor)}"] svg`);
         if (stack) fly({ from: boneyard, to: stack, backOnly: stack, duration: 480, strength: 0.4 });
       }
     }
@@ -169,7 +215,7 @@ export default function MexicanTrainGame() {
         if (coin) dropMarker(coin);
       }
     });
-  }, [game]);
+  }, [game, atTable]);
 
   const myTurn = game?.phase === 'play' && game.turn === 0;
   const moves = useMemo(() => (game && myTurn ? legalMoves(game, 0) : []), [game, myTurn]);
@@ -185,20 +231,43 @@ export default function MexicanTrainGame() {
     }
   }
 
-  function start() {
+  function sitDown(g: Game) {
     setSound(sound);
-    const g = newGame([name.trim() || 'You', ...COMPUTERS.slice(0, opponents)], rounds);
     prev.current = null;
-    setOffer(null);
-    setLog([]);
     setSelected(null);
     setGame(g);
+    setAtTable(true);
+  }
+
+  function start() {
+    setOffer(null);
+    setLog([]);
+    sitDown(newGame([name.trim() || 'You', ...COMPUTERS.slice(0, opponents)], rounds));
     track('game_started', { game: 'mexican-train-online', players: opponents + 1 });
+  }
+
+  function leave() {
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    setSelected(null);
+    setAtTable(false);
+  }
+
+  function quit() {
+    save(null);
+    prev.current = null;
+    setGame(null);
+    setLog([]);
+    leave();
+  }
+
+  function toggleFullScreen() {
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    else document.documentElement.requestFullscreen?.().catch(() => {});
   }
 
   function measure(i: number) {
     const t = game!.players[0].hand[i];
-    fromHand.current = root.current?.querySelector(`[data-hand-tile="${tileKey(t)}"] .domino`)?.getBoundingClientRect() ?? null;
+    fromHand.current = table.current?.querySelector(`[data-hand-tile="${tileKey(t)}"] .domino`)?.getBoundingClientRect() ?? null;
   }
 
   function pickTile(i: number) {
@@ -209,7 +278,11 @@ export default function MexicanTrainGame() {
       measure(i);
       setSelected(null);
       setGame(play(game, targets[0]));
-    } else setSelected(selected === i ? null : i);
+    } else {
+      setSelected(selected === i ? null : i);
+      // The trains to choose from may be scrolled out of the board; bring the first one into view.
+      requestAnimationFrame(() => table.current?.querySelector('.train.is-target')?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'nearest' }));
+    }
   }
 
   function pickTrain(train: number) {
@@ -219,58 +292,63 @@ export default function MexicanTrainGame() {
     setGame(play(game, { tile: selected, train }));
   }
 
-  if (!game) {
-    return (
-      <div className="mt-setup">
-        {offer && (
-          <div className="resume">
-            <p>
-              You have a game in progress: round {offer.round + 1} of {offer.rounds}.
-            </p>
-            <div className="resume-actions">
-              <button type="button" className="btn btn-primary" onClick={() => { setSound(sound); setGame(offer); setOffer(null); }}>
-                Carry on playing
-              </button>
-              <button type="button" className="btn btn-quiet" onClick={() => { save(null); setOffer(null); }}>
-                Start a new game
-              </button>
-            </div>
+  // ── On the page: set up a game, or go back to the one in progress ──
+  const resumable = game && game.phase !== 'game-over' ? game : offer;
+  const page = (
+    <div className="mt-setup">
+      {resumable && !atTable && (
+        <div className="resume">
+          <p>
+            {game ? 'Your game is waiting' : 'You have a game in progress'}: round {resumable.round + 1} of {resumable.rounds},{' '}
+            {resumable.players.map((p, i) => `${p.name} ${totals(resumable)[i]}`).join(', ')}.
+          </p>
+          <div className="resume-actions">
+            <button type="button" className="btn btn-primary" onClick={() => { setOffer(null); if (game) setAtTable(true); else sitDown(resumable); }}>
+              Back to the table
+            </button>
+            <button type="button" className="btn btn-quiet" onClick={() => { save(null); setOffer(null); setGame(null); }}>
+              Start a new game
+            </button>
           </div>
-        )}
-        <div className="custom-body mt-form">
-          <p className="t-lead">New game</p>
-          <label className="custom-field">
-            Your name
-            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="You" maxLength={16} autoComplete="given-name" />
-          </label>
-          <fieldset className="custom-choice">
-            <legend>Computer players</legend>
-            {[1, 2, 3].map((n) => (
-              <label key={n} className="pill">
-                <input type="radio" name="mt-opponents" checked={opponents === n} onChange={() => setOpponents(n)} />
-                {n}
-              </label>
-            ))}
-          </fieldset>
-          <fieldset className="custom-choice">
-            <legend>Game length</legend>
-            <label className="pill">
-              <input type="radio" name="mt-rounds" checked={rounds === 13} onChange={() => setRounds(13)} />
-              Full game, 13 rounds
-            </label>
-            <label className="pill">
-              <input type="radio" name="mt-rounds" checked={rounds === 5} onChange={() => setRounds(5)} />
-              Short game, 5 rounds
-            </label>
-          </fieldset>
-          <button type="button" className="btn btn-primary" onClick={start}>
-            Deal the tiles
-          </button>
         </div>
+      )}
+      <div className="custom-body mt-form">
+        <p className="t-lead">New game</p>
+        <label className="custom-field">
+          Your name
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="You" maxLength={16} autoComplete="given-name" />
+        </label>
+        <fieldset className="custom-choice">
+          <legend>Computer players</legend>
+          {[1, 2, 3].map((n) => (
+            <label key={n} className="pill">
+              <input type="radio" name="mt-opponents" checked={opponents === n} onChange={() => setOpponents(n)} />
+              {n}
+            </label>
+          ))}
+        </fieldset>
+        <fieldset className="custom-choice">
+          <legend>Game length</legend>
+          <label className="pill">
+            <input type="radio" name="mt-rounds" checked={rounds === 13} onChange={() => setRounds(13)} />
+            Full game, 13 rounds
+          </label>
+          <label className="pill">
+            <input type="radio" name="mt-rounds" checked={rounds === 5} onChange={() => setRounds(5)} />
+            Short game, 5 rounds
+          </label>
+        </fieldset>
+        <button type="button" className="btn btn-primary" onClick={start}>
+          Deal the tiles
+        </button>
+        <p className="t-small t-soft">The game opens full screen. Your progress saves after every move.</p>
       </div>
-    );
-  }
+    </div>
+  );
 
+  if (!game || !atTable) return page;
+
+  // ── At the table ──
   const me = game.players[0];
   const rows: BoardRow[] = game.trains.map((t, i) => {
     const owner = t.owner;
@@ -298,58 +376,214 @@ export default function MexicanTrainGame() {
   const lastRound = me.scores.length - 1;
   const countDone = 300 + game.players.length * 180 + 700;
   const worst = Math.max(...sum, 1);
+  const leader = order[0];
 
-  return (
-    <div className="mt" ref={root}>
-      <div className="mt-status">
-        <span className="boneyard" data-boneyard>
-          <span className="boneyard-pile" aria-hidden="true">
+  const result = (
+    <section className="mt-scores" aria-labelledby="mt-scores-title" style={{ '--count-done': `${countDone}ms` } as CSSProperties}>
+      <div className="slip mt-count">
+        <p className="slip-time" id="mt-scores-title">
+          The count, round {game.round + 1}
+        </p>
+        {game.players.map((p, i) => (
+          <div key={i} className="slip-row mt-count-row">
+            <span>{p.name}</span>
+            <span className="mt-count-tiles" aria-hidden="true">
+              {(i === game.outPlayer ? [] : p.hand).map((t, k) => (
+                <span key={tileKey(t)} className="mt-count-tile" style={{ '--d': `${300 + i * 180 + k * 40}ms` } as CSSProperties}>
+                  <Domino a={t[0]} b={t[1]} numbers={numbers} />
+                </span>
+              ))}
+              {i === game.outPlayer && <span className="t-small">Went out</span>}
+            </span>
+            <span className="mt-count-value">
+              <CountUp value={i === game.outPlayer ? 0 : p.hand.reduce((s, t) => s + pips(t), 0)} delay={300 + i * 180} />
+            </span>
+          </div>
+        ))}
+        <p className="slip-result">
+          <span>{game.outPlayer === null ? 'Blocked: nobody could play' : `${game.players[game.outPlayer].name} went out`}</span>
+        </p>
+      </div>
+
+      {game.phase === 'game-over' && (
+        <div className="winner mt-winner">
+          <p className="t-small">{game.players[leader].human ? 'You win' : 'The winner is'}</p>
+          <p className="winner-name">
+            {game.players[leader].name}
+            <PencilCircle />
+          </p>
+          <ol className="winner-bars">
+            {order.map((i, k) => (
+              <li key={i}>
+                <span>{game.players[i].name}</span>
+                <span className="winner-bar mt-bar" style={{ inlineSize: `${Math.max(14, (sum[i] / worst) * 100)}%`, '--k': k } as CSSProperties}>
+                  {sum[i]}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+
+      <div className="sheet">
+        <div className="sheet-band">
+          <span>Mexican Train</span>
+          <span className="sheet-band-site">ScoreSheetSquare.com</span>
+        </div>
+        <div className="sheet-scroll">
+          <table className="sheet-grid">
+            <thead>
+              <tr>
+                <th className="sheet-corner" scope="col">Round</th>
+                {game.players.map((p, i) => (
+                  <th key={i} scope="col" className="sheet-total">{p.name}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {me.scores.map((_, r) => (
+                <tr key={r} className={r === lastRound ? 'mt-new-row' : undefined}>
+                  <th scope="row" className="sheet-label">Double {MAX_PIP - r}</th>
+                  {game.players.map((p, i) => (
+                    <td key={i} className="sheet-total mt-score">{p.scores[r]}</td>
+                  ))}
+                </tr>
+              ))}
+              <tr className="sheet-computed is-strong">
+                <th scope="row" className="sheet-label">Total</th>
+                {game.players.map((_, i) => (
+                  <td key={i} className="sheet-total">
+                    <output>{sum[i]}</output>
+                    {i === leader && <PencilCircle />}
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div className="sheet-controls">
+        {game.phase === 'round-over' ? (
+          <button type="button" className="btn btn-primary" onClick={() => { setSelected(null); setGame(nextRound(game)); }}>
+            Deal round {game.round + 2}: double {MAX_PIP - game.round - 1}
+          </button>
+        ) : (
+          <>
+            <button type="button" className="btn btn-primary" onClick={start}>
+              Play again
+            </button>
+            <a className="btn btn-quiet" href="/mexican-train-score-sheet">
+              Print a score sheet for the table
+            </a>
+            <button type="button" className="btn btn-quiet" onClick={quit}>
+              Back to the page
+            </button>
+          </>
+        )}
+      </div>
+    </section>
+  );
+
+  const tableLayer = (
+    <div className="mt-table" ref={table} role="dialog" aria-modal="true" aria-label="Mexican Train table" tabIndex={-1}>
+      <header className="mt-bar">
+        <span className="boneyard">
+          <span className="boneyard-pile" data-boneyard aria-hidden="true">
             {game.boneyard.length > 0 && <DominoBack />}
             {game.boneyard.length > 1 && <DominoBack />}
             {game.boneyard.length > 2 && <DominoBack />}
           </span>
           <span className="t-small">{game.boneyard.length ? `Boneyard ${game.boneyard.length}` : 'Boneyard empty'}</span>
         </span>
-        <span className="t-small t-soft">
-          Round {game.round + 1} of {game.rounds}, your total {sum[0]}
+        <span className="mt-round">
+          Round {game.round + 1} of {game.rounds}
+          <span className="t-small t-soft mt-round-hub">, double {game.engine} in the hub</span>
         </span>
-        <span className="mt-toggles">
+        <button type="button" className="btn btn-quiet mt-bar-btn mt-options-toggle" aria-expanded={options} onClick={() => setOptions(!options)}>
+          Options
+        </button>
+        <button type="button" className="btn btn-quiet mt-bar-btn mt-leave-phone" onClick={leave}>
+          Leave
+        </button>
+        <span className={['mt-bar-actions', options && 'is-open'].filter(Boolean).join(' ')}>
           <label className="pill">
             <input type="checkbox" checked={numbers} onChange={(e) => setNumbers(e.target.checked)} />
-            Numbers on tiles
+            Numbers
           </label>
           <label className="pill">
             <input type="checkbox" checked={sound} onChange={(e) => toggleSound(e.target.checked)} />
             Sound
           </label>
+          {document.fullscreenEnabled && (
+            <button type="button" className="btn btn-quiet mt-bar-btn" onClick={toggleFullScreen}>
+              {fullScreen ? 'Exit full screen' : 'Full screen'}
+            </button>
+          )}
+          <button type="button" className="btn btn-quiet mt-bar-btn mt-leave" onClick={leave}>
+            Leave table
+          </button>
         </span>
+      </header>
+
+      <div className="mt-main">
+        {over && showResult ? (
+          <div className="mt-result">{result}</div>
+        ) : (
+          <>
+            <div className="mt-board">
+              <TrainBoard engine={game.engine} rows={rows} numbers={numbers} show={show} onPick={pickTrain} />
+            </div>
+            <aside className="mt-side">
+              <ol className="mt-standings" aria-label="Scores so far">
+                {order.map((i) => (
+                  <li key={i} className={i === game.turn && !over ? 'is-turn' : undefined}>
+                    <span>{game.players[i].name}</span>
+                    <span className="mt-standing-score">{sum[i]}</span>
+                  </li>
+                ))}
+              </ol>
+              <div className="mt-log" aria-live="polite">
+                {log.map((line, i) => (
+                  <p key={i} className={i === log.length - 1 ? undefined : 't-small t-soft'}>
+                    {line}
+                  </p>
+                ))}
+              </div>
+            </aside>
+          </>
+        )}
       </div>
 
-      <TrainBoard engine={game.engine} rows={rows} numbers={numbers} onPick={pickTrain} />
-
-      <div className="mt-log" aria-live="polite">
-        {log.map((line, i) => (
-          <p key={i} className={i === log.length - 1 ? undefined : 't-small t-soft'}>
-            {line}
-          </p>
-        ))}
-      </div>
-
-      {!over && (
+      {!(over && showResult) && (
         <section className={['mt-hand', myTurn && 'is-my-turn'].filter(Boolean).join(' ')} aria-label="Your tiles">
-          <p className="mt-prompt">
-            {myTurn
-              ? moves.length
-                ? selected !== null
-                  ? 'Now tap the train to play it on.'
-                  : game.openDouble !== null
-                    ? 'Your turn: cover the double.'
-                    : 'Your turn: tap a tile to play it.'
-                : canDraw(game)
-                  ? 'No tile fits. Draw from the boneyard.'
-                  : 'Still no tile fits. Pass and put out your marker.'
-              : `${game.players[game.turn].name} is playing…`}
-          </p>
+          <div className="mt-hand-head">
+            <p className="mt-prompt">
+              {over
+                ? 'Round over. Counting the tiles…'
+                : myTurn
+                  ? moves.length
+                    ? selected !== null
+                      ? 'Now tap the train to play it on.'
+                      : game.openDouble !== null
+                        ? 'Your turn: cover the double.'
+                        : 'Your turn: tap a tile to play it.'
+                    : canDraw(game)
+                      ? 'No tile fits. Draw from the boneyard.'
+                      : 'Still no tile fits. Pass and put out your marker.'
+                  : `${game.players[game.turn].name} is playing…`}
+            </p>
+            {myTurn && moves.length === 0 && (
+              canDraw(game) ? (
+                <button type="button" className="btn btn-primary" onClick={() => setGame(draw(game))}>
+                  Draw a tile
+                </button>
+              ) : (
+                <button type="button" className="btn btn-primary" onClick={() => setGame(pass(game))}>
+                  Pass and put out marker
+                </button>
+              )
+            )}
+          </div>
           <div className="mt-tiles">
             {hand.map(({ t, i }, k) => (
               <button
@@ -367,136 +601,15 @@ export default function MexicanTrainGame() {
               </button>
             ))}
           </div>
-          {myTurn && moves.length === 0 && (
-            <div className="sheet-controls">
-              {canDraw(game) ? (
-                <button type="button" className="btn btn-primary" onClick={() => setGame(draw(game))}>
-                  Draw a tile
-                </button>
-              ) : (
-                <button type="button" className="btn btn-primary" onClick={() => setGame(pass(game))}>
-                  Pass and put out marker
-                </button>
-              )}
-            </div>
-          )}
         </section>
-      )}
-
-      {over && (
-        <section className="mt-scores" aria-labelledby="mt-scores-title" style={{ '--count-done': `${countDone}ms` } as CSSProperties}>
-          <div className="slip mt-count" ref={countRef}>
-            <p className="slip-time" id="mt-scores-title">
-              The count, round {game.round + 1}
-            </p>
-            {game.players.map((p, i) => (
-              <div key={i} className="slip-row mt-count-row">
-                <span className="mt-count-name">{p.name}</span>
-                <span className="mt-count-tiles" aria-hidden="true">
-                  {(i === game.outPlayer ? [] : p.hand).map((t, k) => (
-                    <span key={tileKey(t)} className="mt-count-tile" style={{ '--d': `${300 + i * 180 + k * 40}ms` } as CSSProperties}>
-                      <Domino a={t[0]} b={t[1]} numbers={numbers} />
-                    </span>
-                  ))}
-                  {i === game.outPlayer && <span className="t-small">Went out</span>}
-                </span>
-                <span className="slip-leader" />
-                <span className="mt-count-value">
-                  <CountUp value={i === game.outPlayer ? 0 : p.hand.reduce((s, t) => s + pips(t), 0)} delay={300 + i * 180} />
-                </span>
-              </div>
-            ))}
-            <p className="slip-result">
-              <span>{game.outPlayer === null ? 'Blocked: nobody could play' : `${game.players[game.outPlayer].name} went out`}</span>
-            </p>
-          </div>
-
-          {game.phase === 'game-over' && (
-            <div className="winner mt-winner">
-              <p className="t-small">{game.players[order[0]].human ? 'You win' : 'The winner is'}</p>
-              <p className="winner-name">
-                {game.players[order[0]].name}
-                <PencilCircle />
-              </p>
-              <ol className="winner-bars">
-                {order.map((i, k) => (
-                  <li key={i}>
-                    <span>{game.players[i].name}</span>
-                    <span
-                      className="winner-bar mt-bar"
-                      style={{ inlineSize: `${Math.max(14, (sum[i] / worst) * 100)}%`, '--k': k } as CSSProperties}
-                    >
-                      {sum[i]}
-                    </span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          )}
-
-          <div className="sheet">
-            <div className="sheet-band">
-              <span>Mexican Train</span>
-              <span className="sheet-band-site">ScoreSheetSquare.com</span>
-            </div>
-            <div className="sheet-scroll">
-              <table className="sheet-grid">
-                <thead>
-                  <tr>
-                    <th className="sheet-corner" scope="col">Round</th>
-                    {game.players.map((p, i) => (
-                      <th key={i} scope="col" className="sheet-total">{p.name}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {me.scores.map((_, r) => (
-                    <tr key={r} className={r === lastRound ? 'mt-new-row' : undefined}>
-                      <th scope="row" className="sheet-label">Double {MAX_PIP - r}</th>
-                      {game.players.map((p, i) => (
-                        <td key={i} className="sheet-total mt-score">{p.scores[r]}</td>
-                      ))}
-                    </tr>
-                  ))}
-                  <tr className="sheet-computed is-strong">
-                    <th scope="row" className="sheet-label">Total</th>
-                    {game.players.map((_, i) => (
-                      <td key={i} className="sheet-total">
-                        <output>{sum[i]}</output>
-                        {i === order[0] && <PencilCircle />}
-                      </td>
-                    ))}
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div className="sheet-controls">
-            {game.phase === 'round-over' ? (
-              <button type="button" className="btn btn-primary" onClick={() => { setSelected(null); setGame(nextRound(game)); }}>
-                Deal round {game.round + 2}: double {MAX_PIP - game.round - 1}
-              </button>
-            ) : (
-              <>
-                <button type="button" className="btn btn-primary" onClick={start}>
-                  Play again
-                </button>
-                <a className="btn btn-quiet" href="/mexican-train-score-sheet">
-                  Print a score sheet for the table
-                </a>
-              </>
-            )}
-          </div>
-        </section>
-      )}
-
-      {!over && (
-        <p className="t-small mt-quit">
-          <button type="button" className="link-button" onClick={() => { save(null); prev.current = null; setGame(null); setLog([]); }}>
-            Quit this game
-          </button>
-        </p>
       )}
     </div>
+  );
+
+  return (
+    <>
+      {page}
+      {createPortal(tableLayer, document.body)}
+    </>
   );
 }
