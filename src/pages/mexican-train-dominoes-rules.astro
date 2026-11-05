@@ -1,0 +1,221 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import TrainBoard from '../components/TrainBoard.tsx';
+import Domino from '../components/Domino.tsx';
+
+const site = Astro.site!;
+const url = new URL('/mexican-train-dominoes-rules', site).href;
+
+const deal = [
+  ['2 to 4 players', '15 tiles each'],
+  ['5 or 6 players', '12 tiles each'],
+  ['7 or 8 players', '10 tiles each'],
+];
+
+const sets = [
+  ['Double-6 (28 tiles)', '7 rounds', '2 or 3 players'],
+  ['Double-9 (55 tiles)', '10 rounds', '2 to 4 players'],
+  ['Double-12 (91 tiles)', '13 rounds', '2 to 8 players'],
+  ['Double-15 (136 tiles)', '16 rounds', '3 to 8 players'],
+  ['Double-18 (190 tiles)', '19 rounds', '6 or more players'],
+];
+
+const houseRules = [
+  ['First turn', 'One tile, like every other turn', 'Lay as many tiles as you can on your own train'],
+  ['Starting the Mexican Train', 'Anyone, at any time', 'Only after your own train has a tile'],
+  ['Double-blank left in hand', '0 points', '50 points'],
+  ['Going out on a double', 'Allowed, the round ends', 'The double must be covered first'],
+  ['Down to one tile', 'Nothing to say', 'Tap the table or say "domino", or draw a penalty tile'],
+];
+
+const faqs = [
+  { q: 'How many dominoes do you start with in Mexican Train?', a: 'With a double-12 set, deal 15 tiles each for two to four players, 12 each for five or six, and 10 each for seven or eight. Rulebooks differ by a tile or two, and some deal 16 for two players. Whatever you choose, leave a good pile in the boneyard.' },
+  { q: 'Can you play on the Mexican Train on your first turn?', a: 'Under the common rules, yes. Anyone may start the Mexican Train at any time by playing a tile that matches the hub. Some tables only allow it once your own train has a tile, so agree before the first round.' },
+  { q: 'Do you have to cover a double in Mexican Train?', a: 'Yes. When you play a double you play again, and that next tile must go on the double. If you cannot cover it, draw one tile. If you still cannot, put your marker out, and every player after you must cover the double before anyone plays anywhere else.' },
+  { q: 'What happens when you cannot play?', a: 'Draw one tile from the boneyard. If it fits, play it. If it does not, your turn ends and you put your marker on your own train, which opens it to everyone until you play on it again.' },
+  { q: 'How do you win Mexican Train?', a: 'Each round ends when someone plays their last tile. Everyone else counts the pips left in their hand and adds them to their score. After all 13 rounds, the lowest total wins.' },
+  { q: 'What if the boneyard runs out?', a: 'Keep playing without drawing. A player who cannot play puts their marker out and passes. If nobody at the table can play, the round ends and everyone scores the tiles they hold.' },
+  { q: 'Can you play two doubles in one turn?', a: 'Many tables allow it: play the second double, then a tile that covers it, and the first double must be covered next. Others allow one double per turn. It is a house rule, so settle it before you deal.' },
+];
+
+const schema = [
+  {
+    '@type': 'HowTo',
+    name: 'How to play Mexican Train dominoes',
+    supply: [{ '@type': 'HowToSupply', name: 'Double-12 domino set' }, { '@type': 'HowToSupply', name: 'A marker for each player' }],
+    step: [
+      { '@type': 'HowToStep', text: 'Put the double-12 in the middle as the hub, shuffle the rest face down and deal 15 tiles each for two to four players.' },
+      { '@type': 'HowToStep', text: 'On your turn, play one tile on your own train, the Mexican Train, or any train with a marker on it. The touching ends must match.' },
+      { '@type': 'HowToStep', text: 'If you cannot play, draw one tile. If it still does not fit, pass and put your marker on your own train.' },
+      { '@type': 'HowToStep', text: 'When you play a double, cover it with another tile before anything else is played.' },
+      { '@type': 'HowToStep', text: 'The round ends when someone plays their last tile. Everyone else scores the pips left in their hand.' },
+      { '@type': 'HowToStep', text: 'Play 13 rounds, from the double-12 down to the double-blank. The lowest total wins.' },
+    ],
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).href },
+      { '@type': 'ListItem', position: 2, name: 'Board games', item: new URL('/board-games', site).href },
+      { '@type': 'ListItem', position: 3, name: 'Mexican Train rules', item: url },
+    ],
+  },
+];
+
+const diagram = [
+  { key: 'ana', label: 'Ana', tiles: [{ a: 12, b: 5 }, { a: 5, b: 3 }], marker: false },
+  { key: 'ben', label: 'Ben', tiles: [{ a: 12, b: 9 }], marker: true },
+  { key: 'cleo', label: 'Cleo', tiles: [{ a: 12, b: 2 }, { a: 2, b: 8 }, { a: 8, b: 8 }], marker: false, openDouble: true },
+  { key: 'mex', label: 'Mexican Train', note: 'Open to everyone', tiles: [{ a: 12, b: 0 }, { a: 0, b: 6 }], marker: true, mexican: true },
+];
+---
+
+<Base
+  title="Mexican Train Dominoes Rules – How to Play, Setup & Scoring"
+  description="Mexican Train dominoes rules in plain words: setup, how many tiles to deal, trains, markers, doubles and scoring, with diagrams and common house rules."
+  schema={schema}
+>
+  <Header slot="before-main" />
+  <div class="split game">
+    <div class="game-top reading-block" data-reveal>
+      <nav aria-label="Breadcrumb" class="t-small t-soft crumbs">
+        <a href="/">Home</a>{' '}<span aria-hidden="true">›</span>{' '}<a href="/board-games">Board games</a>{' '}<span aria-hidden="true">›</span>{' '}<span aria-current="page">Mexican Train rules</span>
+      </nav>
+      <div class="game-title">
+        <h1 class="t-head">Mexican Train dominoes rules</h1>
+        <p class="t-lead">How to set up, play and score</p>
+      </div>
+      <p class="measure">
+        Mexican Train is a domino game for two to eight players. Everyone builds a train of matching tiles out from a hub, there is one shared train anybody can add to, and the goal each round is to empty your hand first. Here are the rules most tables play, the house rules that start arguments, and a worked scoring example.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/mexican-train-online">Play Mexican Train online</a>
+        <a class="btn btn-quiet" href="/mexican-train-score-sheet">Printable score sheet</a>
+      </div>
+    </div>
+
+    <figure class="stage game-stage rules-stage">
+      <TrainBoard engine={12} rows={diagram} />
+      <figcaption class="t-small">
+        Round one, mid-game. Ben could not play, so his marker is out and anyone may add to his train. Cleo has just laid the double 8, and it must be covered before anyone plays anywhere else.
+      </figcaption>
+    </figure>
+
+    <div class="game-rest reading-block">
+      <section aria-labelledby="need-title" data-reveal>
+        <h2 id="need-title" class="t-head">What you need</h2>
+        <div class="measure prose">
+          <p>A double-12 domino set, which has 91 tiles. Each player needs a small marker: a coin, a button or the little plastic trains that come with many sets. One more marker shows the Mexican Train. A hub, the round centre piece with slots for each train, is nice to have but not needed.</p>
+          <p>You also need a way to keep score over 13 rounds. Our <a href="/mexican-train-score-sheet">Mexican Train score sheet</a> labels every round by its starting double, so nobody loses track.</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="setup-title" data-reveal>
+        <h2 id="setup-title" class="t-head">Setting up</h2>
+        <ol class="measure prose steps">
+          <li>Take the double-12 out of the set and put it in the middle of the table. This is the engine, and the hub of every train this round.</li>
+          <li>Turn the other tiles face down and shuffle them.</li>
+          <li>Each player draws their hand. Stand the tiles on edge so nobody else can see them.</li>
+          <li>The tiles left over are the boneyard. You draw from it when you cannot play.</li>
+        </ol>
+        <div class="table-wrap">
+          <table class="ref-table">
+            <caption class="sr-only">Tiles dealt with a double-12 set</caption>
+            <thead><tr><th scope="col">Players</th><th scope="col">Tiles each</th></tr></thead>
+            <tbody>{deal.map(([p, t]) => <tr><th scope="row">{p}</th><td>{t}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <p class="measure t-small t-soft">Rulebooks differ by a tile or two. Some deal 16 each for two players; what matters is leaving a healthy boneyard.</p>
+      </section>
+
+      <section aria-labelledby="turn-title" data-reveal>
+        <h2 id="turn-title" class="t-head">How a turn works</h2>
+        <div class="measure prose">
+          <p>The player to the dealer's left goes first, and play goes clockwise. On your turn you play <strong>one tile</strong>, and its end must match the open end of the train you play on. You can play on:</p>
+          <ul class="steps">
+            <li><strong>Your own train,</strong> the line of tiles running from the hub towards you. Its first tile must match the engine, so in round one it needs a 12.</li>
+            <li><strong>The Mexican Train,</strong> the shared train. Anyone may start it with a tile that matches the engine, and it stays open to everyone all round.</li>
+            <li><strong>Another player's train,</strong> but only while their marker is on it.</li>
+          </ul>
+          <p>If you cannot play, draw one tile from the boneyard. If it fits, play it straight away. If it does not, your turn is over and you put your marker on your own train. While the marker is there, anyone can play on your train. It comes off as soon as you play on your own train again.</p>
+        </div>
+        <div class="slip rules-slip">
+          <p class="slip-time">Matching ends</p>
+          <p class="rules-chain"><Domino a={12} b={5} /><Domino a={5} b={3} /><Domino a={3} b={10} /></p>
+          <p class="t-small">The 5 meets the 5 and the 3 meets the 3. The open end of this train is now 10.</p>
+          <p class="slip-result"><span>Next tile here needs a 10</span></p>
+        </div>
+      </section>
+
+      <section aria-labelledby="doubles-title" data-reveal>
+        <h2 id="doubles-title" class="t-head">Doubles</h2>
+        <div class="measure prose">
+          <p>A double is a tile with the same number on both halves. When you play one, you go again, and your next tile has to cover the double. Covering a double always comes before anything else at the table.</p>
+          <p>If you cannot cover your own double, draw one tile. If that does not cover it either, put your marker out and pass. The next player must cover the double, drawing if they need to, and so on round the table until someone does. Nobody plays anywhere else in the meantime.</p>
+          <p>The only exception is a double that cannot be covered because every tile with that number is already on the table. Then play carries on as normal.</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="end-title" data-reveal>
+        <h2 id="end-title" class="t-head">Ending a round and scoring</h2>
+        <div class="measure prose">
+          <p>The round ends the moment a player plays their last tile. If the boneyard is empty and nobody can play, it ends there instead.</p>
+          <p>Everyone else then adds up the pips (the dots) on the tiles left in their hand. That is their score for the round, and the player who went out scores zero. Blanks count as zero, though many tables charge 50 for being caught holding the double-blank.</p>
+          <p>The next round starts with the double-11 in the hub, then the double-10, and so on down to the double-blank in round 13. Once the double-blank round is scored, the lowest total wins. If two players tie, the one who went out in more rounds wins.</p>
+        </div>
+        <div class="slip">
+          <p class="slip-time">Three players, end of round one</p>
+          <p class="slip-row"><span>Ana plays her last tile and goes out</span><span class="slip-leader"></span><span>0</span></p>
+          <p class="slip-row"><span>Ben holds the 6-4 and the 12-11</span><span class="slip-leader"></span><span>33</span></p>
+          <p class="slip-row"><span>Cleo holds the 5-5</span><span class="slip-leader"></span><span>10</span></p>
+          <p class="slip-result"><span>Ana leads with 0</span></p>
+        </div>
+      </section>
+
+      <div class="ad-slot" aria-hidden="true"></div>
+
+      <section aria-labelledby="sets-title" data-reveal>
+        <h2 id="sets-title" class="t-head">Shorter and longer games</h2>
+        <p class="measure">There is one round for every double in the set, so a smaller set makes a shorter game. With fewer tiles, deal smaller hands: around 5 each with a double-6 set and 7 each with a double-9.</p>
+        <div class="table-wrap">
+          <table class="ref-table">
+            <thead><tr><th scope="col">Set</th><th scope="col">Rounds</th><th scope="col">Best for</th></tr></thead>
+            <tbody>{sets.map(([s, r, p]) => <tr><th scope="row">{s}</th><td>{r}</td><td>{p}</td></tr>)}</tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="house-title" data-reveal>
+        <h2 id="house-title" class="t-head">House rules to agree first</h2>
+        <p class="measure">Mexican Train has no single official rulebook, and these are the rules tables most often play differently. Settle them before the first deal.</p>
+        <div class="table-wrap">
+          <table class="ref-table">
+            <thead><tr><th scope="col">Rule</th><th scope="col">Common choice</th><th scope="col">Alternative</th></tr></thead>
+            <tbody>{houseRules.map(([r, a, b]) => <tr><th scope="row">{r}</th><td>{a}</td><td>{b}</td></tr>)}</tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="faq-title" data-reveal>
+        <h2 id="faq-title" class="t-head">Mexican Train questions</h2>
+        <div class="faq measure">{faqs.map((f) => <p><strong>{f.q}</strong> {f.a}</p>)}</div>
+      </section>
+
+      <section aria-labelledby="next-title" data-reveal>
+        <h2 id="next-title" class="t-head">Ready to play</h2>
+        <ul class="rows related">
+          <li><a href="/mexican-train-online">Play Mexican Train online</a><span class="t-small t-soft">Free, against the computer</span></li>
+          <li><a href="/mexican-train-score-sheet">Mexican Train score sheet</a><span class="t-small t-soft">Printable PDF and scorekeeper</span></li>
+          <li><a href="/board-games">More board and tile games</a><span class="t-small t-soft">Score sheets</span></li>
+        </ul>
+      </section>
+
+      <div class="ad-slot is-tall" aria-hidden="true"></div>
+    </div>
+  </div>
+</Base>

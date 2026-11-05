@@ -11,7 +11,7 @@ interface Props {
   crumb: string;
   categories: Category[];
   image: StageImage;
-  sections: { heading: string; paragraphs: string[] }[];
+  sections: { heading: string; paragraphs: string[]; links?: { href: string; label: string; note: string }[] }[];
 }
 
 const { title, description, heading, lead, crumb, categories, image, sections } = Astro.props;
@@ -31,6 +31,15 @@ const entries = catalogue.filter((e) => categories.includes(e.category)).sort((a
       <section class="category-text" data-reveal>
         <h2 class="t-head">{s.heading}</h2>
         <div class="measure">{s.paragraphs.map((p) => <p>{p}</p>)}</div>
+        {
+          s.links && (
+            <ul class="rows companions">
+              {s.links.map((l) => (
+                <li><a href={l.href}>{l.label}</a><span class="t-small t-soft">{l.note}</span></li>
+              ))}
+            </ul>
+          )
+        }
       </section>
     ))
   }

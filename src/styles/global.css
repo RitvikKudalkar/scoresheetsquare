@@ -544,3 +544,66 @@ html.winner-open { overflow: hidden; }
 .tally-standings dd { margin: 0; font-weight: 600; }
 
 .link-button { border: 0; padding: 0; background: none; color: inherit; font: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; cursor: pointer; }
+
+/* ── Dominoes and trains (Mexican Train rules and game) ─────── */
+.domino { display: block; inline-size: var(--tile, 64px); block-size: calc(var(--tile, 64px) / 2); flex: none; overflow: visible; }
+.domino-face { fill: var(--color-sheet); stroke: var(--color-pad-ink); stroke-width: 1.5; }
+.domino-rule { stroke: var(--color-pad-ink); stroke-width: 1.5; }
+.domino-pips { fill: var(--color-pad-ink); }
+.domino-number { fill: var(--color-pad-ink); font-family: var(--font-serif); font-size: 30px; font-variant-numeric: lining-nums; }
+
+.board { display: grid; gap: 16px; inline-size: min(100%, 640px); }
+.board-hub { display: flex; align-items: center; gap: 12px; --tile: 72px; }
+.trains { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.train-button {
+  display: grid; gap: 8px; inline-size: 100%;
+  padding: 10px 12px;
+  border: 0; border-radius: 0; background: transparent;
+  color: inherit; font: inherit; text-align: start;
+}
+button.train-button { cursor: pointer; }
+.train.is-mexican .train-button { background: color-mix(in oklab, var(--color-pad-stage), var(--color-pad-ink) 6%); }
+.train.is-target .train-button { background: var(--color-pad-paper); box-shadow: inset 4px 0 0 var(--color-pad-ink); } /* taste-skill-ignore: the playable train is marked by an ink edge */
+.train.is-target button.train-button:hover { background: var(--color-sheet); }
+.train-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.train-label { font-weight: 600; }
+.train-marker { color: var(--color-pencil-red); }
+.train-tiles { display: flex; align-items: center; gap: 4px; min-block-size: 32px; overflow-x: auto; scrollbar-width: none; }
+.train-more { color: var(--color-pad-ink-soft); padding-inline-end: 4px; }
+
+.cta-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.steps { padding-inline-start: 1.25em; display: grid; gap: 12px; margin: 0; }
+.rules-stage { margin: 0; display: grid; gap: 20px; align-content: start; }
+.rules-stage figcaption { max-inline-size: 52ch; color: var(--color-pad-ink-soft); }
+.rules-slip { inline-size: min(100%, 480px); }
+.rules-chain { display: flex; gap: 4px; padding-block: 8px 12px; --tile: 80px; }
+@media (min-width: 1024px) {
+  .rules-stage { padding-inline-end: 48px; }
+  .board { --tile: 72px; }
+}
+
+/* ── Mexican Train game ─────────────────────────────────────── */
+.mt, .mt-setup { display: grid; gap: 20px; inline-size: min(100%, 640px); }
+.mt-form { max-inline-size: 640px; }
+.mt-status { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; }
+.mt-log { display: grid; gap: 4px; min-block-size: 3.2em; }
+.mt-hand { display: grid; gap: 12px; padding: 16px 12px; background: var(--color-pad-paper); }
+.mt-tiles { display: flex; flex-wrap: wrap; gap: 8px; --tile: 76px; }
+.hand-tile {
+  padding: 4px; border: 0; border-radius: 0; background: transparent; cursor: pointer;
+  opacity: 0.45;
+  transition: transform 140ms var(--ease-out), opacity 140ms, background-color 140ms;
+}
+.hand-tile.is-playable { opacity: 1; }
+.hand-tile.is-playable:hover { transform: translateY(-3px); }
+.hand-tile.is-selected { background: var(--color-pad-ink); transform: translateY(-3px); }
+.hand-tile[aria-disabled='true'] { cursor: default; }
+.mt-scores { display: grid; gap: 16px; }
+.mt-scores .winner { margin-block-start: 0; padding-block: 8px; }
+.mt-score { color: var(--color-graphite); }
+.mt-quit { color: var(--color-pad-ink-soft); }
+@media (min-width: 1024px) {
+  .mt, .mt-setup { padding-inline-end: 48px; }
+  .mt-tiles { --tile: 84px; }
+}
+.companions { max-inline-size: 520px; }

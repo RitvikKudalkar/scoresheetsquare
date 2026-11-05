@@ -51,6 +51,10 @@
     ]
   },
   "related": ["phase-10-score-sheet", "five-crowns-score-sheet", "uno-score-sheet", "farkle-score-sheet", "yahtzee-score-sheet"],
+  "companions": [
+    { "href": "/mexican-train-dominoes-rules", "label": "Mexican Train rules", "note": "Setup, doubles, scoring" },
+    { "href": "/mexican-train-online", "label": "Play Mexican Train online", "note": "Free, against the computer" }
+  ],
   "phase": 1,
   "status": "live"
 }

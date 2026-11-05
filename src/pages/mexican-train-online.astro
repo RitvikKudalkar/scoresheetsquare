@@ -1,0 +1,122 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import MexicanTrainGame from '../components/MexicanTrainGame.tsx';
+import GameRows from '../components/GameRows.astro';
+import { catalogue } from '../lib/catalogue';
+
+const site = Astro.site!;
+const url = new URL('/mexican-train-online', site).href;
+
+const tableRules = [
+  ['Set', 'Double-12, 91 tiles'],
+  ['Tiles dealt', '15 each'],
+  ['Mexican Train', 'Open to everyone from the first turn'],
+  ['Can\'t play', 'Draw one; if it still doesn\'t fit, pass and put out your marker'],
+  ['Doubles', 'Must be covered before any other play'],
+  ['Going out on a double', 'Allowed, the round ends'],
+  ['Double-blank in hand', '0 points'],
+  ['Winner', 'Lowest total after the last round'],
+];
+
+const faqs = [
+  { q: 'Is this Mexican Train game free?', a: 'Yes. There is no sign-up, no download and nothing to buy. It runs in your browser on a phone, tablet or computer.' },
+  { q: 'Can I play Mexican Train online with friends?', a: 'This version is you against one to three computer players. For a game night with friends at the same table, use a real set and keep score with our printable Mexican Train score sheet or the online scorekeeper.' },
+  { q: 'Does the game save if I close the page?', a: 'Yes. Your game is saved in this browser after every move, and when you come back you can carry on from the same turn. Clearing your browser data or using a private window removes it.' },
+  { q: 'Why can I only play on some trains?', a: 'You can play on your own train, the Mexican Train, and any train with a marker on it. When a double is waiting to be covered, it is the only place anyone can play until it is covered.' },
+  { q: 'The pips are hard to count. Can I see numbers?', a: 'Switch on "Numbers on tiles" above the board and every tile shows its numbers instead of dots.' },
+  { q: 'How long does a game take?', a: 'A full game of 13 rounds takes 30 to 45 minutes. Choose the short game for 5 rounds, from the double-12 down to the double-8.' },
+];
+
+const schema = [
+  {
+    '@type': 'WebApplication',
+    name: 'Mexican Train Dominoes Online',
+    url,
+    applicationCategory: 'GameApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).href },
+      { '@type': 'ListItem', position: 2, name: 'Board games', item: new URL('/board-games', site).href },
+      { '@type': 'ListItem', position: 3, name: 'Mexican Train online', item: url },
+    ],
+  },
+];
+
+const related = ['mexican-train-score-sheet', 'phase-10-score-sheet', 'five-crowns-score-sheet', 'uno-score-sheet']
+  .map((slug) => catalogue.find((c) => c.slug === slug))
+  .filter((c): c is NonNullable<typeof c> => Boolean(c));
+---
+
+<Base
+  title="Play Mexican Train Dominoes Online – Free vs Computer"
+  description="Play Mexican Train dominoes online for free against up to three computer players. No sign-up or download, large numbers option, and your game saves as you go."
+  schema={schema}
+>
+  <Header slot="before-main" />
+  <div class="split game">
+    <div class="game-top reading-block" data-reveal>
+      <nav aria-label="Breadcrumb" class="t-small t-soft crumbs">
+        <a href="/">Home</a>{' '}<span aria-hidden="true">›</span>{' '}<a href="/board-games">Board games</a>{' '}<span aria-hidden="true">›</span>{' '}<span aria-current="page">Mexican Train online</span>
+      </nav>
+      <div class="game-title">
+        <h1 class="t-head">Mexican Train dominoes online</h1>
+        <p class="t-lead">Free, against the computer, no sign-up</p>
+      </div>
+      <p class="measure">
+        Play a full game of Mexican Train with a double-12 set against one, two or three computer players. Build your own train out from the hub, use the Mexican Train when you are stuck, and get rid of your tiles before anyone else. New to the game? Read the <a href="/mexican-train-dominoes-rules">Mexican Train rules</a> first; they take five minutes.
+      </p>
+    </div>
+
+    <div class="stage game-stage">
+      <h2 class="sr-only">Mexican Train game</h2>
+      <MexicanTrainGame client:idle />
+    </div>
+
+    <div class="game-rest reading-block">
+      <section aria-labelledby="how-title" data-reveal>
+        <h2 id="how-title" class="t-head">How to play here</h2>
+        <div class="measure prose">
+          <p>Your tiles sit under the board. When it is your turn, the tiles that fit somewhere are shown in full and the rest are faded. Tap a tile to play it. If it fits on only one train it goes straight there; if it fits on more than one, the trains you can use are marked and you tap the one you want.</p>
+          <p>If nothing fits, tap <strong>Draw a tile</strong>. If the new tile still does not fit, tap <strong>Pass and put out marker</strong>. Your train is then open to the computer players until you play on it again.</p>
+          <p>The computer players take their turns one move at a time, and the lines under the board say what each of them did. At the end of every round the score sheet shows everyone's points, with the leader circled.</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="rules-title" data-reveal>
+        <h2 id="rules-title" class="t-head">Rules this game uses</h2>
+        <p class="measure">Mexican Train has plenty of house rules. This game plays the most common ones, explained in full on the <a href="/mexican-train-dominoes-rules">rules page</a>.</p>
+        <div class="table-wrap">
+          <table class="ref-table">
+            <tbody>{tableRules.map(([r, v]) => <tr><th scope="row">{r}</th><td>{v}</td></tr>)}</tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="ad-slot" aria-hidden="true"></div>
+
+      <section aria-labelledby="faq-title" data-reveal>
+        <h2 id="faq-title" class="t-head">Questions about the game</h2>
+        <div class="faq measure">{faqs.map((f) => <p><strong>{f.q}</strong> {f.a}</p>)}</div>
+      </section>
+
+      <section aria-labelledby="related-title" data-reveal>
+        <h2 id="related-title" class="t-head">Playing at the table instead?</h2>
+        <ul class="rows related">
+          <li><a href="/mexican-train-dominoes-rules">Mexican Train rules</a><span class="t-small t-soft">Setup, doubles, scoring</span></li>
+        </ul>
+        <div class="related"><GameRows entries={related} /></div>
+      </section>
+
+      <div class="ad-slot is-tall" aria-hidden="true"></div>
+    </div>
+  </div>
+</Base>

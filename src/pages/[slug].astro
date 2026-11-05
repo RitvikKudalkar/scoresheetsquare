@@ -68,6 +68,15 @@ const schema = [
         <p class="t-lead">Free printable PDF and online scorekeeper</p>
       </div>
       <p class="measure">{content.intro}</p>
+      {
+        game.companions.length > 0 && (
+          <ul class="rows companions">
+            {game.companions.map((c) => (
+              <li><a href={c.href}>{c.label}</a><span class="t-small t-soft">{c.note}</span></li>
+            ))}
+          </ul>
+        )
+      }
 
       <DownloadBlock slug={game.slug} alt={game.sheet.engine === 'tally' ? `Printable ${game.name} tally card with columns for wins, losses and buncos in every round` : `Printable ${game.name} score sheet with a column for each player and a row for every ${game.sheet.engine === 'category' ? 'scoring box' : game.sheet.engine === 'running-turns' ? 'turn' : game.sheet.engine === 'bid-and-make' ? 'round, with boxes for the bid, tricks won and points' : 'round'}`}>
         <CustomPdf client:idle game={sheetGame} />

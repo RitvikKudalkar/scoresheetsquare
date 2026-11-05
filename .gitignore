@@ -4,3 +4,5 @@ dist
 .taste-skill/inspect
 public/pdf
 public/images/sheets
+.env
+.wrangler

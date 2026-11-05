@@ -97,6 +97,8 @@ const games = defineCollection({
         .optional(),
       content: content.optional(),
       related: z.array(z.string()).default([]),
+      /** Other pages about the same game (rules, play online), linked under the intro. */
+      companions: z.array(z.object({ href: z.string(), label: z.string(), note: z.string() })).default([]),
       phase: z.number().int().min(1).max(4),
       status: z.enum(['live', 'draft']),
     })
