@@ -547,29 +547,48 @@ html.winner-open { overflow: hidden; }
 
 /* ── Dominoes and trains (Mexican Train rules and game) ─────── */
 .domino { display: block; inline-size: var(--tile, 64px); block-size: calc(var(--tile, 64px) / 2); flex: none; overflow: visible; }
+.domino.is-upright { inline-size: calc(var(--tile, 64px) / 2); block-size: var(--tile, 64px); }
 .domino-face { fill: var(--color-sheet); stroke: var(--color-pad-ink); stroke-width: 1.5; }
 .domino-rule { stroke: var(--color-pad-ink); stroke-width: 1.5; }
 .domino-pips { fill: var(--color-pad-ink); }
 .domino-number { fill: var(--color-pad-ink); font-family: var(--font-serif); font-size: 30px; font-variant-numeric: lining-nums; }
+.domino-back-face { fill: var(--color-pad-ink); stroke: var(--color-pad-ink-deep); stroke-width: 1.5; }
+.domino-back-pin { fill: var(--color-sheet); opacity: 0.55; }
 
-.board { display: grid; gap: 16px; inline-size: min(100%, 640px); }
-.board-hub { display: flex; align-items: center; gap: 12px; --tile: 72px; }
+.board { display: grid; gap: 16px; inline-size: min(100%, 640px); --tile: 64px; }
+.board-hub { display: flex; align-items: center; gap: 12px; }
 .trains { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .train-button {
   display: grid; gap: 8px; inline-size: 100%;
   padding: 10px 12px;
   border: 0; border-radius: 0; background: transparent;
   color: inherit; font: inherit; text-align: start;
+  transition: background-color 240ms var(--ease-out), box-shadow 240ms var(--ease-out);
 }
 button.train-button { cursor: pointer; }
 .train.is-mexican .train-button { background: color-mix(in oklab, var(--color-pad-stage), var(--color-pad-ink) 6%); }
-.train.is-target .train-button { background: var(--color-pad-paper); box-shadow: inset 4px 0 0 var(--color-pad-ink); } /* taste-skill-ignore: the playable train is marked by an ink edge */
-.train.is-target button.train-button:hover { background: var(--color-sheet); }
-.train-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.train.is-turn .train-button { background: var(--color-pad-paper); }
+.train.is-target .train-button { background: var(--color-sheet); box-shadow: inset 0 0 0 2px var(--color-pad-ink); }
+.train-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; }
 .train-label { font-weight: 600; }
-.train-marker { color: var(--color-pencil-red); }
-.train-tiles { display: flex; align-items: center; gap: 4px; min-block-size: 32px; overflow-x: auto; scrollbar-width: none; }
+.train-marker { display: inline-flex; align-items: center; gap: 6px; }
+.marker-coin { inline-size: 18px; block-size: 18px; fill: none; stroke: var(--color-pad-ink); stroke-width: 1.75; }
+.marker-coin circle:first-child { fill: var(--color-pad-stage); }
+.train-double { color: var(--color-pencil-red); }
+.train-tiles { display: flex; align-items: center; gap: 4px; min-block-size: var(--tile); overflow-x: auto; scrollbar-width: none; }
 .train-more { color: var(--color-pad-ink-soft); padding-inline-end: 4px; }
+/* Where the selected tile will go: an empty place at the end of the train, breathing. */
+.train.is-target .train-tiles::after {
+  content: '';
+  flex: none; inline-size: var(--tile); block-size: calc(var(--tile) / 2);
+  border: 1.5px dashed var(--color-pad-ink); border-radius: 4px;
+  animation: slot 1.4s var(--ease-out) infinite alternate;
+}
+@keyframes slot { from { opacity: 0.35; } to { opacity: 1; } }
+
+.hand-stack { display: inline-flex; }
+.hand-stack svg { display: block; block-size: 26px; }
+.hand-stack-tile { fill: var(--color-pad-ink); stroke: var(--color-pad-stage); stroke-width: 1; }
 
 .cta-row { display: flex; flex-wrap: wrap; gap: 8px; }
 .steps { padding-inline-start: 1.25em; display: grid; gap: 12px; margin: 0; }
@@ -585,25 +604,71 @@ button.train-button { cursor: pointer; }
 /* ── Mexican Train game ─────────────────────────────────────── */
 .mt, .mt-setup { display: grid; gap: 20px; inline-size: min(100%, 640px); }
 .mt-form { max-inline-size: 640px; }
-.mt-status { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; }
+.mt-status { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 16px; }
+.mt-toggles { display: flex; flex-wrap: wrap; gap: 8px; }
 .mt-log { display: grid; gap: 4px; min-block-size: 3.2em; }
-.mt-hand { display: grid; gap: 12px; padding: 16px 12px; background: var(--color-pad-paper); }
-.mt-tiles { display: flex; flex-wrap: wrap; gap: 8px; --tile: 76px; }
+
+.boneyard { display: inline-flex; align-items: center; gap: 12px; }
+.boneyard-pile { position: relative; inline-size: 52px; block-size: 30px; --tile: 44px; }
+.boneyard-pile .domino { position: absolute; inset-block-start: 4px; inset-inline-start: 0; }
+.boneyard-pile .domino:nth-child(2) { transform: translate(4px, -3px) rotate(-6deg); }
+.boneyard-pile .domino:nth-child(3) { transform: translate(7px, -6px) rotate(4deg); }
+
+.mt-hand { display: grid; gap: 14px; padding: 16px 12px 20px; background: var(--color-pad-paper); }
+.mt-prompt { min-block-size: 1.5em; }
+.mt-hand.is-my-turn .mt-prompt { font-weight: 600; }
+.mt-tiles { display: flex; flex-wrap: wrap; gap: 8px; --tile: 76px; padding-block-start: 8px; }
 .hand-tile {
-  padding: 4px; border: 0; border-radius: 0; background: transparent; cursor: pointer;
-  opacity: 0.45;
-  transition: transform 140ms var(--ease-out), opacity 140ms, background-color 140ms;
+  padding: 4px; border: 0; border-radius: 6px; background: transparent; cursor: pointer;
+  opacity: 0.8;
+  transition: transform 260ms var(--ease-out), opacity 200ms, box-shadow 200ms;
 }
-.hand-tile.is-playable { opacity: 1; }
-.hand-tile.is-playable:hover { transform: translateY(-3px); }
-.hand-tile.is-selected { background: var(--color-pad-ink); transform: translateY(-3px); }
 .hand-tile[aria-disabled='true'] { cursor: default; }
-.mt-scores { display: grid; gap: 16px; }
-.mt-scores .winner { margin-block-start: 0; padding-block: 8px; }
+.mt-hand.is-my-turn .hand-tile { opacity: 0.4; }
+/* Your turn: the tiles that fit rise out of the rack one after another. */
+.mt-hand.is-my-turn .hand-tile.is-playable {
+  opacity: 1;
+  transform: translateY(-8px);
+  transition-delay: calc(var(--i, 0) * 25ms);
+}
+.mt-hand.is-my-turn .hand-tile.is-playable:hover { transform: translateY(-12px); transition-delay: 0ms; }
+.hand-tile.is-selected { transform: translateY(-14px) !important; box-shadow: 0 0 0 2px var(--color-pad-ink); transition-delay: 0ms !important; }
+
+/* A tile in flight: a lifted copy above everything, the only time a tile casts a shadow. */
+.tile-ghost { position: fixed; z-index: 70; pointer-events: none; border-radius: 5px; perspective: 700px; }
+.tile-ghost-card { position: relative; inline-size: 100%; block-size: 100%; transform-style: preserve-3d; }
+.tile-ghost-card > *, .tile-ghost-card > div > svg {
+  position: absolute; inset: 0; inline-size: 100%; block-size: 100%;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+.tile-ghost-face.is-turned { transform: rotateY(180deg); }
+
+/* The count: each hand turned over on a slip and added up. */
+.mt-scores { display: grid; gap: 24px; }
+.mt-count { inline-size: min(100%, 560px); }
+.mt-count-row { flex-wrap: wrap; row-gap: 4px; }
+.mt-count-name { min-inline-size: 4.5em; }
+.mt-count-tiles { display: flex; flex-wrap: wrap; gap: 3px; align-items: center; --tile: 40px; perspective: 400px; }
+.mt-count-tile { display: block; animation: tile-turn 420ms var(--ease-out) var(--d, 0ms) backwards; }
+@keyframes tile-turn { from { transform: rotateY(90deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.mt-count-value { font-size: var(--text-lead); color: var(--color-graphite); font-variant-numeric: tabular-nums lining-nums; min-inline-size: 2ch; text-align: end; }
+.mt-new-row td { animation: cell-flash 700ms var(--ease-out) var(--count-done, 0ms) backwards; }
+@keyframes cell-flash { from { background: var(--color-pad-stage); color: transparent; } 40% { color: var(--color-graphite); } to { background: transparent; } }
+.mt-scores .pencil-circle path { animation-delay: var(--count-done, 0ms); }
 .mt-score { color: var(--color-graphite); }
+
+.mt-winner { margin: 0; padding: 8px 0 0; }
+.mt-bar { transform-origin: left center; animation: bar-grow 640ms var(--ease-out) calc(var(--count-done, 0ms) + var(--k, 0) * 90ms) backwards; }
+@keyframes bar-grow { from { transform: scaleX(0); } to { transform: none; } }
 .mt-quit { color: var(--color-pad-ink-soft); }
+
 @media (min-width: 1024px) {
   .mt, .mt-setup { padding-inline-end: 48px; }
   .mt-tiles { --tile: 84px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mt-count-tile, .mt-new-row td, .mt-bar, .mt-scores .pencil-circle path, .train.is-target .train-tiles::after { animation-delay: 0ms !important; animation: none !important; }
+  .mt-hand.is-my-turn .hand-tile.is-playable { transform: none; transition-delay: 0ms; }
+  .mt-scores .pencil-circle path { stroke-dashoffset: 0; }
 }
 .companions { max-inline-size: 520px; }
