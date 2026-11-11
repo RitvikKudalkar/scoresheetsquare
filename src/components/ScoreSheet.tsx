@@ -512,13 +512,13 @@ function PointsSheet({ game: base, mode }: Props) {
   );
 }
 
-function WinnerScreen(props: {
+export function WinnerScreen(props: {
   title: string;
   circled: boolean;
   rows: { name: string; total: number; note?: string }[];
   onPlayAgain: () => void;
-  onPrint: () => void;
-  printing: boolean;
+  onPrint?: () => void;
+  printing?: boolean;
   onClose: () => void;
 }) {
   const heading = useRef<HTMLHeadingElement>(null);
@@ -552,7 +552,7 @@ function WinnerScreen(props: {
         </ol>
         <div className="winner-actions">
           <button type="button" className="btn btn-primary" onClick={props.onPlayAgain}>Play again with same players</button>
-          <button type="button" className="btn btn-quiet" onClick={props.onPrint} disabled={props.printing}>{props.printing ? 'Making PDF…' : 'Print this game'}</button>
+          {props.onPrint && <button type="button" className="btn btn-quiet" onClick={props.onPrint} disabled={props.printing}>{props.printing ? 'Making PDF…' : 'Print this game'}</button>}
           <button type="button" className="btn btn-quiet" onClick={props.onClose}>Back to the sheet</button>
         </div>
         {ADS_ENABLED && <div className="ad-slot winner-ad" aria-hidden="true"></div>}

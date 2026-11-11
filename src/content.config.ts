@@ -105,6 +105,11 @@ const games = defineCollection({
     .object({
       slug: z.string().regex(/^[a-z0-9-]+$/),
       name: z.string(),
+      /** The visible H1 and the line under it, when "<name> score sheet" is not the page's keyword (Cribbage board). */
+      heading: z.string().optional(),
+      subheading: z.string().optional(),
+      /** A custom live tool in place of the scorekeeper; the sheet still drives the printable PDFs. */
+      board: z.enum(['cribbage']).optional(),
       aliases: z.array(z.string()).default([]),
       category: z.enum(['dice', 'card', 'board', 'tile', 'bar', 'lawn']),
       keywords: z.array(z.string()).min(1),

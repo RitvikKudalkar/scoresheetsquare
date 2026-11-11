@@ -1,0 +1,92 @@
+{
+  "slug": "cribbage-board",
+  "name": "Cribbage",
+  "heading": "Cribbage board",
+  "subheading": "Free online board and printable score sheet",
+  "category": "card",
+  "keywords": ["cribbage board", "cribbage board online", "cribbage score sheet", "printable cribbage score sheet", "cribbage scoring"],
+  "title": "Cribbage Board – Free Online Board & Printable Score Sheet",
+  "description": "A free online cribbage board for 2 or 3 players with front and back pegs, games to 121 or 61, plus a printable cribbage score sheet and scoring guide.",
+  "players": { "min": 2, "max": 3, "default": 2 },
+  "winCondition": "highest",
+  "board": "cribbage",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 20,
+    "target": 121,
+    "targetOptions": [121, 61],
+    "roundLabels": ["Deal 1", "Deal 2", "Deal 3", "Deal 4", "Deal 5", "Deal 6", "Deal 7", "Deal 8", "Deal 9", "Deal 10", "Deal 11", "Deal 12", "Deal 13", "Deal 14", "Deal 15", "Deal 16", "Deal 17", "Deal 18", "Deal 19", "Deal 20"]
+  },
+  "pdf": { "showScoringChart": false },
+  "scoringReference": {
+    "columns": ["What scores", "When", "Points"],
+    "rows": [
+      ["Fifteen: cards adding up to 15", "Play and show", "2"],
+      ["A pair", "Play and show", "2"],
+      ["Three of a kind", "Play and show", "6"],
+      ["Four of a kind", "Play and show", "12"],
+      ["A run of three or more", "Play and show", "1 per card"],
+      ["Reaching exactly 31", "Play", "2"],
+      ["Go, or the last card played", "Play", "1"],
+      ["Four-card flush in hand", "Show", "4, or 5 with the starter"],
+      ["Flush in the crib", "Show", "5, all five cards only"],
+      ["His nobs: the Jack of the starter's suit", "Show", "1"],
+      ["His heels: the starter is a Jack", "Cut", "2 to the dealer"]
+    ]
+  },
+  "content": {
+    "intro": "Keep score on a free online cribbage board with front and back pegs, or print a cribbage score sheet for the table. Play to 121, or 61 for a short game.",
+    "howToUse": [
+      "Tap the peg beside a player's name to choose who is pegging, then tap the points: +2 for a fifteen, +1 for a go, or the total of a hand when it is counted. For anything not on a key, type it in Other. The front peg jumps ahead and the back peg stays where it was, just like leapfrogging pegs on a wooden board.",
+      "The board shows every player's lane in streets of 30 holes, the points still to go and the last few moves, so a disputed count is easy to check. Undo takes back the last move. When someone reaches 121, the board names the winner and says if the loser was skunked.",
+      "Prefer paper? The printable cribbage score sheet has a row for every deal and a column for each player. Write each deal's pegging, hand and crib points together, keep a running total, and the first to 121 wins. Two or three players fit on one sheet, in Letter or A4."
+    ],
+    "exampleRound": [
+      {
+        "caption": "Counting a hand: 4, 5, 5, 6 with a Jack as the starter",
+        "rows": [
+          { "label": "Fifteens: the Jack with each 5, and 4-5-6 twice", "value": "8" },
+          { "label": "The pair of 5s", "value": "2" },
+          { "label": "Runs: 4-5-6, once with each 5", "value": "6" }
+        ],
+        "result": "The hand counts 16"
+      },
+      {
+        "caption": "The end of a game to 121",
+        "rows": [
+          { "label": "Ben deals; Ana counts her hand first and pegs from 109", "value": "+12" },
+          { "label": "Ana reaches 121 and wins", "value": "121" },
+          { "label": "Ben is on 88 and never counts his hand", "value": "88" }
+        ],
+        "result": "Ben is short of 91, so Ana wins with a skunk"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a deal of cribbage is scored",
+      "paragraphs": [
+        "With two players, each is dealt six cards and puts two face down into the crib, an extra hand that belongs to the dealer. With three players, each gets five cards and puts one in the crib, and one card from the deck goes in with them. The player to the dealer's left cuts the deck and the top card is turned up as the starter; if it is a Jack, the dealer pegs 2 for his heels.",
+        "Next comes the play. Starting left of the dealer, players lay cards face up in turn and call out the running total, which may not pass 31. Making 15 or exactly 31 pegs 2, and pairs, three of a kind and runs among the cards just played score as they happen. A player who cannot play without passing 31 says go, and the last player to lay a card scores 1.",
+        "Then comes the show. Each hand is counted together with the starter: every combination adding to 15, pairs, runs, flushes and his nobs. The player left of the dealer counts first, the dealer counts next, and the dealer finally counts the crib. The first to peg 121 wins on the spot, even in the middle of a count."
+      ]
+    },
+    "tips": [
+      "Counting order matters at the end. The non-dealer counts first, so they can reach 121 and win before the dealer's bigger hand and crib are ever counted.",
+      "Leave the back peg where it is and leapfrog it with the other. The gap between the two pegs is always the last score, which makes a miscount easy to check.",
+      "A four-card flush counts in your hand but never in the crib. The crib only scores a flush when all five cards, starter included, share a suit.",
+      "Muggins is a popular house rule: if a player misses points in their count, the opponent may call muggins and peg them instead. Agree on it before the first deal.",
+      "No hand can score 19, so players say nineteen when a hand scores nothing at all."
+    ],
+    "faqs": [
+      { "q": "How do you score cribbage?", "a": "Points come from three places: the play, where 15s, 31s, pairs, runs, gos and the last card score as cards are laid; the show, where each hand is counted with the starter card; and the crib, which the dealer counts last. Every point is pegged on the board as it is scored." },
+      { "q": "How many points do you need to win cribbage?", "a": "121, which is twice around a standard board. A short game is played to 61. The game ends the moment a player reaches the target." },
+      { "q": "What is a skunk in cribbage?", "a": "Winning before the loser reaches 91 in a game to 121. Many players count a skunk as two wins. A double skunk, with the loser short of 61, often counts as three or four." },
+      { "q": "What is the highest hand in cribbage?", "a": "29: three 5s and the Jack of the remaining 5's suit, with that 5 as the starter. It scores 16 for fifteens, 12 for the four 5s and 1 for his nobs." },
+      { "q": "What are his nobs and his heels?", "a": "His nobs is the Jack in your hand that matches the suit of the starter, worth 1 in the show. His heels is the starter itself turning out to be a Jack, worth 2 to the dealer straight away." },
+      { "q": "How do you use a cribbage board?", "a": "Each player has two pegs. To score, move your back peg ahead of your front peg by the number of points, so the two pegs always show your last score. The online board does the same, with a lighter back peg." },
+      { "q": "How many people can play cribbage?", "a": "Two is the classic game, and three can play with five-card hands. Four play as two partnerships; give each team one lane on the board and one column on the sheet." }
+    ]
+  },
+  "related": ["gin-rummy-score-sheet", "rummy-500-score-sheet", "euchre-score-sheet", "hearts-score-sheet", "spades-score-sheet"],
+  "phase": 3,
+  "status": "live"
+}

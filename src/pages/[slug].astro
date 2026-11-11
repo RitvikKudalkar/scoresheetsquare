@@ -5,6 +5,7 @@ import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import ScoreSheet from '../components/ScoreSheet.tsx';
 import CustomPdf from '../components/CustomPdf.tsx';
+import CribbageBoard from '../components/CribbageBoard.tsx';
 import DownloadBlock from '../components/DownloadBlock.astro';
 import GameRows from '../components/GameRows.astro';
 import { catalogue, categoryHref as categoryHrefs, categoryNames } from '../lib/catalogue';
@@ -20,6 +21,7 @@ const content = game.content!;
 const reference = game.scoringReference!;
 const site = Astro.site!;
 const url = new URL(`/${game.slug}`, site).href;
+const heading = game.heading ?? `${game.name} score sheet`;
 const categoryLabel = categoryNames[game.category as keyof typeof categoryNames] ?? 'Games';
 const categoryHref = categoryHrefs[game.category as keyof typeof categoryHrefs] ?? '/all-games';
 
@@ -37,7 +39,7 @@ const sheetGame = { slug: game.slug, name: game.name, players: game.players, win
 const schema = [
   {
     '@type': 'WebApplication',
-    name: `${game.name} Score Sheet`,
+    name: game.heading ?? `${game.name} Score Sheet`,
     url,
     applicationCategory: 'GameApplication',
     operatingSystem: 'Any',
@@ -66,8 +68,8 @@ const schema = [
         <a href="/">Home</a>{' '}<span aria-hidden="true">›</span>{' '}<a href={categoryHref}>{categoryLabel}</a>{' '}<span aria-hidden="true">›</span>{' '}<span aria-current="page">{game.name}</span>
       </nav>
       <div class="game-title">
-        <h1 class="t-head">{game.name} score sheet</h1>
-        <p class="t-lead">Free printable PDF and online scorekeeper</p>
+        <h1 class="t-head">{heading}</h1>
+        <p class="t-lead">{game.subheading ?? 'Free printable PDF and online scorekeeper'}</p>
       </div>
       <p class="measure">{content.intro}</p>
       {aliasParts.length > 0 && <p class="measure aliases">Also called {aliasParts.map((p) => (p.type === 'element' ? <em>{p.value}</em> : p.value))}.</p>}
@@ -89,7 +91,7 @@ const schema = [
 
     <div class="stage game-stage print-sheet">
       <h2 class="sr-only">Online {game.name} scorekeeper</h2>
-      <ScoreSheet client:idle mode="live" game={sheetGame} />
+      {game.board === 'cribbage' ? <CribbageBoard client:idle game={sheetGame} /> : <ScoreSheet client:idle mode="live" game={sheetGame} />}
     </div>
 
     <div class="game-rest reading-block">

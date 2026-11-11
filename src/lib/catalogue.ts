@@ -41,6 +41,7 @@ export const catalogue: CatalogueEntry[] = [
   { slug: 'wizard-score-sheet', name: 'Wizard', category: 'card', min: 3, max: 6, scoring: 'Bids and tricks' },
   { slug: 'dutch-blitz-score-sheet', name: 'Dutch Blitz', category: 'card', min: 2, max: 8, scoring: 'Round totals' },
   { slug: 'nertz-score-sheet', name: 'Nertz', category: 'card', min: 2, max: 8, scoring: 'Round totals' },
+  { slug: 'cribbage-board', name: 'Cribbage', category: 'card', min: 2, max: 3, scoring: 'Peg board' },
   // Phase 3: tile games
   { slug: 'chicken-foot-score-sheet', name: 'Chicken Foot', category: 'tile', min: 2, max: 8, scoring: 'Round totals' },
   { slug: 'rummikub-score-sheet', name: 'Rummikub', category: 'tile', min: 2, max: 4, scoring: 'Round totals' },

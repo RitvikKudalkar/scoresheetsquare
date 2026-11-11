@@ -729,3 +729,33 @@ html.table-open { overflow: hidden; }
 /* ── Several columns per player (Triple Yahtzee ×1, ×2, ×3) ─── */
 .sheet-sub th:not(.sheet-corner) { block-size: auto; padding-block: 4px !important; font-size: var(--text-small); font-weight: 400; color: var(--color-pad-ink-soft); text-align: center; }
 .sheet-grid .is-first { border-inline-start: 1.5px solid var(--color-pad-ink); }
+
+/* ── Cribbage board: holes in streets of 30, pegs told apart by shape ─ */
+.crib-board { padding: 16px 16px 8px; }
+.crib-board svg { display: block; inline-size: 100%; block-size: auto; }
+.crib-hole { fill: color-mix(in oklab, var(--color-pad-ink) 35%, transparent); }
+.crib-hole.is-finish { fill: none; stroke: var(--color-pad-ink); stroke-width: 1.2; }
+.crib-street { font-size: 10px; fill: var(--color-pad-ink-soft); font-variant-numeric: tabular-nums; }
+.crib-peg { fill: var(--color-graphite); transition: cx 360ms var(--ease-out), cy 360ms var(--ease-out), x 360ms var(--ease-out), y 360ms var(--ease-out); }
+.crib-peg.is-ring { fill: var(--color-sheet); stroke: var(--color-graphite); stroke-width: 2.2; }
+.crib-peg.is-back { opacity: 0.45; }
+.crib-players { list-style: none; margin: 0; padding: 4px 16px; display: grid; gap: 4px; }
+.crib-players li { display: grid; grid-template-columns: 44px 1fr auto auto; align-items: center; gap: 10px; border-block-end: 1px solid color-mix(in oklab, var(--color-pad-ink) 35%, transparent); }
+.crib-players li.is-active { background: var(--color-pad-paper); }
+.crib-pick { inline-size: 44px; block-size: 44px; display: grid; place-items: center; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.crib-pick svg { inline-size: 20px; block-size: 20px; overflow: visible; }
+.crib-players li.is-active .crib-pick { box-shadow: inset 0 0 0 2px var(--color-pad-ink); }
+.crib-score { font-size: var(--score); font-weight: 600; color: var(--color-graphite); font-variant-numeric: tabular-nums; min-inline-size: 3ch; text-align: end; }
+.crib-togo { min-inline-size: 7ch; text-align: end; }
+.crib-pad { padding: 16px; display: grid; gap: 10px; }
+.crib-pad-label { font-size: var(--text-small); color: var(--color-pad-ink-soft); }
+.crib-keys { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+.crib-keys button { block-size: 52px; border: 0; background: var(--color-pad-stage); color: var(--color-pad-ink); font: inherit; font-size: 1.25rem; cursor: pointer; font-variant-numeric: tabular-nums; }
+.crib-keys button:hover:not(:disabled) { background: color-mix(in oklab, var(--color-pad-stage), var(--color-pad-ink) 10%); }
+.crib-keys button:active:not(:disabled) { transform: translateY(1px); }
+.crib-keys button:disabled { opacity: 0.5; cursor: not-allowed; }
+.crib-other { display: flex; align-items: end; gap: 8px; }
+.crib-other label { display: grid; gap: 2px; }
+.crib-other input { inline-size: 5ch; block-size: 44px; border: 0; border-block-end: 1.5px solid var(--color-pad-ink); background: transparent; font: inherit; font-size: 1.25rem; color: var(--color-graphite); text-align: center; }
+.crib-log { list-style: none; margin: 0; padding: 0 16px 16px; display: grid; gap: 2px; color: var(--color-graphite); }
+@media (max-width: 559px) { .crib-keys { grid-template-columns: repeat(4, 1fr); } }
