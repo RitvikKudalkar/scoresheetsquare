@@ -68,15 +68,40 @@
       "Kismet dice are coloured in pairs: 1 and 6 are black, 2 and 5 are red, 3 and 4 are green. That's what the colour boxes mean: a flush is five dice of one colour, and a same-colour full house or two pair uses dice of one colour only.",
       "The basic section earns a bonus of 35 for 63 or more, 55 for 71 or more, and 75 for 78 or more. The online sheet works out the bonus and every total, and circles whoever is ahead."
     ],
-    "exampleRound": {
-      "caption": "One player, three turns",
-      "rows": [
-        { "label": "Rolls 3, 4, 3, 4, 4: full house same color (all green)", "value": "38" },
-        { "label": "Rolls 2, 2, 5, 5, 1: 2 pair same color (red pairs)", "value": "15" },
-        { "label": "Rolls 6, 6, 6, 6, 6: Kismet", "value": "80" }
-      ],
-      "result": "Three boxes filled: 133 points so far"
+    "exampleRound": [
+      {
+        "caption": "One player, three turns",
+        "rows": [
+          { "label": "Rolls 3, 4, 3, 4, 4: full house same color (all green)", "value": "38" },
+          { "label": "Rolls 2, 2, 5, 5, 1: 2 pair same color (red pairs)", "value": "15" },
+          { "label": "Rolls 6, 6, 6, 6, 6: Kismet", "value": "80" }
+        ],
+        "result": "Three boxes filled: 133 points so far"
+      },
+      {
+        "caption": "One player's basic section reaches the top bonus",
+        "rows": [
+          { "label": "Aces, Deuces and Treys (3 + 6 + 12)", "value": "21" },
+          { "label": "Fours, Fives and Sixes (16 + 20 + 24)", "value": "60" },
+          { "label": "Bonus for 78 or more", "value": "75" }
+        ],
+        "result": "Basic total: 81 + 75 = 156"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a turn of Kismet works",
+      "paragraphs": [
+        "Kismet is played with five dice whose pips are coloured in pairs. On a turn you roll all five, then may reroll any or all of them twice more, keeping the dice you like each time. After the last roll, or sooner if you choose, you write a score in one empty box in your column.",
+        "The basic section scores numbers: Aces to Sixes each score the total of the dice showing that number. The Kismet section rewards patterns, and most of its boxes care about colour as well as numbers. A full house in one colour, such as 2-2-5-5-5 (all red), scores more than a full house in mixed colours, and a flush needs nothing but colour.",
+        "There are fifteen boxes, so a game lasts fifteen turns. When a roll fits nowhere you want it, you still have to fill a box, either with what it scores or with a zero. The three bonus levels in the basic section reward going well beyond three of each number, which makes it worth chasing four 6s and four 5s early."
+      ]
     },
+    "tips": [
+      "The basic bonus is one bonus, not three added together. A basic score of 80 earns 75, not 35 + 55 + 75.",
+      "A same-colour full house is also an ordinary full house. If the same-colour box is already filled, score it in Full house for the total plus 15.",
+      "Two pair same color needs both pairs in one colour, such as two 1s and two 6s (both black). Two 1s and two 2s score 0 in that box.",
+      "A second Kismet has no bonus. Score it in another open box it fits, such as 4 of a kind or Flush, since five of one number is always one colour."
+    ],
     "faqs": [
       { "q": "How do you score Kismet?", "a": "Each turn you write a score in one of fifteen boxes. Aces to Sixes score the total of that number. The Kismet section scores the total of the dice for some boxes, with extra points for the harder ones: a straight is 30, a flush 35, a full house the total plus 15, and a Kismet the total plus 50." },
       { "q": "What is the bonus in Kismet?", "a": "If your basic section adds up to 63 or more you get 35 points. At 71 or more the bonus is 55, and at 78 or more it is 75." },

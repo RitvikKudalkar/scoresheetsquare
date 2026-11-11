@@ -35,15 +35,39 @@
       "A night has sets of six rounds. In round one everyone rolls for 1s, in round two for 2s, and so on up to 6s. At the end of the night, add up each column: there are usually prizes for the most buncos, the most wins and the most losses.",
       "Keeping score for the whole group on a phone? The online tally lists every player with a plus and minus for each column, shows which number to roll for, and keeps the prize standings up to date."
     ],
-    "exampleRound": {
-      "caption": "Set 1, round 1: everyone rolls for 1s",
-      "rows": [
-        { "label": "Ana rolls 1-1-4", "value": "2" },
-        { "label": "Ben rolls 3-3-3", "value": "5" },
-        { "label": "Ana rolls 1-1-1, a Bunco", "value": "21" }
-      ],
-      "result": "Ana and Ben reach 28 and win the round: both mark a win, Ana marks a Bunco"
+    "exampleRound": [
+      {
+        "caption": "Set 1, round 1: everyone rolls for 1s",
+        "rows": [
+          { "label": "Ana rolls 1-1-4", "value": "2" },
+          { "label": "Ben rolls 3-3-3", "value": "5" },
+          { "label": "Ana rolls 1-1-1, a Bunco", "value": "21" }
+        ],
+        "result": "Ana and Ben reach 28 and win the round: both mark a win, Ana marks a Bunco"
+      },
+      {
+        "caption": "Set 2, round 4: rolling for 4s at the head table",
+        "rows": [
+          { "label": "Ana rolls 4-4-2, then 4-6-1, then misses", "value": "3" },
+          { "label": "Cleo rolls 4-4-4, a Bunco", "value": "21" }
+        ],
+        "result": "Cleo and Dev reach 21 and ring the bell: both mark a win, Cleo marks a Bunco"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a round of Bunco is played",
+      "paragraphs": [
+        "Players sit in teams of two at tables of four, partners facing each other, and one table is the head table. Each round has a target number, starting with 1s. Players take turns rolling three dice, scoring 1 point for every die that shows the round's number, and keep rolling for as long as they score. A roll with no points passes the dice to the left.",
+        "Rolling all three dice on the round's number is a Bunco, worth 21 points, and the player calls it out. Three of a kind of any other number is often worth 5. The round ends when a team at the head table reaches 21 points: they ring a bell, and every other table stops at once, even in the middle of a roll.",
+        "At each table the team with more points wins the round. The winners at the head table stay, and the winning teams at the other tables move up a table. Players change partners as they move, so everyone plays with different people through the night. Then the next round starts with the next number."
+      ]
     },
+    "tips": [
+      "A round at any table other than the head table can end in a tie. Most groups break it with a roll-off: each team rolls once more, and the higher score wins the round.",
+      "Wins and losses go on both partners' cards, not just the card of whoever rolled the last point.",
+      "A Bunco counts twice: 21 points toward the team's score in that round, and a mark in the Buncos column for the player who rolled it.",
+      "Ties in the prize standings are common at the end of the night. Many groups split the prize or hold a roll-off for it."
+    ],
     "faqs": [
       { "q": "How do you keep score in Bunco?", "a": "Each player has a tally card. After every round they mark a win or a loss for their team, and they count every Bunco they roll. Points are only used within a round to decide which team wins it." },
       { "q": "How many points is a Bunco?", "a": "21 points. A Bunco is rolling three of a kind of the round's number, such as three 4s in round four." },

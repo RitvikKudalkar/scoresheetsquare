@@ -67,16 +67,42 @@
       "After 13 turns every box is filled. Add the upper section first: a score of 63 or more earns the 35-point bonus. Then add the lower section, including 100 for each extra Yahtzee, and add both totals for the grand total.",
       "Playing on a phone instead? Tap a box on the sheet to write a score. Totals, the bonus and the leader update as you go, and the game is saved if the phone locks."
     ],
-    "exampleRound": {
-      "caption": "Two players, two turns each",
-      "rows": [
-        { "label": "Ana rolls 4-4-4-4-2 and takes Fours", "value": "16" },
-        { "label": "Ben rolls 3-3-3-6-6 and takes Full house", "value": "25" },
-        { "label": "Ana rolls 6-5-5-4-3 and takes Chance", "value": "23" },
-        { "label": "Ben rolls 1-2-2-5-6 and scratches Ones", "value": "0" }
-      ],
-      "result": "After two turns: Ana 39, Ben 25"
+    "exampleRound": [
+      {
+        "caption": "Two players, two turns each",
+        "rows": [
+          { "label": "Ana rolls 4-4-4-4-2 and takes Fours", "value": "16" },
+          { "label": "Ben rolls 3-3-3-6-6 and takes Full house", "value": "25" },
+          { "label": "Ana rolls 6-5-5-4-3 and takes Chance", "value": "23" },
+          { "label": "Ben rolls 1-2-2-5-6 and scratches Ones", "value": "0" }
+        ],
+        "result": "After two turns: Ana 39, Ben 25"
+      },
+      {
+        "caption": "One player's finished column",
+        "rows": [
+          { "label": "Upper score, Ones to Sixes", "value": "65" },
+          { "label": "Upper bonus for 63 or more", "value": "35" },
+          { "label": "Lower boxes, with 50 in the Yahtzee box", "value": "191" },
+          { "label": "Yahtzee bonus for one extra Yahtzee", "value": "100" }
+        ],
+        "result": "Grand total: 391"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a turn of Yahtzee works",
+      "paragraphs": [
+        "On each turn you roll five dice up to three times. After the first and second rolls you may keep any dice you like and reroll the rest, and you can pick up dice you kept earlier. After the third roll, or sooner if you are happy, you must write a score in one empty box in your column.",
+        "The upper section rewards collecting one number: Ones to Sixes score only the dice showing that number. The lower section is for poker-style hands. Three of a kind, four of a kind and Chance score the total of all five dice, while a full house, small straight, large straight and Yahtzee score fixed points.",
+        "Every turn fills exactly one box, so after 13 turns the game is over. If a roll fits nothing you want, you still have to fill a box, either with whatever it scores or with a zero. Choosing where to take a zero is a large part of the strategy: a zero in Ones costs little, but a zero in the Yahtzee box costs the 50 and every 100-point bonus that might follow."
+      ]
     },
+    "tips": [
+      "The Joker rule: a second Yahtzee earns the 100 bonus and must go in the matching upper box if it is empty. If that box is filled, use it in any open lower box for full points, including 25, 30 or 40 for the full house and straights.",
+      "Treat three of each number as par for the upper bonus: that makes 63. Four 6s are 6 over par and can cover a missing 1 and 2 elsewhere.",
+      "A zero in the Yahtzee box ends any chance of Yahtzee bonuses, even if you roll five of a kind later in the game.",
+      "The scoring has no tiebreak. If two players finish level, share the win or play a deciding game."
+    ],
     "faqs": [
       { "q": "What is the bonus in Yahtzee?", "a": "If your upper section adds up to 63 or more, you get a 35-point bonus. 63 is what you score with three of each number, from three 1s to three 6s." },
       { "q": "How many turns are in a game of Yahtzee?", "a": "Thirteen. There are 13 boxes and every turn fills exactly one of them, so the game ends when each player's column is full." },

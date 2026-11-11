@@ -25,15 +25,39 @@
       "The winner scores 25 points, plus 5 points for every card still in the other players' stockpiles. Count those cards, work out the total and write it in the winner's column; leave the others empty.",
       "Keep playing hands until someone reaches 500 points. Online, the sheet adds every hand and shows the winner as soon as someone passes 500. For a shorter game, just play one hand and skip the scoring."
     ],
-    "exampleRound": {
-      "caption": "Three players, first hand",
-      "rows": [
-        { "label": "Ana empties her stockpile", "value": "25" },
-        { "label": "Ben has 6 cards left in his stockpile", "value": "30 to Ana" },
-        { "label": "Cleo has 3 cards left", "value": "15 to Ana" }
-      ],
-      "result": "Ana writes 70; nobody else scores this hand"
+    "exampleRound": [
+      {
+        "caption": "Three players, first hand",
+        "rows": [
+          { "label": "Ana empties her stockpile", "value": "25" },
+          { "label": "Ben has 6 cards left in his stockpile", "value": "30 to Ana" },
+          { "label": "Cleo has 3 cards left", "value": "15 to Ana" }
+        ],
+        "result": "Ana writes 70; nobody else scores this hand"
+      },
+      {
+        "caption": "Two players, a hand with a big gap",
+        "rows": [
+          { "label": "Ben empties his stockpile", "value": "25" },
+          { "label": "Ana still has 17 cards in hers", "value": "85 to Ben" }
+        ],
+        "result": "Ben writes 110; Ana's box stays empty"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a hand of Skip-Bo works",
+      "paragraphs": [
+        "Each player is dealt a stockpile, 30 cards for two to four players or 20 for five or six, and turns its top card face up. The rest of the deck is the draw pile. In the middle of the table are up to four shared building piles, which always start with a 1 and go up in order to 12.",
+        "At the start of each turn you draw until you hold five cards. Then you play as many cards as you can onto the building piles, from your hand, the top of your stockpile or the tops of your four discard piles. Skip-Bo cards are wild and can be any number. Your turn ends when you place one card from your hand on one of your own discard piles.",
+        "The top card of your stockpile is the one that matters, because the first player to play their whole stockpile wins the hand. Playing it whenever you can, and holding back cards the next player needs for their stockpile, is most of the strategy. If you empty your hand during a turn, draw five more and keep playing."
+      ]
     },
+    "tips": [
+      "Count only the cards left in each opponent's stockpile. Cards in their hands and discard piles are worth nothing.",
+      "Many families play a single hand and skip the scoring. Use the sheet when you want a longer game in which a big win counts for more.",
+      "For a shorter scored game, deal 20-card stockpiles to everyone or play to 250. The points work the same way.",
+      "If the draw pile runs out, shuffle the completed building piles into a new one. The hand carries on and the scoring does not change."
+    ],
     "faqs": [
       { "q": "How do you score Skip-Bo?", "a": "The player who empties their stockpile first wins the hand and scores 25 points, plus 5 points for each card left in their opponents' stockpiles. The other players score nothing that hand." },
       { "q": "How many points do you need to win Skip-Bo?", "a": "500. Players keep playing hands until someone's total reaches 500. Many families play a single hand instead, and the first to empty their stockpile wins." },

@@ -32,16 +32,42 @@
       "When a player goes out, everyone else counts the cards left in their hand: 5 points for 2 to 9, 10 for 10 to King, 15 for an Ace and 50 for a Joker. The player who went out writes 0. Tables vary on Aces and Jokers, so agree on values before you start.",
       "After the seventh round, the lowest total wins. On a phone, tap a box to write a round's points; the sheet keeps every total and circles whoever is lowest."
     ],
-    "exampleRound": {
-      "caption": "Four players, round 1 (2 sets of 3)",
-      "rows": [
-        { "label": "Ana goes out", "value": "0" },
-        { "label": "Ben holds a 4 and a King", "value": "15" },
-        { "label": "Cleo holds an Ace and a Joker", "value": "65" },
-        { "label": "Dev holds 7, 8 and 9", "value": "15" }
-      ],
-      "result": "Ana leads with 0 going into round 2"
+    "exampleRound": [
+      {
+        "caption": "Four players, round 1 (2 sets of 3)",
+        "rows": [
+          { "label": "Ana goes out", "value": "0" },
+          { "label": "Ben holds a 4 and a King", "value": "15" },
+          { "label": "Cleo holds an Ace and a Joker", "value": "65" },
+          { "label": "Dev holds 7, 8 and 9", "value": "15" }
+        ],
+        "result": "Ana leads with 0 going into round 2"
+      },
+      {
+        "caption": "Four players, round 7 (3 runs of 4)",
+        "rows": [
+          { "label": "Ana goes out", "value": "0" },
+          { "label": "Ben bought twice and holds 2, 5, 9, Jack, Queen, Ace", "value": "50" },
+          { "label": "Cleo holds a Joker and a 10", "value": "60" },
+          { "label": "Dev went down but still holds a 3 and an 8", "value": "10" }
+        ],
+        "result": "Round 7: Ana 0, Dev 10, Ben 50, Cleo 60"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a round of Shanghai Rummy works",
+      "paragraphs": [
+        "Each round has a contract: the exact sets and runs a player must lay down before they can do anything else with their hand. On a turn you draw from the stock or take the top discard, and finish by discarding one card. Until you can lay down the whole contract at once, nothing goes on the table.",
+        "Players who did not take the discard can ask to buy it out of turn, and the buyer takes a penalty card from the stock along with it. Buying fills a contract faster, but every extra card in hand is another card that may be counted against you when the round ends.",
+        "Once a player has laid down their contract, they may add cards to their own melds and to other players' melds on later turns. The round ends when someone goes out by playing or discarding their last card. Everyone else counts what they still hold. The contracts get harder each round and the hands get bigger, so the late rounds often swing the totals by 100 points or more."
+      ]
     },
+    "tips": [
+      "Going down protects only the cards on the table. A player who laid down the contract but still holds cards when someone goes out scores those cards like anyone else.",
+      "A Joker left in hand outweighs a whole hand of low cards. Agree whether Jokers count 25 or 50, and Aces 15 or 20, before round one, not when someone is caught.",
+      "For a longer family version with eight or more contracts, use the blank printable score sheet with as many rounds as you need, and write each contract beside its row.",
+      "A tie for the lowest total is usually shared. Some families replay the last contract, three runs of four, as a play-off between the tied players."
+    ],
     "faqs": [
       { "q": "How do you score Shanghai Rummy?", "a": "When someone goes out, every other player adds up the cards left in their hand: 5 points for 2 to 9, 10 for 10 to King, 15 for an Ace and 50 for a Joker. The player who went out scores 0, and the lowest total after all rounds wins." },
       { "q": "What are the contracts in Shanghai Rummy?", "a": "In the seven-round game: two sets of 3; a set of 3 and a run of 4; two runs of 4; three sets of 3; two sets of 3 and a run of 4; a set of 3 and two runs of 4; and three runs of 4, with no discard in the last round at many tables." },

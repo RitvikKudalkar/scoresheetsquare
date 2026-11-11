@@ -28,16 +28,41 @@
       "Count the cards left in everyone else's hands: face value for number cards, 20 for each Draw Two, Reverse and Skip, and 50 for each Wild and Wild Draw Four. Write the total in the winner's column for that hand and leave the other boxes empty or write 0.",
       "The first player to reach 500 points wins the game. Online, the sheet adds every hand and shows the winner as soon as someone passes 500."
     ],
-    "exampleRound": {
-      "caption": "Four players, first hand",
-      "rows": [
-        { "label": "Ana goes out", "value": "62" },
-        { "label": "Ben holds a 4 and a Skip", "value": "24 to Ana" },
-        { "label": "Cleo holds a Wild", "value": "50 to Ana" },
-        { "label": "Dev holds an 8", "value": "8 to Ana" }
-      ],
-      "result": "Ana writes 82; nobody else scores this hand"
+    "exampleRound": [
+      {
+        "caption": "Four players, first hand",
+        "rows": [
+          { "label": "Ana goes out", "value": "62" },
+          { "label": "Ben holds a 4 and a Skip", "value": "24 to Ana" },
+          { "label": "Cleo holds a Wild", "value": "50 to Ana" },
+          { "label": "Dev holds an 8", "value": "8 to Ana" }
+        ],
+        "result": "Ana writes 82; nobody else scores this hand"
+      },
+      {
+        "caption": "Three players, the last card is a Draw Two",
+        "rows": [
+          { "label": "Ben goes out with a Draw Two", "value": "94" },
+          { "label": "Cleo draws a 5 and a Wild, already holds a Reverse and a 9", "value": "84 to Ben" },
+          { "label": "Ana holds a 3 and a 7", "value": "10 to Ben" }
+        ],
+        "result": "Ben writes 94; the two cards Cleo drew count"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a hand of Uno works",
+      "paragraphs": [
+        "Each player is dealt seven cards, and the top card of the draw pile is turned over to start the discard pile. On your turn you play one card that matches the top of the discard pile by colour, number or symbol, or a Wild card, which lets you choose the colour. If you cannot play, or choose not to, you draw one card and may play it straight away if it fits.",
+        "Action cards change the flow of the game. A Skip makes the next player miss a turn, a Reverse changes direction, and a Draw Two makes the next player draw two cards and lose their turn. A Wild Draw Four does the same with four cards, and is only allowed when you hold no card of the current colour.",
+        "When you are down to one card, say Uno before the next player starts their turn. The hand ends as soon as someone plays their last card, and then the counting starts. Because only the winner scores, a hand where the others are caught holding Wilds can be worth more than several small wins."
+      ]
     },
+    "tips": [
+      "If the last card played is a Draw Two or Wild Draw Four, the next player picks up those cards before counting, so they add to the winner's score.",
+      "Write the total in the winner's column only. Leaving the other boxes empty keeps the totals honest: they show points won, not cards held.",
+      "For lowest-score Uno, each player writes the value of their own cards every hand, and when someone passes 500 the lowest total wins. Play it on the paper sheet.",
+      "Stacking a Draw Two on a Draw Two is a house rule, not part of the official rules. It makes hands swing harder but doesn't change how cards are counted."
+    ],
     "faqs": [
       { "q": "How do you score Uno?", "a": "The player who goes out first scores points for the cards left in the other players' hands: face value for number cards, 20 for Draw Two, Reverse and Skip cards, and 50 for Wild and Wild Draw Four cards." },
       { "q": "How many points do you need to win Uno?", "a": "500. The first player to reach 500 points across several hands wins the game." },

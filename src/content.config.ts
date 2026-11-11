@@ -66,14 +66,21 @@ const sheet = z.discriminatedUnion('engine', [
   }),
 ]);
 
+const example = z.object({
+  caption: z.string(),
+  rows: z.array(z.object({ label: z.string(), value: z.string() })).min(1),
+  result: z.string(),
+});
+
 const content = z.object({
   intro: z.string(),
   howToUse: z.array(z.string()).min(1),
-  exampleRound: z.object({
-    caption: z.string(),
-    rows: z.array(z.object({ label: z.string(), value: z.string() })).min(1),
-    result: z.string(),
-  }),
+  /** One example or two (a second one shows another player count or an edge case). */
+  exampleRound: z.union([example, z.array(example).min(1).max(2)]).transform((e) => (Array.isArray(e) ? e : [e])),
+  /** How a round works and how it is scored: 150–250 words, not a full rulebook. */
+  howToPlay: z.object({ heading: z.string(), paragraphs: z.array(z.string()).min(1) }).optional(),
+  /** Common scoring mistakes, house rules that change the score, or what to do in a tie. */
+  tips: z.array(z.string()).min(3).max(5).optional(),
   faqs: z.array(z.object({ q: z.string(), a: z.string() })).min(5).max(8),
 });
 
@@ -105,6 +112,10 @@ const games = defineCollection({
     // A live game ships a full page, so it must carry its page text and scoring reference.
     .refine((g) => g.status !== 'live' || (g.content && g.scoringReference), {
       message: 'A live game needs content and scoringReference',
+    })
+    // …and the deeper text that makes the page worth ranking (see docs/seo-plan.md, A2).
+    .refine((g) => g.status !== 'live' || (g.content?.howToPlay && g.content.tips), {
+      message: 'A live game needs content.howToPlay and content.tips',
     })
     // Every round a table can choose needs its label.
     .refine((g) => g.sheet.engine !== 'round-totals' || !g.sheet.roundLabels || Math.max(g.sheet.rounds, ...(g.sheet.roundOptions ?? [])) <= g.sheet.roundLabels.length, {

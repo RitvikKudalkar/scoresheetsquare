@@ -175,6 +175,8 @@ p { margin: 0; text-wrap: pretty; }
 .game-title { display: grid; gap: 8px; }
 .table-wrap { overflow-x: auto; }
 .prose { display: grid; gap: 16px; }
+.tips { list-style: disc; padding-inline-start: 1.1em; }
+.tips li::marker { color: var(--color-pad-ink-soft); }
 .use .slip { inline-size: min(100%, 480px); }
 .slip-time { font-weight: 600; margin-block-end: 8px; }
 .related { max-inline-size: 520px; }

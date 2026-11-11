@@ -34,14 +34,38 @@
       "After the hand, each team counts its counters: 1 point for every Ace, 10 and King won in tricks, plus 1 for the last trick, 25 in all. Write them in the third box. If the bidding team's meld and counters reach its bid, it scores both; if not, it is set and loses the amount of the bid. The other team scores its meld and counters.",
       "At many tables a team that takes no tricks loses its meld. If yours plays that way, write 0 for that team's meld. The first team to 150 wins; online, the sheet does the sums, checks that the counters add up to 25, and shows the winner."
     ],
-    "exampleRound": {
-      "caption": "Two teams, first hand",
-      "rows": [
-        { "label": "Ana and Ben bid 30, meld 14, take 18 counters", "value": "32" },
-        { "label": "Cleo and Dev meld 9, take 7 counters", "value": "16" }
-      ],
-      "result": "Ana and Ben needed 30 and made 32, so they keep it all"
+    "exampleRound": [
+      {
+        "caption": "Two teams, first hand",
+        "rows": [
+          { "label": "Ana and Ben bid 30, meld 14, take 18 counters", "value": "32" },
+          { "label": "Cleo and Dev meld 9, take 7 counters", "value": "16" }
+        ],
+        "result": "Ana and Ben needed 30 and made 32, so they keep it all"
+      },
+      {
+        "caption": "Two teams, the bidders are set",
+        "rows": [
+          { "label": "Cleo and Dev bid 28, meld 12, take 13 counters", "value": "−28" },
+          { "label": "Ana and Ben meld 6, take 12 counters", "value": "18" }
+        ],
+        "result": "Cleo and Dev reached 25 of the 28 they bid, so they lose 28"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a hand of Pinochle is scored",
+      "paragraphs": [
+        "Pinochle uses a 48-card deck: two copies each of the Ace, 10, King, Queen, Jack and 9 in all four suits, ranked in that order from high to low. In the partnership game, four players in two teams are dealt twelve cards each.",
+        "Players bid in turn for the right to name trump, each bid higher than the last, until the other three pass. The winning bid is the number of points that side promises to score in the hand. Once trump is named, every player lays down their meld, the combinations in the table above, and each side adds its meld together.",
+        "Then the twelve tricks are played. You must follow suit, and at most tables you must also try to win the trick and play a trump if you cannot follow. Each Ace, 10 and King won counts one point, and so does the last trick. The bidders add their meld and counters: if that reaches the bid they score it all, and if not they lose the bid. The other side keeps whatever it made."
+      ]
     },
+    "tips": [
+      "One card can count in melds of different kinds, such as the Queen of spades in both a pinochle and Queens around, but never twice in the same kind.",
+      "Both sides' counters must add up to 25 every hand. If they don't, a King or the last trick has usually been missed; the online sheet warns you.",
+      "If both sides pass 150 in the same hand, most tables give the game to the side that won the bidding. Agree on that before it happens.",
+      "With the older count (Aces 11, tens 10, Kings 4, Queens 3, Jacks 2) every value is ten times bigger: a run is worth 150 and the game is played to 1,500."
+    ],
     "faqs": [
       { "q": "How do you score Pinochle?", "a": "Each hand, both teams score their meld plus the counters they win in tricks (Aces, 10s and Kings are 1 point each, and the last trick is 1). The team that won the bidding must reach its bid with meld and counters together, or it loses the amount of the bid instead." },
       { "q": "What happens if you don't make your bid in Pinochle?", "a": "The bidding team is set: its meld and counters for the hand don't count, and the amount of the bid is taken off its score." },

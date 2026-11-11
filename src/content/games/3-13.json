@@ -32,15 +32,40 @@
       "When a player goes out by melding their whole hand into sets and runs, everyone else gets one more turn. Then each player counts the cards they couldn't meld: Aces 1, 2 to 10 face value, and Jacks, Queens and Kings 10. The player who went out writes 0.",
       "After the Kings wild round, the lowest total wins. On a phone, tap a box to write a round's points; the sheet keeps the totals and circles whoever is lowest."
     ],
-    "exampleRound": {
-      "caption": "Three players, round 3 (5s wild, 5 cards)",
-      "rows": [
-        { "label": "Ana goes out with a run and a set", "value": "0" },
-        { "label": "Ben is left with a 9", "value": "9" },
-        { "label": "Cleo is left with a Queen and an Ace", "value": "11" }
-      ],
-      "result": "Ana gains on everyone this round"
+    "exampleRound": [
+      {
+        "caption": "Three players, round 3 (5s wild, 5 cards)",
+        "rows": [
+          { "label": "Ana goes out with a run and a set", "value": "0" },
+          { "label": "Ben is left with a 9", "value": "9" },
+          { "label": "Cleo is left with a Queen and an Ace", "value": "11" }
+        ],
+        "result": "Ana gains on everyone this round"
+      },
+      {
+        "caption": "Three players, round 11 (Kings wild, 13 cards)",
+        "rows": [
+          { "label": "Ana goes out", "value": "0" },
+          { "label": "Ben is left with a 7, a Jack and an Ace", "value": "18" },
+          { "label": "Cleo is left with 2, 4, 6, 9, 10 and a Queen", "value": "41" }
+        ],
+        "result": "Round 11: Ana 0, Ben 18, Cleo 41"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a round of 3-13 works",
+      "paragraphs": [
+        "3-13 is played with a standard 52-card deck, or two shuffled together for five or more players, with Aces low. Round one deals three cards to each player, and every round deals one more, up to thirteen in round eleven. The rank that matches the number of cards dealt is wild for that round: 3s, then 4s, and on through Jacks, Queens and Kings.",
+        "On a turn you draw the top card of the stock or the discard pile, then discard one card. The aim is to arrange every card in your hand into melds: sets of three or more cards of one rank, or runs of three or more cards in sequence in the same suit, with wild cards filling any gap.",
+        "Melds stay in your hand until you go out, which you do by laying your whole hand down in melds and making a final discard. The other players then get one last turn to meld what they can, and every card left outside a meld counts against them. With three cards in round one and thirteen in the last, the late rounds decide most games."
+      ]
     },
+    "tips": [
+      "In most rules an unmelded wild card counts its normal value, so a stray Queen in the Queens wild round is still 10. Some tables charge more for a stuck wild; agree before the deal.",
+      "Some tables let players lay melds on the table during a round instead of holding them. That changes the play, not the scoring: only unmelded cards count.",
+      "Aces are low, so A-2-3 is a run and Q-K-A is not, unless your table plays Aces high and low.",
+      "If two players tie for the lowest total, some groups give the game to whoever scored lower in the Kings wild round."
+    ],
     "faqs": [
       { "q": "How do you score 3-13?", "a": "At the end of each round, players add up the cards they could not meld: Aces 1, 2 to 10 face value and face cards 10. The player who went out scores 0. The lowest total after 11 rounds wins." },
       { "q": "What is wild in each round of 3-13?", "a": "The card matching the number of cards dealt: 3s in the 3-card round, 4s in the 4-card round, then up through Jacks (11 cards), Queens (12) and Kings (13). Some groups add Jokers as extra wild cards." },

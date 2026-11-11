@@ -83,16 +83,42 @@
       "At the end of a round, fill in the team's lines: 500 for each clean book, 300 for each dirty book, 100 for going out, then the value of all the cards it laid down. On the last line write the value of the cards still held in hand and foot as a minus number. The sheet adds up the round and the game.",
       "After four rounds the highest game total wins. Groups play Hand and Foot with many house rules, such as bonuses for red 3s or wild card books; add those to the cards laid down line the way your table plays."
     ],
-    "exampleRound": {
-      "caption": "Two teams, round 1",
-      "rows": [
-        { "label": "Ana and Ben: 2 clean books, 1 dirty, go out", "value": "1,400" },
-        { "label": "Ana and Ben: cards laid down", "value": "+285" },
-        { "label": "Cleo and Dev: 1 clean book, 2 dirty", "value": "1,100" },
-        { "label": "Cleo and Dev: cards down 310, left in hand 95", "value": "+215" }
-      ],
-      "result": "Ana and Ben write 1,685; Cleo and Dev write 1,315"
+    "exampleRound": [
+      {
+        "caption": "Two teams, round 1",
+        "rows": [
+          { "label": "Ana and Ben: 2 clean books, 1 dirty, go out", "value": "1,400" },
+          { "label": "Ana and Ben: cards laid down", "value": "+285" },
+          { "label": "Cleo and Dev: 1 clean book, 2 dirty", "value": "1,100" },
+          { "label": "Cleo and Dev: cards down 310, left in hand 95", "value": "+215" }
+        ],
+        "result": "Ana and Ben write 1,685; Cleo and Dev write 1,315"
+      },
+      {
+        "caption": "Two teams, round 3, one team stuck in its foot",
+        "rows": [
+          { "label": "Ana and Ben: 3 clean books, 1 dirty, go out", "value": "1,900" },
+          { "label": "Ana and Ben: cards laid down", "value": "+420" },
+          { "label": "Cleo and Dev: 1 dirty book", "value": "300" },
+          { "label": "Cleo and Dev: cards down 140, left in hand and foot 265", "value": "−125" }
+        ],
+        "result": "Round 3: Ana and Ben 2,320; Cleo and Dev 175"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a round of Hand and Foot works",
+      "paragraphs": [
+        "Each player is dealt two piles of cards, usually eleven each: the hand, which they pick up and play first, and the foot, which stays face down until the hand is used up. A turn is draw two cards from the stock, meld if you can, then discard one. Partners build their melds together in one shared area in front of the team.",
+        "A team's first meld in a round must reach that round's minimum, counted from card values alone: 50, then 90, 120 and 150. Melds grow into books of seven cards of one rank. Jokers and 2s are wild and can fill out a meld, but most tables cap them so that a meld always holds more natural cards than wild ones.",
+        "A round ends when a player goes out, which usually needs their team to have finished a set number of books (two clean and two dirty is common) and their foot to be played. Then both teams score: the book bonuses, the going-out bonus and the value of every card melded, minus the value of every card still held. A team caught with its foot untouched can easily finish a round below zero."
+      ]
     },
+    "tips": [
+      "Cards inside a book count twice: once in the 500 or 300 book bonus and again on the cards laid down line. Leaving book cards out of the card count is the most common way to under-score a round.",
+      "Red 3s vary more than any other rule. Some tables give a 100-point bonus for each one laid down, others take off 100 or more for one caught in hand. Agree first, then write it on the cards laid down or cards left line.",
+      "Write cards left as a minus number and include the foot if it was never picked up. An unplayed foot of eleven cards often costs 100 to 200 points.",
+      "If the game ends level, some tables give it to the team with more clean books across the four rounds; others play one extra round at the 150 meld."
+    ],
     "faqs": [
       { "q": "How do you score Hand and Foot?", "a": "Each team scores 500 for every clean book, 300 for every dirty book and 100 for going out, plus the value of every card it melded. The value of cards left in a team's hand and foot is taken off. The four round scores are added together." },
       { "q": "What are the card values in Hand and Foot?", "a": "Jokers are worth 50, 2s and Aces 20, 8s to Kings 10, and 4s to 7s and black 3s 5 points each. Red 3s are scored differently at different tables, often as a 100-point bonus or penalty." },

@@ -24,15 +24,41 @@
       "Write 1 in the winner's column for that round and leave the other boxes empty. The first player to win five rounds wins the match; online, choose 3, 5 or 10 under Play to.",
       "Tenzi has many variations, such as calling the number to roll or stacking the dice. Whichever you play, the round winner gets the point."
     ],
-    "exampleRound": {
-      "caption": "Four players, first three rounds",
-      "rows": [
-        { "label": "Round 1: Ana calls Tenzi first", "value": "1 to Ana" },
-        { "label": "Round 2: Dev gets ten 4s", "value": "1 to Dev" },
-        { "label": "Round 3: Ana again", "value": "1 to Ana" }
-      ],
-      "result": "Ana leads 2 to 1; three more wins and she takes the match"
+    "exampleRound": [
+      {
+        "caption": "Four players, first three rounds",
+        "rows": [
+          { "label": "Round 1: Ana calls Tenzi first", "value": "1 to Ana" },
+          { "label": "Round 2: Dev gets ten 4s", "value": "1 to Dev" },
+          { "label": "Round 3: Ana again", "value": "1 to Ana" }
+        ],
+        "result": "Ana leads 2 to 1; three more wins and she takes the match"
+      },
+      {
+        "caption": "Two players, a match to 3",
+        "rows": [
+          { "label": "Round 1: Ana", "value": "1 to Ana" },
+          { "label": "Rounds 2 and 3: Ben", "value": "1 each to Ben" },
+          { "label": "Round 4: Ana", "value": "1 to Ana" },
+          { "label": "Round 5: Ben collects ten 6s", "value": "1 to Ben" }
+        ],
+        "result": "Ben wins the match 3 to 2"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a round of Tenzi works",
+      "paragraphs": [
+        "Every player has ten dice of their own colour. On go, everyone rolls all ten at once and picks a number to collect, usually whichever number came up most. You set aside the dice showing that number and keep rerolling the rest as fast as you can, with no turns and no waiting.",
+        "You may change your mind about the number at any point, which happens when another number starts piling up. The round ends the moment someone has all ten dice showing the same number and calls Tenzi. A round usually lasts well under a minute, so a match of five or ten rounds fits easily into a short evening.",
+        "The box comes with many other ways to play beyond the basic race. In some, the number is called out before the roll, so everyone collects the same one; in others, the winner has to stack all ten dice into a tower, or collect dice that add up to a target. Whichever way you play, the sheet keeps one point for each round won."
+      ]
     },
+    "tips": [
+      "Nine matching dice is not a win. The round keeps going until all ten match, so don't stop rolling to check the other players.",
+      "Look at the winner's dice before writing the point. A false Tenzi usually means the round carries on.",
+      "To keep it fair for younger players, some families let them collect nine dice instead of ten.",
+      "A match to 5 takes about ten minutes with four players. Play to 10 for a longer game, or to 3 for a quick warm-up."
+    ],
     "faqs": [
       { "q": "How do you keep score in Tenzi?", "a": "A single round has no points: the first player to get all ten dice showing the same number wins. To play a match, give the round winner 1 point and play until someone reaches an agreed number, such as 5." },
       { "q": "How many rounds do you play in Tenzi?", "a": "Rounds take about a minute, so most groups play first to 5 or 10 round wins. The online sheet offers 3, 5 or 10." },

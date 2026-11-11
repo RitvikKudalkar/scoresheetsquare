@@ -101,18 +101,38 @@ const schema = [
         </div>
       </section>
 
+      {
+        content.howToPlay && (
+          <section aria-labelledby="play-title" data-reveal>
+            <h2 id="play-title" class="t-head">{content.howToPlay.heading}</h2>
+            <div class="measure prose">{content.howToPlay.paragraphs.map((p) => <p>{p}</p>)}</div>
+          </section>
+        )
+      }
+
+      {
+        content.tips && (
+          <section aria-labelledby="tips-title" data-reveal>
+            <h2 id="tips-title" class="t-head">Scoring tips and house rules</h2>
+            <ul class="measure prose tips">{content.tips.map((t) => <li>{t}</li>)}</ul>
+          </section>
+        )
+      }
+
       <section aria-labelledby="use-title" class="use" data-reveal>
         <h2 id="use-title" class="t-head">How to use this sheet</h2>
         <div class="measure prose">{content.howToUse.map((p) => <p>{p}</p>)}</div>
-        <div class="slip">
-          <p class="slip-time">{content.exampleRound.caption}</p>
-          {
-            content.exampleRound.rows.map((r) => (
-              <p class="slip-row"><span>{r.label}</span><span class="slip-leader" /><span>{r.value}</span></p>
-            ))
-          }
-          <p class="slip-result"><span>{content.exampleRound.result}</span></p>
-        </div>
+        {
+          content.exampleRound.map((ex) => (
+            <div class="slip">
+              <p class="slip-time">{ex.caption}</p>
+              {ex.rows.map((r) => (
+                <p class="slip-row"><span>{r.label}</span><span class="slip-leader" /><span>{r.value}</span></p>
+              ))}
+              <p class="slip-result"><span>{ex.result}</span></p>
+            </div>
+          ))
+        }
       </section>
 
       <AdSlot />

@@ -29,15 +29,41 @@
       "When a player knocks, both players count their deadwood, the cards not in sets or runs: face cards 10, Aces 1 and the rest their face value. The knocker scores the difference. A player who goes gin, with no deadwood at all, scores 25 plus the opponent's deadwood. If the defender's deadwood is equal to or lower than the knocker's, that's an undercut: the defender scores 25 plus the difference.",
       "The first player to reach 100 wins the game. Most players then add a 100-point game bonus and 25 points for every hand each player won, and double the bonus if the loser never scored. Play to 150 or 250 instead by choosing it under Play to on the online sheet."
     ],
-    "exampleRound": {
-      "caption": "Two players, first three hands",
-      "rows": [
-        { "label": "Hand 1: Ana knocks with 5, Ben holds 27", "value": "22 to Ana" },
-        { "label": "Hand 2: Ben goes gin, Ana holds 18", "value": "43 to Ben" },
-        { "label": "Hand 3: Ana knocks with 8, Ben has 6", "value": "27 to Ben" }
-      ],
-      "result": "Hand 3 was an undercut: Ben leads 70 to 22"
+    "exampleRound": [
+      {
+        "caption": "Two players, first three hands",
+        "rows": [
+          { "label": "Hand 1: Ana knocks with 5, Ben holds 27", "value": "22 to Ana" },
+          { "label": "Hand 2: Ben goes gin, Ana holds 18", "value": "43 to Ben" },
+          { "label": "Hand 3: Ana knocks with 8, Ben has 6", "value": "27 to Ben" }
+        ],
+        "result": "Hand 3 was an undercut: Ben leads 70 to 22"
+      },
+      {
+        "caption": "End of a game to 100: Ana won 5 hands, Ben 3",
+        "rows": [
+          { "label": "Ana reaches 104 in hand 8", "value": "104" },
+          { "label": "Game bonus to Ana", "value": "+100" },
+          { "label": "Ana's 5 hands won, 25 each", "value": "+125" },
+          { "label": "Ben: 61 points plus 3 hands won", "value": "136" }
+        ],
+        "result": "Ana wins the game 329 to 136"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a hand of Gin Rummy works",
+      "paragraphs": [
+        "Each player is dealt ten cards, and the next card is turned up to start the discard pile. On a turn you draw one card, from the stock or the top of the discard pile, and then discard one. You are trying to turn your hand into melds: sets of three or four cards of the same rank, or runs of three or more cards in sequence in one suit. Aces are low, so A-2-3 is a run and Q-K-A is not.",
+        "Cards outside a meld are deadwood. Once your deadwood adds up to 10 points or less, you may knock: lay your melds face up, set out your deadwood and make your final discard. Your opponent then lays out their own melds and may lay off deadwood onto yours, which lowers their count.",
+        "If you go gin, with no deadwood at all, your opponent cannot lay off anything. The hand is then scored and the next one dealt. If the stock runs down to its last two cards before anyone knocks, the hand is a draw and nobody scores."
+      ]
     },
+    "tips": [
+      "Count deadwood after laying off, not before. A defender who lays a 7 onto the knocker's run of 4-5-6 takes 7 points off their count.",
+      "Write points only in the winner's column. The 100-point game bonus and the 25 for each hand won are added once, after the game ends.",
+      "Big gin, going gin with all eleven cards after drawing, earns a larger bonus at many tables, often 31 instead of 25.",
+      "In Oklahoma Gin the first upcard sets the knock limit and a spade upcard doubles the hand. Write the doubled points; the sheet adds them the same way."
+    ],
     "faqs": [
       { "q": "How do you score Gin Rummy?", "a": "When a player knocks, they score the difference between their deadwood and their opponent's. Going gin scores 25 plus the opponent's deadwood. If the defender's deadwood is equal to or lower than the knocker's, the defender scores 25 plus the difference instead." },
       { "q": "How many points do you play to in Gin Rummy?", "a": "100 is standard. Some players use 150 or 250 for a longer match; the online sheet offers all three." },

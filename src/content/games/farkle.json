@@ -38,16 +38,42 @@
       "Many tables say you need at least 500 points in a single turn before you can bank anything for the first time. When someone's total passes 10,000, every other player gets one last turn to beat it, and the highest total wins.",
       "On a phone, tap a box on the sheet to write a turn. The sheet keeps the totals, reminds you about the 500-point opening rule, and tells you when the final round has started."
     ],
-    "exampleRound": {
-      "caption": "Two players, two turns each",
-      "rows": [
-        { "label": "Ana: three 5s and a 1, then banks", "value": "600" },
-        { "label": "Ben: one 1, rolls again and farkles", "value": "0" },
-        { "label": "Ana: a straight, 1 to 6", "value": "1,500" },
-        { "label": "Ben: four 3s, then banks", "value": "1,000" }
-      ],
-      "result": "After two turns each: Ana 2,100, Ben 1,000"
+    "exampleRound": [
+      {
+        "caption": "Two players, two turns each",
+        "rows": [
+          { "label": "Ana: three 5s and a 1, then banks", "value": "600" },
+          { "label": "Ben: one 1, rolls again and farkles", "value": "0" },
+          { "label": "Ana: a straight, 1 to 6", "value": "1,500" },
+          { "label": "Ben: four 3s, then banks", "value": "1,000" }
+        ],
+        "result": "After two turns each: Ana 2,100, Ben 1,000"
+      },
+      {
+        "caption": "Three players, the final round to 10,000",
+        "rows": [
+          { "label": "Ana, on 9,450, banks three 2s, a 1 and a 5", "value": "350" },
+          { "label": "Ben, on 9,700, banks three pairs and passes 10,000", "value": "1,500" },
+          { "label": "Cleo, on 9,600, rolls three 1s, presses on and farkles", "value": "0" },
+          { "label": "Ana, last turn, banks two 1s", "value": "200" }
+        ],
+        "result": "Ben wins with 11,200; Ana ends on 10,000"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a turn of Farkle is scored",
+      "paragraphs": [
+        "A turn starts with all six dice. After each roll you must set aside at least one scoring die or combination, then choose: bank the points collected so far this turn and pass the dice, or roll the remaining dice again for more. A roll with nothing that scores is a farkle, and every point from that turn is lost.",
+        "Combinations only count when they appear in a single roll. Three 4s thrown together score 400, but a 4 kept from one roll and two more 4s from the next score nothing, because single 4s are not scoring dice. Only 1s and 5s score on their own.",
+        "If all six dice have scored, you have hot dice: pick them all up and keep rolling, adding to the turn's total. When you stop, the turn's points go in the next box on the sheet and onto your running total. The first player past 10,000 starts the final round, everyone else gets one more turn to beat that total, and the highest total wins."
+      ]
     },
+    "tips": [
+      "Write the banked score for the whole turn, not the best single roll. If a player collected 650 over three rolls and then stopped, 650 goes on the sheet.",
+      "Write a zero for a farkle rather than leaving the box blank. It keeps everyone's turn count level, which matters once the final round starts.",
+      "Scoring charts differ between boxed sets and tables, especially for three pairs, four of a kind and six of a kind. Pick one chart before the first roll; the chart on this page is a common one.",
+      "In the final round a player has to beat the leader, not just pass 10,000. If two players still finish level, a common fix is one more turn each."
+    ],
     "faqs": [
       { "q": "How many points do you need to win Farkle?", "a": "10,000 is the most common target. Once a player passes it, everyone else gets one more turn to beat that total, and the highest score wins." },
       { "q": "What is a farkle?", "a": "A roll with no scoring dice in it: no 1s, no 5s and no scoring combinations. You lose every point you collected that turn and pass the dice." },

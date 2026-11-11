@@ -33,15 +33,40 @@
       "Once you have all three, the other two dice are your cargo and their total is your score, from 2 to 12. If you have rolls left you may reroll both cargo dice to try for more. Without a ship, captain and crew after three rolls, you score 0.",
       "Write each player's cargo in the round's row. After the last round the highest total wins. Bar games often play single rounds for the best cargo instead; the sheet works for that too, just compare the row."
     ],
-    "exampleRound": {
-      "caption": "Three players, round 1",
-      "rows": [
-        { "label": "Ana: 6, 5, 4 on the first roll, cargo 3 and 6", "value": "9" },
-        { "label": "Ben: ship and captain, no crew after three rolls", "value": "0" },
-        { "label": "Cleo: all three by roll two, rerolls cargo to 6 and 5", "value": "11" }
-      ],
-      "result": "Cleo wins the round with 11"
+    "exampleRound": [
+      {
+        "caption": "Three players, round 1",
+        "rows": [
+          { "label": "Ana: 6, 5, 4 on the first roll, cargo 3 and 6", "value": "9" },
+          { "label": "Ben: ship and captain, no crew after three rolls", "value": "0" },
+          { "label": "Cleo: all three by roll two, rerolls cargo to 6 and 5", "value": "11" }
+        ],
+        "result": "Cleo wins the round with 11"
+      },
+      {
+        "caption": "Two players, round 2",
+        "rows": [
+          { "label": "Ana: ship, captain and crew by roll two, cargo 2 and 3", "value": "5" },
+          { "label": "Ana rerolls her cargo on roll three: 4 and 2", "value": "6" },
+          { "label": "Ben: ship on roll one, captain and crew on roll three, cargo 6 and 6", "value": "12" }
+        ],
+        "result": "Ana writes 6, Ben writes 12"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a turn of Ship Captain Crew works",
+      "paragraphs": [
+        "Each player takes a turn of up to three rolls with five dice. Look for a 6 first: it is your ship, and you set it aside. Only then can a 5 be kept as your captain, and only after the captain can a 4 be kept as your crew. If one roll shows a 6, 5 and 4 together, you keep all three at once.",
+        "Every die you keep comes out of the cup, so a turn that finds the ship on the first roll has four dice left for the next, and so on. If the third roll ends without all three in place, the turn scores nothing.",
+        "Once ship, captain and crew are set aside, the two remaining dice are the cargo. Their total is your score for the round, and you may use any rolls you have left to roll both cargo dice again for a higher total, but the last roll stands even if it is lower. The best cargo wins the round; on this sheet, the totals over several rounds decide the game."
+      ]
     },
+    "tips": [
+      "A 5 rolled before the ship does not count, even once a 6 turns up later. You have to roll the 5 again after the ship is set aside.",
+      "Rerolling cargo is a gamble. Two fresh dice average 7, so a cargo of 8 or more is usually worth keeping.",
+      "Tied cargo at the top of a round is usually settled with a roll-off between the tied players, or by splitting the pot in a bar game.",
+      "Some groups allow rerolling just one cargo die. Agree before play, because it raises everyone's average score."
+    ],
     "faqs": [
       { "q": "How do you score Ship Captain Crew?", "a": "Once you have a 6, a 5 and a 4 (ship, captain and crew), the other two dice are your cargo, and their total is your score for the turn. If you don't get all three in three rolls, you score 0." },
       { "q": "Do you have to get the ship, captain and crew in order?", "a": "Yes. A 5 counts only once you have a 6, and a 4 only once you have the 5. If you roll a 5 and a 4 with no 6, you roll all the dice again." },

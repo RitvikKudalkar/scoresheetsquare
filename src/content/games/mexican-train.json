@@ -30,15 +30,41 @@
       "On a phone, tap a box to write a round's pips. The sheet keeps every player's total and circles whoever is lowest.",
       "For older players or a dim game room, print the large print PDF, which has bigger boxes and type. The 2-per-page version fits two sheets on one page to save paper. Both come in US Letter and A4."
     ],
-    "exampleRound": {
-      "caption": "Three players, round one (double 12)",
-      "rows": [
-        { "label": "Ana plays her last tile and goes out", "value": "0" },
-        { "label": "Ben is left with 6-4 and 12-11", "value": "33" },
-        { "label": "Cleo is left with 5-5", "value": "10" }
-      ],
-      "result": "After round one: Ana 0, Cleo 10, Ben 33"
+    "exampleRound": [
+      {
+        "caption": "Three players, round one (double 12)",
+        "rows": [
+          { "label": "Ana plays her last tile and goes out", "value": "0" },
+          { "label": "Ben is left with 6-4 and 12-11", "value": "33" },
+          { "label": "Cleo is left with 5-5", "value": "10" }
+        ],
+        "result": "After round one: Ana 0, Cleo 10, Ben 33"
+      },
+      {
+        "caption": "Four players, round 13 (double blank)",
+        "rows": [
+          { "label": "Ana goes out", "value": "0" },
+          { "label": "Ben is caught with the double-blank", "value": "50" },
+          { "label": "Cleo holds 3-2 and 6-1", "value": "12" },
+          { "label": "Dev holds 9-8", "value": "17" }
+        ],
+        "result": "With the 50-point rule, Ben's double-blank costs more than both other hands"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a round of Mexican Train works",
+      "paragraphs": [
+        "Every player draws a hand from the face-down boneyard, and the round's double sits in the station at the centre of the table. Each player builds a personal train, a line of dominoes leading from the station towards them, and there is one shared Mexican Train that anyone can add to. Every tile must match the open end it is played against.",
+        "On a turn you play one tile on your own train, on the Mexican Train, or on any train that carries a marker. If you cannot play, draw one tile from the boneyard; if that still does not fit, pass and put a marker on your train, which opens it to everyone until you play on it again. Playing a double earns another play, and the double must be covered with a matching tile before any other play is made.",
+        "The round ends when one player plays their last tile, or when the boneyard is empty and nobody can play. Everyone else counts the pips on the tiles still in their hand, and that is their score for the round. After the double-blank round, the lowest total wins."
+      ]
     },
+    "tips": [
+      "Count both ends of every tile left. A 12-11 is 23 points, which is why high tiles held to the end decide most games.",
+      "Settle the double-blank before the first deal. Its pips add up to zero, but many tables charge 50 for being caught with it.",
+      "If the boneyard runs out and nobody can play, the round is blocked. Everyone counts what they hold, and nobody scores the zero.",
+      "For a tie after 13 rounds, some tables give it to the player who went out in more rounds. The zeros on the sheet make that easy to count."
+    ],
     "faqs": [
       { "q": "How do you score Mexican Train?", "a": "At the end of each round, every player counts the pips on the dominoes left in front of them. That number is their score for the round, and the player who went out scores zero." },
       { "q": "Who wins Mexican Train?", "a": "The player with the lowest total after all 13 rounds." },

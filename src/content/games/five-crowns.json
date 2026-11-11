@@ -32,15 +32,40 @@
       "When a player goes out, everyone else gets one more turn to lay down what they can. Then each player adds up the cards still in their hand: face value for 3 to 10, 11 for a Jack, 12 for a Queen, 13 for a King, 20 for the round's wild card and 50 for a Joker. The player who went out writes 0.",
       "After the Kings wild round, the lowest total wins. On a phone, tap a box to write a round's points; the sheet keeps the totals and circles whoever is lowest."
     ],
-    "exampleRound": {
-      "caption": "Three players, round 1 (3s wild)",
-      "rows": [
-        { "label": "Ana goes out", "value": "0" },
-        { "label": "Ben holds a 7 and a Queen", "value": "19" },
-        { "label": "Cleo holds a Joker", "value": "50" }
-      ],
-      "result": "Ana leads with 0; Cleo learns to play her Jokers"
+    "exampleRound": [
+      {
+        "caption": "Three players, round 1 (3s wild)",
+        "rows": [
+          { "label": "Ana goes out", "value": "0" },
+          { "label": "Ben holds a 7 and a Queen", "value": "19" },
+          { "label": "Cleo holds a Joker", "value": "50" }
+        ],
+        "result": "Ana leads with 0; Cleo learns to play her Jokers"
+      },
+      {
+        "caption": "Three players, round 11 (Kings wild)",
+        "rows": [
+          { "label": "Ana goes out", "value": "0" },
+          { "label": "Ben holds a King, a Joker and a 9", "value": "79" },
+          { "label": "Cleo holds a Jack and a Queen", "value": "23" }
+        ],
+        "result": "Ben's King counts 20 this round, not 13"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a round of Five Crowns works",
+      "paragraphs": [
+        "The deck has five suits (stars, hearts, clubs, spades and diamonds), cards from 3 to King and six Jokers. Each round deals one more card than the last, from 3 cards in round one to 13 in round eleven, and the rank that matches the number of cards dealt is wild for that round.",
+        "On a turn you draw from the deck or the discard pile and finish by discarding one card. You are trying to arrange your whole hand into books, three or more cards of the same rank, and runs, three or more cards in sequence in one suit. Wild cards and Jokers can stand in for any card.",
+        "When one player can lay out their entire hand with one card left to discard, they go out. Every other player then has exactly one more turn to lay down what they can, and whatever is still in their hand is counted against them. With a bigger hand every round, a single bad round late in the game can undo a long lead, so totals often stay close until the Kings wild round."
+      ]
     },
+    "tips": [
+      "The round's wild rank scores 20, not its face value. A Jack left in hand costs 20 in the Jacks wild round and 11 in every other round.",
+      "Only cards still in hand after your final turn count. Anything you lay down after someone else goes out is safe.",
+      "Some tables give the first player out a bonus. Write it as a minus number, so the lowest-wins total on the sheet still works.",
+      "If the lowest total is tied after eleven rounds, share the win or let the tied players play one more round with 3s wild."
+    ],
     "faqs": [
       { "q": "How do you score Five Crowns?", "a": "At the end of each round, players add up the cards left in their hand: face value for 3 to 10, 11 for a Jack, 12 for a Queen, 13 for a King, 20 for each of that round's wild cards and 50 for each Joker. Going out scores 0. Low scores are good." },
       { "q": "How many rounds are in Five Crowns?", "a": "Eleven. The first round deals 3 cards each and the last deals 13, one more card every round." },

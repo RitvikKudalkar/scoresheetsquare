@@ -26,15 +26,41 @@
       "Sort the centre piles by the backs of the cards. Each player scores 1 point for every one of their cards in the centre and loses 2 points for every card left in their Nertz pile. Write each player's result in the hand's row; it can be negative.",
       "The first player to reach 100 wins, or 150 for a longer game. If two players pass the target in the same hand, the higher total wins; online, the sheet waits until every score for that hand is in."
     ],
-    "exampleRound": {
-      "caption": "Three players, first hand",
-      "rows": [
-        { "label": "Ana calls Nertz with 16 cards in the centre", "value": "16" },
-        { "label": "Ben has 12 in the centre, 4 left in his Nertz pile", "value": "4" },
-        { "label": "Cleo has 7 in the centre, 6 left", "value": "−5" }
-      ],
-      "result": "Ana leads with 16"
+    "exampleRound": [
+      {
+        "caption": "Three players, first hand",
+        "rows": [
+          { "label": "Ana calls Nertz with 16 cards in the centre", "value": "16" },
+          { "label": "Ben has 12 in the centre, 4 left in his Nertz pile", "value": "4" },
+          { "label": "Cleo has 7 in the centre, 6 left", "value": "−5" }
+        ],
+        "result": "Ana leads with 16"
+      },
+      {
+        "caption": "Four players, a hand where everyone gets stuck",
+        "rows": [
+          { "label": "Ana: 9 in the centre, 3 left in her Nertz pile", "value": "3" },
+          { "label": "Ben: 11 in the centre, 2 left", "value": "7" },
+          { "label": "Cleo: 6 in the centre, 5 left", "value": "−4" },
+          { "label": "Dev: 8 in the centre, 4 left", "value": "0" }
+        ],
+        "result": "Nobody called Nertz; Ben does best with 7"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a hand of Nertz works",
+      "paragraphs": [
+        "Each player needs their own deck with a different back. To start, you deal a Nertz pile of thirteen cards with the top one face up, and four cards face up in a row beside it as your work piles. The rest of your deck is your stock, which you turn over three cards at a time.",
+        "Everyone plays at once, with no turns. Aces go to the centre of the table, where anyone can build on them in suit and in order up to the King. On your own work piles you build down in alternating colours, as in solitaire, and the top card of your Nertz pile can go onto a work pile or into the centre whenever it fits.",
+        "The goal is to empty your Nertz pile. When someone plays its last card they call Nertz and everybody stops. The centre piles are then sorted by the backs of the cards, and each player counts how many of their cards went to the centre and how many are still in their Nertz pile."
+      ]
     },
+    "tips": [
+      "Most tables give no extra bonus for calling Nertz. The caller's reward is having no cards left to lose 2 points on.",
+      "Your work piles and stock are neutral at the count. Only cards in the centre (plus 1 each) and in the Nertz pile (minus 2 each) change your score.",
+      "A big Nertz pile loses ground fast: six cards left costs 12, which can wipe out a whole hand of centre plays.",
+      "Some Racing Demon groups score 1 for each card in the centre and minus 1 for each card left. Write the hand's result whichever way you count; the sheet adds it the same."
+    ],
     "faqs": [
       { "q": "How do you score Nertz?", "a": "At the end of each hand, every player scores 1 point for each of their cards in the centre piles and loses 2 points for each card left in their Nertz pile." },
       { "q": "How many points do you play to in Nertz?", "a": "Usually 100. Some groups play to 150 or more for a longer game; the online sheet lets you choose 100 or 150." },

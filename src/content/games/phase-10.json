@@ -31,15 +31,39 @@
       "The player with the most phases made is ahead. When someone makes phase 10, the game ends after that hand, and if more than one player has made phase 10, the lowest total points wins.",
       "On a phone, tap the tick in a box when a phase is made and tap the box itself to write the points. The sheet counts the phases and points and circles the leader."
     ],
-    "exampleRound": {
-      "caption": "Three players, first hand",
-      "rows": [
-        { "label": "Ana makes phase 1 and goes out", "value": "0" },
-        { "label": "Ben makes phase 1, holds a 7 and a Skip", "value": "20" },
-        { "label": "Cleo misses, holds 3, 9, 11 and a Wild", "value": "45" }
-      ],
-      "result": "Ana and Ben move to phase 2; Cleo stays on phase 1"
+    "exampleRound": [
+      {
+        "caption": "Three players, first hand",
+        "rows": [
+          { "label": "Ana makes phase 1 and goes out", "value": "0" },
+          { "label": "Ben makes phase 1, holds a 7 and a Skip", "value": "20" },
+          { "label": "Cleo misses, holds 3, 9, 11 and a Wild", "value": "45" }
+        ],
+        "result": "Ana and Ben move to phase 2; Cleo stays on phase 1"
+      },
+      {
+        "caption": "Final hand: Ana starts it on 215 points, Ben on 180",
+        "rows": [
+          { "label": "Ana makes phase 10 and goes out", "value": "0" },
+          { "label": "Ben makes phase 10, holds a 12", "value": "10" }
+        ],
+        "result": "Both made phase 10, so points decide: Ben 190, Ana 215. Ben wins"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a hand of Phase 10 works",
+      "paragraphs": [
+        "Each player is dealt ten cards. On a turn you draw one card, from the deck or the top of the discard pile, and end by discarding one. Once you hold everything your phase needs, you lay it down in front of you. After that you may hit: add single cards to any phase already on the table, yours or another player's, to empty your hand faster.",
+        "The hand ends the moment one player gets rid of their last card. Everyone who laid down their phase moves on to the next phase for the following hand, and everyone else tries the same phase again. Then each player counts the cards left in hand, and those points go on the sheet.",
+        "Low points are good, but phases matter more: points only separate players who are on the same phase at the end. Wilds can stand in for any number or colour, and a Skip makes the next player lose a turn but can never be used in a phase. That is why both cost so much when you are caught holding them."
+      ]
     },
+    "tips": [
+      "Tick the phase box before you write the points. A player who made phase 4 but has no tick will be told to play it again next hand.",
+      "Laying down a phase does not end the hand; going out does. A player who made their phase but still holds cards scores those cards like everyone else.",
+      "If two players finish phase 10 in the same hand on the same points, the published rules have the tied players play phase 10 again, and the first to make it wins.",
+      "For a shorter game, play only the odd or only the even phases. Tick the box when each chosen phase is made, and the sheet still counts them."
+    ],
     "faqs": [
       { "q": "How do you score Phase 10?", "a": "At the end of each hand, players add up the cards left in their hand: 5 points for each card from 1 to 9, 10 points for each 10, 11 or 12, 15 points for a Skip and 25 points for a Wild. Low points are good." },
       { "q": "Who wins Phase 10?", "a": "The first player to complete phase 10. If two or more players complete phase 10 in the same hand, the one with the lowest total points wins." },

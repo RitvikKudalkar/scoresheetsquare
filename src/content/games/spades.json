@@ -38,14 +38,40 @@
       "A team that wins at least as many tricks as it bid scores 10 points for each trick bid, plus 1 point for each extra trick. Those extra tricks are bags: every tenth bag costs the team 100 points. A team that wins fewer tricks than it bid loses 10 points for each trick bid.",
       "If a player bids nil, leave them out of the team's bid and tap Nil in that round once the hand is over: once for a nil made (100 points), twice for a nil failed (−100). The first team to 500 wins."
     ],
-    "exampleRound": {
-      "caption": "Two teams, first hand",
-      "rows": [
-        { "label": "Ana and Ben bid 4 + 3 = 7, win 8 tricks", "value": "71" },
-        { "label": "Cleo and Dev bid 3 + 2 = 5, win 5 tricks", "value": "50" }
-      ],
-      "result": "Ana and Ben lead 71 to 50 and carry 1 bag"
+    "exampleRound": [
+      {
+        "caption": "Two teams, first hand",
+        "rows": [
+          { "label": "Ana and Ben bid 4 + 3 = 7, win 8 tricks", "value": "71" },
+          { "label": "Cleo and Dev bid 3 + 2 = 5, win 5 tricks", "value": "50" }
+        ],
+        "result": "Ana and Ben lead 71 to 50 and carry 1 bag"
+      },
+      {
+        "caption": "Two teams, a nil and a bag penalty",
+        "rows": [
+          { "label": "Ana bids nil and wins no tricks", "value": "+100" },
+          { "label": "Ben bids 4 and wins 6 tricks", "value": "42" },
+          { "label": "Ana and Ben's bags reach 10", "value": "−100" },
+          { "label": "Cleo and Dev bid 4 + 3 = 7, win 7 tricks", "value": "70" }
+        ],
+        "result": "This hand: Ana and Ben 42, Cleo and Dev 70"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a hand of Spades works",
+      "paragraphs": [
+        "All 52 cards are dealt, 13 to each of four players, and partners sit opposite each other. Before any card is played, each player bids the number of tricks they expect to win, and the two partners' bids are added together as the team's contract. A player can instead bid nil, a promise to win no tricks at all.",
+        "The player to the dealer's left leads, and everyone must follow suit if they can. A player with none of the suit led may play any card, including a spade. The highest spade in a trick wins it; if there is no spade, the highest card of the suit led wins. Spades cannot be led until one has been played on another suit, unless the leader holds nothing but spades.",
+        "After all 13 tricks the partners count their tricks together. Making the contract scores ten points per trick bid plus a point for each extra trick, and falling short loses ten points per trick bid. Hands carry on until a team reaches the target at the end of a hand."
+      ]
     },
+    "tips": [
+      "Leave a nil bidder's tricks out of the team's tricks won. They never count toward the partner's bid, even when the nil fails.",
+      "Bags carry over after each penalty. A team on 9 bags that takes 3 more loses 100 and starts the next hand with 2, which the sheet's bag row shows.",
+      "If both teams pass the target in the same hand, the higher score wins. If they are level, play one more hand.",
+      "A set hurts more the higher the bid. Bidding 9 and taking 8 loses 90, while bidding 7 and taking 8 still scores 71, so bid what your own hand can win."
+    ],
     "faqs": [
       { "q": "How do you score Spades?", "a": "A team that makes its bid scores 10 points for each trick it bid, plus 1 point for each trick over the bid. A team that falls short loses 10 points for each trick it bid. Nil bids add or lose 100 points." },
       { "q": "What are bags in Spades?", "a": "Bags, or sandbags, are tricks won over a team's bid. Each one is worth 1 point, but every time a team collects 10 bags it loses 100 points and starts counting again." },

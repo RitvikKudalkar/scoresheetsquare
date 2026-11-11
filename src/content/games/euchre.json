@@ -55,15 +55,40 @@
       "The team that chose trump is the makers. If they win three or four tricks they score 1 point, and all five tricks (a march) scores 2. A player who goes alone and wins all five scores 4. If the makers win fewer than three tricks they are euchred, and the other team scores 2.",
       "The first team to reach 10 points wins. If your table plays to 5, 7 or 11, choose it under Play to below the online sheet; it adds every hand and shows the winning team as soon as one gets there."
     ],
-    "exampleRound": {
-      "caption": "Two teams, first three hands",
-      "rows": [
-        { "label": "Hand 1: Ana and Ben call hearts, win 3 tricks", "value": "1 to Ana and Ben" },
-        { "label": "Hand 2: Cleo goes alone, wins all 5", "value": "4 to Cleo and Dev" },
-        { "label": "Hand 3: Ana and Ben call clubs, win 2 tricks", "value": "2 to Cleo and Dev" }
-      ],
-      "result": "Cleo and Dev lead 6 to 1"
+    "exampleRound": [
+      {
+        "caption": "Two teams, first three hands",
+        "rows": [
+          { "label": "Hand 1: Ana and Ben call hearts, win 3 tricks", "value": "1 to Ana and Ben" },
+          { "label": "Hand 2: Cleo goes alone, wins all 5", "value": "4 to Cleo and Dev" },
+          { "label": "Hand 3: Ana and Ben call clubs, win 2 tricks", "value": "2 to Cleo and Dev" }
+        ],
+        "result": "Cleo and Dev lead 6 to 1"
+      },
+      {
+        "caption": "Last three hands: Ana and Ben on 5, Cleo and Dev on 7",
+        "rows": [
+          { "label": "Hand 8: Ana and Ben win all five tricks", "value": "2 to Ana and Ben" },
+          { "label": "Hand 9: Dev goes alone and wins 4 tricks", "value": "1 to Cleo and Dev" },
+          { "label": "Hand 10: Ben goes alone and wins all 5", "value": "4 to Ana and Ben" }
+        ],
+        "result": "Ana and Ben win 11 to 8"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a hand of Euchre works",
+      "paragraphs": [
+        "Euchre uses a 24-card deck, 9 to Ace in each suit, with four players in two partnerships sitting opposite each other. Each player is dealt five cards and the next card is turned face up. Going round the table, each player can order that card's suit as trump or pass; if all four pass, the card is turned down and players can name any other suit instead.",
+        "The team that names trump becomes the makers. In the trump suit the jack, called the right bower, is the highest card, and the other jack of the same colour, the left bower, is second. A player who is confident can go alone, and their partner sits out the hand.",
+        "Players must follow the suit led if they can. The highest trump wins the trick, or the highest card of the suit led if no trump was played. After five tricks the hand is scored, and only one team gets points: the makers if they took at least three tricks, or the defenders if the makers were euchred."
+      ]
     },
+    "tips": [
+      "Only one team scores each hand. If both columns have a number in the same row, one of them is a mistake.",
+      "Stick the dealer is a popular house rule: if everyone passes twice, the dealer must name trump. It changes how often teams are euchred, not the points.",
+      "Some tables let a defender go alone too, and euchring the makers that way scores 4 instead of 2.",
+      "A final march or lone hand can carry a team past the target, to 11 or 12 in a game to 10. The sheet keeps the full total."
+    ],
     "faqs": [
       { "q": "How do you score Euchre?", "a": "The makers (the team that chose trump) score 1 point for winning three or four tricks and 2 points for all five. A player going alone scores 4 for all five tricks. If the makers win fewer than three tricks, the defenders score 2." },
       { "q": "How many points do you play to in Euchre?", "a": "Ten is standard. Some groups play to 5 or 7 for a quicker game, or to 11; choose your target under Play to on the online sheet." },

@@ -26,15 +26,40 @@
       "The player who revealed all their cards first ends the round. If they do not have the lowest score of the round, their score for that round is doubled, so double it before you write it down.",
       "The game ends at the end of the round in which a player reaches 100 points or more, and the lowest total wins. Online, the sheet waits for everyone's score in that last round, then shows the winner."
     ],
-    "exampleRound": {
-      "caption": "Three players, first round",
-      "rows": [
-        { "label": "Ana ends the round with 14", "value": "28" },
-        { "label": "Ben scores 9", "value": "9" },
-        { "label": "Cleo cleared a column and scores −1", "value": "−1" }
-      ],
-      "result": "Ana went out first without the lowest score, so her 14 was doubled"
+    "exampleRound": [
+      {
+        "caption": "Three players, first round",
+        "rows": [
+          { "label": "Ana ends the round with 14", "value": "28" },
+          { "label": "Ben scores 9", "value": "9" },
+          { "label": "Cleo cleared a column and scores −1", "value": "−1" }
+        ],
+        "result": "Ana went out first without the lowest score, so her 14 was doubled"
+      },
+      {
+        "caption": "Final round: Ana starts on 92, Ben on 85, Cleo on 70",
+        "rows": [
+          { "label": "Ben ends the round with 8, but Cleo has less", "value": "16" },
+          { "label": "Ana scores 10", "value": "10" },
+          { "label": "Cleo scores 4", "value": "4" }
+        ],
+        "result": "Ben reaches 101 and Ana 102, so the game ends: Cleo wins on 74"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a round of Skyjo works",
+      "paragraphs": [
+        "Each player lays out twelve cards face down in three rows of four and turns two of them face up. The cards run from −2 to 12, and the aim is to finish the round with the lowest total in your grid. In the first round, the player whose two face-up cards add up to the most starts.",
+        "On a turn you either take the top card of the discard pile and swap it for any card in your grid, or draw from the deck. A card drawn from the deck can be swapped in the same way, or discarded, in which case you turn one face-down card in your grid face up. Any card you swap out goes face up on the discard pile.",
+        "When one player has all twelve cards face up, every other player takes one more turn. Then all cards are revealed and counted. Three face-up cards of the same value in one column are discarded straight away, which is the surest way to get rid of high cards."
+      ]
     },
+    "tips": [
+      "The player who ended the round is doubled only when their score is above zero and someone else scored the same or less. Check both before you double it.",
+      "A column of three −2s is discarded like any other matching column, so it takes −6 off your total instead of helping. Think twice before completing it.",
+      "Some groups also discard a matching row of four. It is a house rule, so agree on it before the first round.",
+      "A tie for the lowest total at the end is shared, unless your group plays one more round to settle it."
+    ],
     "faqs": [
       { "q": "How do you score Skyjo?", "a": "At the end of each round, every player adds up the values of the cards in their grid, from −2 to 12. The player who ended the round has their score doubled if someone else scored lower or the same. Scores add up from round to round." },
       { "q": "When does a game of Skyjo end?", "a": "At the end of the round in which at least one player reaches 100 points. The player with the lowest total then wins." },

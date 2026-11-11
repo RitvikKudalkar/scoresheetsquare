@@ -25,15 +25,39 @@
       "Sort the Dutch piles in the middle by the back of each card. Every player scores 1 point for each of their cards in the Dutch piles and loses 2 points for each card still in their Blitz pile. Write the result for each player in the hand's row; it can be negative.",
       "The first player to reach 75 points wins. If two players pass 75 in the same hand, the higher total wins; online, the sheet waits until every score for that hand is in."
     ],
-    "exampleRound": {
-      "caption": "Three players, first hand",
-      "rows": [
-        { "label": "Ana calls Blitz with 18 cards in the middle", "value": "18" },
-        { "label": "Ben has 14 in the middle, 3 left in his Blitz pile", "value": "8" },
-        { "label": "Cleo has 9 in the middle, 6 left in her Blitz pile", "value": "−3" }
-      ],
-      "result": "Ana leads; Cleo's Blitz pile cost her 12 points"
+    "exampleRound": [
+      {
+        "caption": "Three players, first hand",
+        "rows": [
+          { "label": "Ana calls Blitz with 18 cards in the middle", "value": "18" },
+          { "label": "Ben has 14 in the middle, 3 left in his Blitz pile", "value": "8" },
+          { "label": "Cleo has 9 in the middle, 6 left in her Blitz pile", "value": "−3" }
+        ],
+        "result": "Ana leads; Cleo's Blitz pile cost her 12 points"
+      },
+      {
+        "caption": "Two players near the end: Ana on 66, Ben on 70",
+        "rows": [
+          { "label": "Ana calls Blitz with 15 cards in the middle", "value": "15" },
+          { "label": "Ben has 12 in the middle, 2 left in his Blitz pile", "value": "8" }
+        ],
+        "result": "Both passed 75: Ana wins 81 to 78"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a hand of Dutch Blitz works",
+      "paragraphs": [
+        "Each player has their own 40-card deck, numbered 1 to 10 in four colours, with a different picture on the back. To start, everyone deals a Blitz pile of ten cards with the top one face up, and three face-up Post piles beside it. The rest of the deck is your Wood pile.",
+        "There are no turns: everyone plays at once, as fast as they can. Any 1 can start a new Dutch pile in the middle of the table, and anyone can add the next number in the same colour to any Dutch pile, all the way up to 10. On your own Post piles you build down, alternating boy and girl cards. You flip through your Wood pile three cards at a time to find cards you can use.",
+        "The hand ends the moment a player has played out their whole Blitz pile and calls Blitz. Everyone stops, the Dutch piles are sorted back out by the pictures on the backs, and each player counts their own cards in the middle and the cards still left in their Blitz pile."
+      ]
     },
+    "tips": [
+      "Count only the cards in the Dutch piles and the Blitz pile. Cards on your Post piles and in your Wood pile score nothing either way.",
+      "Each card left in the Blitz pile costs 2, so a player who never touched it starts the count at minus 20.",
+      "If two players pass 75 in the same hand, the higher total wins. If they are level, play one more hand.",
+      "Calling Blitz is not always the best hand: a player who played 25 cards into the middle can outscore the one who emptied their Blitz pile first."
+    ],
     "faqs": [
       { "q": "How do you score Dutch Blitz?", "a": "When someone calls Blitz, each player scores 1 point for every one of their cards in the Dutch piles in the middle and loses 2 points for every card left in their Blitz pile." },
       { "q": "How many points do you need to win Dutch Blitz?", "a": "75. The first player to reach 75 points at the end of a hand wins the game." },

@@ -34,16 +34,41 @@
       "A player who wins exactly what they bid scores 20 points plus 10 for each trick. A player who misses loses 10 points for each trick they were over or under. Totals can go below zero.",
       "The printed sheet has 20 rounds, enough for three players; four players stop after round 15, five after 12 and six after 10. The online sheet shows only the rounds your group will play and tells you if a round's tricks don't add up."
     ],
-    "exampleRound": {
-      "caption": "Four players, round 3",
-      "rows": [
-        { "label": "Ana bids 1, wins 1", "value": "30" },
-        { "label": "Ben bids 0, wins 0", "value": "20" },
-        { "label": "Cleo bids 2, wins 1", "value": "−10" },
-        { "label": "Dev bids 0, wins 1", "value": "−10" }
-      ],
-      "result": "Three tricks played, three tricks written: the round adds up"
+    "exampleRound": [
+      {
+        "caption": "Four players, round 3",
+        "rows": [
+          { "label": "Ana bids 1, wins 1", "value": "30" },
+          { "label": "Ben bids 0, wins 0", "value": "20" },
+          { "label": "Cleo bids 2, wins 1", "value": "−10" },
+          { "label": "Dev bids 0, wins 1", "value": "−10" }
+        ],
+        "result": "Three tricks played, three tricks written: the round adds up"
+      },
+      {
+        "caption": "Three players, round 10",
+        "rows": [
+          { "label": "Ana bids 4, wins 4", "value": "60" },
+          { "label": "Ben bids 3, wins 5", "value": "−20" },
+          { "label": "Cleo bids 2, wins 1", "value": "−10" }
+        ],
+        "result": "Ten tricks written for ten cards: Ben's two extra tricks cost him 20"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a round of Wizard works",
+      "paragraphs": [
+        "The Wizard deck has 60 cards: the four usual suits from 2 to Ace, plus four Wizards and four Jesters. In round one each player gets one card, in round two two cards, and so on until the whole deck is dealt. The next card of the pack is turned up to set trump.",
+        "Before any card is played, each player bids how many tricks they will win that round, starting to the dealer's left. A bid of zero is allowed and is often the hardest to make. Every bid is written down, so everyone can see who needs tricks and who is trying to avoid them.",
+        "The player to the dealer's left leads. You must follow suit if you can, but a Wizard or a Jester can be played at any time. A Wizard wins the trick, a Jester loses it, and otherwise the highest trump or the highest card of the suit led wins. Only exact bids score, so as the hands grow, keeping track of who still needs tricks becomes the whole game."
+      ]
     },
+    "tips": [
+      "Write the bids before the first card is played. Bids written afterwards cause more arguments than anything else in Wizard.",
+      "A missed bid costs 10 for every trick off, either way. Bidding 3 and winning 5 loses 20, the same as bidding 3 and winning 1.",
+      "In the last round every card is dealt, so there is no card to turn up and no trump. Only a Wizard beats the highest card of the suit led.",
+      "For a shorter game, stop after round 10 whatever the number of players. The totals still compare fairly, since everyone played the same rounds."
+    ],
     "faqs": [
       { "q": "How do you score Wizard?", "a": "A player who wins exactly the number of tricks they bid scores 20 points plus 10 points per trick. A player who misses their bid loses 10 points for every trick they were over or under. The highest total at the end wins." },
       { "q": "How many rounds are there in Wizard?", "a": "The 60-card deck is divided by the number of players: 20 rounds for three players, 15 for four, 12 for five and 10 for six. Round 1 deals one card each, and each round deals one more." },

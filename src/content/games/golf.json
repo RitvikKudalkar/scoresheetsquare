@@ -53,15 +53,40 @@
       "When a player has turned all six cards face up, everyone else gets one more turn, then all cards are turned over and scored: Ace 1, 2 is minus 2, 3 to 10 face value, Jacks and Queens 10, Kings 0. Two matching cards in the same column cancel out and score 0. Write each player's total in that hole's row.",
       "After nine holes the lowest total wins. For a full eighteen, choose 18 under Holes on the online sheet, or in Customise to print an 18-hole sheet."
     ],
-    "exampleRound": {
-      "caption": "Three players, hole 1",
-      "rows": [
-        { "label": "Ana: K, 2, 5 over K, 3, 5 (Kings and 5s pair)", "value": "1" },
-        { "label": "Ben: 7, Q, A over 9, Q, 4 (Queens pair)", "value": "21" },
-        { "label": "Cleo: 2, 6, J over 8, 3, 10", "value": "35" }
-      ],
-      "result": "Ana is one over par; Cleo needs a better hole"
+    "exampleRound": [
+      {
+        "caption": "Three players, hole 1",
+        "rows": [
+          { "label": "Ana: K, 2, 5 over K, 3, 5 (Kings and 5s pair)", "value": "1" },
+          { "label": "Ben: 7, Q, A over 9, Q, 4 (Queens pair)", "value": "21" },
+          { "label": "Cleo: 2, 6, J over 8, 3, 10", "value": "35" }
+        ],
+        "result": "Ana is one over par; Cleo needs a better hole"
+      },
+      {
+        "caption": "Three players, hole 9",
+        "rows": [
+          { "label": "Cleo goes out: 3, 3, 6 over 3, 3, 6, all pairs", "value": "0" },
+          { "label": "Ana: A, K, 2 over A, 5, 2 (Aces and 2s pair)", "value": "5" },
+          { "label": "Ben: K, K, J over 4, Q, J (Jacks pair)", "value": "14" }
+        ],
+        "result": "Ana's pair of 2s scores 0, not the minus 4 they would score apart"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a hole of Golf is played",
+      "paragraphs": [
+        "Each player gets six cards face down in two rows of three and turns any two of them face up before play starts. The rest of the deck is the draw pile, and its top card is turned over to start the discard pile.",
+        "On a turn you take the top card of the draw pile or the discard pile. You can swap it for any card in your grid, face up or face down, and discard the card it replaces, face up. A card drawn from the draw pile can also be thrown straight onto the discard pile instead; at many tables you then turn over one of your face-down cards. A card taken from the discard pile must be swapped in.",
+        "The aim is the lowest grid. Two cards of the same rank in one column cancel each other to zero, so a pair of Queens can be worth more to you than a single 3. When one player has all six cards face up, everyone else has one last turn, then every card is revealed and the hole is scored. Nine holes make a game, eighteen a long one."
+      ]
     },
+    "tips": [
+      "Pairs cancel only in the same column, one card above the other. Two Queens side by side in a row still score 20.",
+      "A pair of 2s in a column cancels to 0 under most rules, which throws away the minus 4 they would score apart. Some tables let a pair of 2s keep its minus 4; decide before the first hole.",
+      "Some tables double the score of the player who turned their last card if someone else beat them on that hole. If you play it, write the doubled number on the sheet.",
+      "Four-card and nine-card Golf fit the same sheet. In nine-card Golf, three matching cards in a column score 0."
+    ],
     "faqs": [
       { "q": "How do you score the Golf card game?", "a": "At the end of each hole, players add up the cards in their grid: Ace 1, 2 is minus 2, 3 to 10 face value, Jacks and Queens 10 and Kings 0. A pair of equal cards in the same column scores 0. The lowest total after nine holes wins." },
       { "q": "How many rounds are in a game of Golf?", "a": "Nine, one for each hole, just like a round of golf. Some groups play eighteen holes; the online sheet and the custom PDF both offer 18." },
