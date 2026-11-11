@@ -1,4 +1,5 @@
 ---
+import AdSlot from '../components/AdSlot.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
@@ -81,7 +82,7 @@ const schema = [
       <DownloadBlock slug={game.slug} alt={game.sheet.engine === 'tally' ? `Printable ${game.name} tally card with columns for wins, losses and buncos in every round` : `Printable ${game.name} score sheet with a column for each player and a row for every ${game.sheet.engine === 'category' ? 'scoring box' : game.sheet.engine === 'running-turns' ? 'turn' : game.sheet.engine === 'bid-and-make' ? 'round, with boxes for the bid, tricks won and points' : 'round'}`}>
         <CustomPdf client:idle game={sheetGame} />
       </DownloadBlock>
-      <div class="ad-slot" aria-hidden="true"></div>
+      <AdSlot />
     </div>
 
     <div class="stage game-stage print-sheet">
@@ -114,7 +115,7 @@ const schema = [
         </div>
       </section>
 
-      <div class="ad-slot" aria-hidden="true"></div>
+      <AdSlot />
 
       <section aria-labelledby="faq-title" data-reveal>
         <h2 id="faq-title" class="t-head">{game.name} questions</h2>
@@ -126,7 +127,7 @@ const schema = [
         <div class="related"><GameRows entries={related} /></div>
       </section>
 
-      <div class="ad-slot is-tall" aria-hidden="true"></div>
+      <AdSlot tall />
     </div>
   </div>
 </Base>

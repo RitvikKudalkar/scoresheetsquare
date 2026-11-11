@@ -1,0 +1,12 @@
+---
+// A reserved ad space. It renders nothing until AdSense is set up, so pages never show empty boxes.
+interface Props {
+  /** The 300×600 desktop slot at the end of the reading column. */
+  tall?: boolean;
+}
+
+const { tall = false } = Astro.props;
+const enabled = Boolean(import.meta.env.PUBLIC_ADSENSE_CLIENT);
+---
+
+{enabled && <div class={tall ? 'ad-slot is-tall' : 'ad-slot'} aria-hidden="true"></div>}

@@ -1,4 +1,5 @@
 ---
+import AdSlot from '../components/AdSlot.astro';
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import MexicanTrainGame from '../components/MexicanTrainGame.tsx';
@@ -101,7 +102,7 @@ const related = ['mexican-train-score-sheet', 'phase-10-score-sheet', 'five-crow
         </div>
       </section>
 
-      <div class="ad-slot" aria-hidden="true"></div>
+      <AdSlot />
 
       <section aria-labelledby="faq-title" data-reveal>
         <h2 id="faq-title" class="t-head">Questions about the game</h2>
@@ -116,7 +117,7 @@ const related = ['mexican-train-score-sheet', 'phase-10-score-sheet', 'five-crow
         <div class="related"><GameRows entries={related} /></div>
       </section>
 
-      <div class="ad-slot is-tall" aria-hidden="true"></div>
+      <AdSlot tall />
     </div>
   </div>
 </Base>

@@ -33,6 +33,8 @@ type Props = {
 
 const DEMO_NAMES = ['Ana', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hal', 'Ivy', 'Jo'];
 const MAX_HISTORY = 60;
+// The winner screen's ad space appears only once AdSense is set up.
+const ADS_ENABLED = Boolean(import.meta.env.PUBLIC_ADSENSE_CLIENT);
 
 export default function ScoreSheet(props: Props) {
   return props.game.sheet.engine === 'tally' ? <TallySheet {...props} /> : <PointsSheet {...props} />;
@@ -530,7 +532,7 @@ function WinnerScreen(props: {
           <button type="button" className="btn btn-quiet" onClick={props.onPrint} disabled={props.printing}>{props.printing ? 'Making PDF…' : 'Print this game'}</button>
           <button type="button" className="btn btn-quiet" onClick={props.onClose}>Back to the sheet</button>
         </div>
-        <div className="ad-slot winner-ad" aria-hidden="true"></div>
+        {ADS_ENABLED && <div className="ad-slot winner-ad" aria-hidden="true"></div>}
       </div>
     </section>
   );

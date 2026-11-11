@@ -1,4 +1,5 @@
 ---
+import AdSlot from '../components/AdSlot.astro';
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import TrainBoard from '../components/TrainBoard.tsx';
@@ -177,7 +178,7 @@ const diagram = [
         </div>
       </section>
 
-      <div class="ad-slot" aria-hidden="true"></div>
+      <AdSlot />
 
       <section aria-labelledby="sets-title" data-reveal>
         <h2 id="sets-title" class="t-head">Shorter and longer games</h2>
@@ -215,7 +216,7 @@ const diagram = [
         </ul>
       </section>
 
-      <div class="ad-slot is-tall" aria-hidden="true"></div>
+      <AdSlot tall />
     </div>
   </div>
 </Base>

@@ -1,4 +1,5 @@
 ---
+import AdSlot from '../components/AdSlot.astro';
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import DownloadBlock from '../components/DownloadBlock.astro';
@@ -43,7 +44,7 @@ const schema = [
         <p class="t-lead">Blank, for any game. Choose the players and rounds.</p>
       </div>
       <GenericSettings client:load />
-      <div class="ad-slot" aria-hidden="true"></div>
+      <AdSlot />
     </div>
 
     <div class="stage game-stage print-sheet">
@@ -66,14 +67,14 @@ const schema = [
         </div>
       </section>
 
-      <div class="ad-slot" aria-hidden="true"></div>
+      <AdSlot />
 
       <section aria-labelledby="faq-title" data-reveal>
         <h2 id="faq-title" class="t-head">Questions</h2>
         <div class="faq measure">{faqs.map((f) => <p><strong>{f.q}</strong> {f.a}</p>)}</div>
       </section>
 
-      <div class="ad-slot is-tall" aria-hidden="true"></div>
+      <AdSlot tall />
     </div>
   </div>
 </Base>
