@@ -1,0 +1,101 @@
+{
+  "slug": "7-wonders-score-sheet",
+  "name": "7 Wonders",
+  "aliases": ["Seven Wonders"],
+  "category": "board",
+  "keywords": ["7 wonders score sheet", "7 wonders score sheet printable", "7 wonders score pad", "7 wonders scoring"],
+  "title": "7 Wonders Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable 7 Wonders score sheet with rows for military, coins, wonder, civilian, science, commerce and guilds, plus an online scorekeeper.",
+  "players": { "min": 3, "max": 7, "default": 4 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "category",
+    "sections": [
+      {
+        "id": "points",
+        "label": "End of age III",
+        "rows": [
+          { "id": "military", "label": "Military", "hint": "Add your conflict tokens" },
+          { "id": "coins", "label": "Coins", "hint": "Type your coins: 1 point per 3", "scale": [0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9, 10, 10, 10, 11, 11, 11, 12, 12, 12, 13, 13, 13, 14, 14, 14, 15, 15, 15, 16, 16, 16, 17, 17, 17, 18, 18, 18, 19, 19, 19, 20] },
+          { "id": "wonder", "label": "Wonder", "hint": "Points on built stages" },
+          { "id": "civilian", "label": "Civilian (blue)", "hint": "Points on the cards" },
+          { "id": "science", "label": "Science (green)", "hint": "Squares, plus 7 a set" },
+          { "id": "commerce", "label": "Commerce (yellow)", "hint": "Age III cards that score" },
+          { "id": "guilds", "label": "Guilds (purple)", "hint": "As each guild says" }
+        ]
+      }
+    ],
+    "grandTotal": "Total"
+  },
+  "pdf": { "showScoringChart": false },
+  "scoringReference": {
+    "columns": ["Row", "How it scores"],
+    "rows": [
+      ["Military", "Each age, against each neighbour: win +1, +3 or +5 in ages I, II and III; lose −1"],
+      ["Coins", "1 point for every 3 coins left over"],
+      ["Wonder", "The points shown on each wonder stage you built"],
+      ["Civilian (blue)", "The points printed on each blue card"],
+      ["Science (green)", "Each symbol: the count squared; plus 7 for each set of all three symbols"],
+      ["Commerce (yellow)", "Only the age III cards that say they score"],
+      ["Guilds (purple)", "As printed on each guild, usually counting your neighbours' cards"],
+      ["Tie", "Most coins wins"]
+    ]
+  },
+  "content": {
+    "intro": "Print a 7 Wonders score sheet with a row for each of the seven ways to score, or add up the final count on your phone. Type your coins and the sheet turns them into points.",
+    "howToUse": [
+      "Write each player's name at the top of a column. When age III ends, score one row at a time around the table: military first, then coins, wonder stages, blue civilian cards, green science, yellow commerce and purple guilds.",
+      "On the online sheet, type the number of coins you have left rather than their points: the sheet works out one point for every three. Every other row takes points. For science, square the number of each symbol and add 7 for every complete set of three different symbols, then write the total.",
+      "The sheet adds each column and circles the leader. If two players tie, the one with more coins wins, which is easy to check because the coin count is right there in the row."
+    ],
+    "exampleRound": [
+      {
+        "caption": "Ana's final count",
+        "rows": [
+          { "label": "Military tokens: 1 + 3 + 5 + 5 − 1", "value": "13" },
+          { "label": "14 coins left", "value": "4" },
+          { "label": "Wonder stages", "value": "10" },
+          { "label": "Civilian (blue)", "value": "17" },
+          { "label": "Science: 3 tablets, 2 compasses, 1 gear", "value": "21" },
+          { "label": "Commerce and guilds", "value": "13" }
+        ],
+        "result": "Total: 78"
+      },
+      {
+        "caption": "Scoring a science hand",
+        "rows": [
+          { "label": "3 tablets: 3 × 3", "value": "9" },
+          { "label": "2 compasses: 2 × 2", "value": "4" },
+          { "label": "2 gears: 2 × 2", "value": "4" },
+          { "label": "Two complete sets of all three symbols, 7 each", "value": "14" }
+        ],
+        "result": "Science: 31"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a game of 7 Wonders works",
+      "paragraphs": [
+        "7 Wonders is played over three ages. At the start of each age every player gets a hand of seven cards, chooses one, and passes the rest to a neighbour, to the left in ages I and III and to the right in age II. All players reveal their chosen card together and either build it, paying its cost in resources or coins, use it to build the next stage of their wonder, or discard it for three coins.",
+        "Resources you lack can be bought from your two neighbours for coins, so the players on either side of you matter all game. At the end of each age, everyone compares their military shields with both neighbours: beating a neighbour earns a victory token worth 1, 3 or 5 points depending on the age, and losing costs a point.",
+        "After age III the game ends and every player counts their points from seven sources: military, coins, wonder stages, civilian buildings, science, commercial buildings and guilds. Green science cards grow fastest, because each symbol scores its count squared and every set of three different symbols adds 7."
+      ]
+    },
+    "tips": [
+      "Science is the easiest row to get wrong. Square each symbol separately, then add 7 for every full set of tablet, compass and gear: 3, 2 and 2 make two sets, not three.",
+      "Wild science symbols, from a guild or a wonder stage, can be counted as whichever symbol scores most. Try each option before writing the total.",
+      "Only some yellow cards score points at the end, usually the age III ones. Most yellow cards earned their value as coins during the game.",
+      "Leftover coins score 1 per full 3, so 14 coins are worth 4 points, not 5. If totals tie, more coins wins outright."
+    ],
+    "faqs": [
+      { "q": "How do you score 7 Wonders?", "a": "At the end of age III, add up your military tokens, 1 point for every 3 coins, your wonder stages, blue civilian cards, green science, the yellow commerce cards that score, and purple guilds. The highest total wins." },
+      { "q": "How does science scoring work in 7 Wonders?", "a": "For each of the three symbols, square the number you have: three gears score 9. Then add 7 points for every complete set of one of each symbol." },
+      { "q": "How does military scoring work in 7 Wonders?", "a": "At the end of each age you compare shields with both neighbours. Beating a neighbour earns 1 point in age I, 3 in age II and 5 in age III, and losing to one costs 1 point. Ties earn nothing." },
+      { "q": "What is the tiebreaker in 7 Wonders?", "a": "The tied player with the most coins wins." },
+      { "q": "How many coins is a point in 7 Wonders?", "a": "Three. Leftover coins score 1 point for every full set of 3, so the online sheet asks for your coin count and works it out." },
+      { "q": "How many people can play 7 Wonders?", "a": "Three to seven in the base game. The printable sheet has six columns; the online scorekeeper takes all seven." }
+    ]
+  },
+  "related": ["wingspan-score-sheet", "azul-score-sheet", "ticket-to-ride-score-calculator", "triple-yahtzee-score-sheet", "skull-king-score-sheet"],
+  "phase": 3,
+  "status": "live"
+}

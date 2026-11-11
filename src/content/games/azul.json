@@ -1,0 +1,106 @@
+{
+  "slug": "azul-score-sheet",
+  "name": "Azul",
+  "category": "board",
+  "keywords": ["azul score sheet", "azul score sheet printable", "azul scoring", "azul score pad"],
+  "title": "Azul Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Azul score sheet with a row for every round and the end-of-game bonuses for rows, columns and colours, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 4, "default": 2 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "category",
+    "sections": [
+      {
+        "id": "rounds",
+        "label": "Each round",
+        "rows": [
+          { "id": "r1", "label": "Round 1", "hint": "Wall points minus floor" },
+          { "id": "r2", "label": "Round 2", "hint": "Wall points minus floor" },
+          { "id": "r3", "label": "Round 3", "hint": "Wall points minus floor" },
+          { "id": "r4", "label": "Round 4", "hint": "Wall points minus floor" },
+          { "id": "r5", "label": "Round 5", "hint": "Wall points minus floor" },
+          { "id": "r6", "label": "Round 6", "hint": "0 if the game ended" }
+        ],
+        "total": "Rounds total"
+      },
+      {
+        "id": "bonuses",
+        "label": "End of game",
+        "rows": [
+          { "id": "rows", "label": "Complete rows", "hint": "How many, 2 each", "perUnit": 2 },
+          { "id": "columns", "label": "Complete columns", "hint": "How many, 7 each", "perUnit": 7 },
+          { "id": "colours", "label": "Complete colours", "hint": "How many, 10 each", "perUnit": 10 }
+        ],
+        "total": "Bonus total"
+      }
+    ],
+    "grandTotal": "Final score"
+  },
+  "pdf": { "showScoringChart": false },
+  "scoringReference": {
+    "columns": ["When", "What scores", "Points"],
+    "rows": [
+      ["Each round", "A tile placed on the wall with no neighbours", "1"],
+      ["Each round", "A tile joining others in its row or column", "1 for each tile in the joined line, both lines if both"],
+      ["Each round", "Tiles on the floor line, left to right", "−1, −1, −2, −2, −2, −3, −3"],
+      ["End of game", "Each complete horizontal row", "2"],
+      ["End of game", "Each complete vertical column", "7"],
+      ["End of game", "Each colour with all five tiles on the wall", "10"],
+      ["Tie", "Most complete horizontal rows", "Wins the tie"]
+    ]
+  },
+  "content": {
+    "intro": "Print an Azul score sheet with a row for every round and the end-of-game bonuses, or keep score on your phone. No more knocked score markers or lost counts.",
+    "howToUse": [
+      "Write each player's name at the top of a column. After each round's wall tiling, write the points each player made that round, less their floor line, in the round's row. Most games last five or six rounds; if yours ends after round five, write 0 for round six.",
+      "When the game ends, count each player's complete horizontal rows, complete vertical columns and colours with all five tiles placed. On the online sheet, type how many of each, not the points: it works out 2, 7 and 10 each and adds the bonus total.",
+      "The final score is the rounds total plus the bonuses, and the sheet circles the leader as you go. On paper, multiply the bonus counts yourself; the points are printed beside each row."
+    ],
+    "exampleRound": [
+      {
+        "caption": "Ana's game, ending after round 5",
+        "rows": [
+          { "label": "Rounds 1 to 5: 6 + 9 + 11 + 14 + 18", "value": "58" },
+          { "label": "1 complete row", "value": "+2" },
+          { "label": "2 complete columns", "value": "+14" },
+          { "label": "All five blue tiles", "value": "+10" }
+        ],
+        "result": "Final score: 84"
+      },
+      {
+        "caption": "Scoring one tile in a round",
+        "rows": [
+          { "label": "The new tile joins 2 tiles in its row: a line of 3", "value": "3" },
+          { "label": "It also sits under 1 tile, so its column of 2 counts too", "value": "+2" },
+          { "label": "Two tiles on the floor line", "value": "−2" }
+        ],
+        "result": "Ana writes 3 for the round"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a round of Azul is scored",
+      "paragraphs": [
+        "Each round starts with tiles on the factory displays in the middle of the table. On your turn you take every tile of one colour from a display, pushing the rest into the centre, or every tile of one colour from the centre. You place them on one of the five pattern lines on your board, and any that don't fit fall to the floor line.",
+        "When all the tiles are taken, the round ends with wall tiling. From each full pattern line, one tile moves to the matching space on your wall. A tile with no neighbours scores 1. A tile next to others scores 1 for every tile in the unbroken line it joins across, plus 1 for every tile in the line it joins up and down if it touches both ways. Then every tile on your floor line costs points, rising from 1 to 3 each.",
+        "The game ends after the round in which any player completes a horizontal row of five on their wall. Bonuses are added for every complete row, column and colour. Your score can never drop below zero during the game, so a big floor penalty early on only takes you down to nothing."
+      ]
+    },
+    "tips": [
+      "A tile that touches both a row and a column scores both lines, and the tile itself counts in each. A tile joining two in its row and one above it scores 3 plus 2.",
+      "The first player marker taken from the centre lands on your floor line and costs a point like any other tile there.",
+      "Your score can't go below zero. If the floor line would take you under, write only enough to bring your total to 0.",
+      "If the final scores tie, the player with more complete horizontal rows wins; if that is also equal, the players share the win."
+    ],
+    "faqs": [
+      { "q": "How do you score Azul?", "a": "Each round, every tile moved to your wall scores 1 if it stands alone, or 1 for each tile in the row and column lines it joins. Tiles on your floor line lose 1, 1, 2, 2, 2, 3 and 3 points. At the end, add 2 for each complete row, 7 for each complete column and 10 for each colour with all five tiles." },
+      { "q": "When does a game of Azul end?", "a": "At the end of the round in which at least one player completes a full horizontal row of five tiles on their wall. Then the end-of-game bonuses are added." },
+      { "q": "What are the end-of-game bonuses in Azul?", "a": "2 points for each complete horizontal row, 7 for each complete vertical column, and 10 for each colour placed in all five of its spaces." },
+      { "q": "Can your score go negative in Azul?", "a": "No. Floor line penalties can take your score down to 0 but not below it." },
+      { "q": "What is the tiebreaker in Azul?", "a": "The player with more complete horizontal rows wins. If that is tied too, the victory is shared." },
+      { "q": "How many people can play Azul?", "a": "Two to four. The printable sheet and the online scorekeeper both have room for four players." }
+    ]
+  },
+  "related": ["wingspan-score-sheet", "7-wonders-score-sheet", "ticket-to-ride-score-calculator", "rummikub-score-sheet", "qwixx-score-sheet"],
+  "phase": 3,
+  "status": "live"
+}

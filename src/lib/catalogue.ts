@@ -46,6 +46,11 @@ export const catalogue: CatalogueEntry[] = [
   { slug: 'skull-king-score-sheet', name: 'Skull King', category: 'card', min: 2, max: 8, scoring: 'Bids and tricks' },
   { slug: 'play-nine-score-sheet', name: 'Play Nine', category: 'card', min: 2, max: 6, scoring: 'Round totals' },
   { slug: 'flip-7-score-sheet', name: 'Flip 7', category: 'card', min: 3, max: 12, scoring: 'Round totals' },
+  // Phase 3: board games that score at the end
+  { slug: 'wingspan-score-sheet', name: 'Wingspan', category: 'board', min: 1, max: 5, scoring: 'Score rows' },
+  { slug: '7-wonders-score-sheet', name: '7 Wonders', category: 'board', min: 3, max: 7, scoring: 'Score rows' },
+  { slug: 'azul-score-sheet', name: 'Azul', category: 'board', min: 2, max: 4, scoring: 'Rounds and bonuses' },
+  { slug: 'ticket-to-ride-score-calculator', name: 'Ticket to Ride', category: 'board', min: 2, max: 5, scoring: 'Routes and tickets' },
   // Phase 3: tile games
   { slug: 'chicken-foot-score-sheet', name: 'Chicken Foot', category: 'tile', min: 2, max: 8, scoring: 'Round totals' },
   { slug: 'rummikub-score-sheet', name: 'Rummikub', category: 'tile', min: 2, max: 4, scoring: 'Round totals' },

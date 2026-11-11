@@ -1,0 +1,110 @@
+{
+  "slug": "ticket-to-ride-score-calculator",
+  "name": "Ticket to Ride",
+  "heading": "Ticket to Ride score calculator",
+  "subheading": "Free online calculator and printable score sheet",
+  "category": "board",
+  "keywords": ["ticket to ride score calculator", "ticket to ride score sheet", "ticket to ride scoring", "ticket to ride route points"],
+  "title": "Ticket to Ride Score Calculator & Printable Score Sheet",
+  "description": "Free Ticket to Ride score calculator: count your routes by length, add tickets and the longest route bonus, and get every total. Printable sheet too.",
+  "players": { "min": 2, "max": 5, "default": 4 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "category",
+    "sections": [
+      {
+        "id": "routes",
+        "label": "Routes claimed",
+        "rows": [
+          { "id": "len1", "label": "1-train routes", "hint": "How many, 1 point each", "perUnit": 1 },
+          { "id": "len2", "label": "2-train routes", "hint": "How many, 2 points each", "perUnit": 2 },
+          { "id": "len3", "label": "3-train routes", "hint": "How many, 4 points each", "perUnit": 4 },
+          { "id": "len4", "label": "4-train routes", "hint": "How many, 7 points each", "perUnit": 7 },
+          { "id": "len5", "label": "5-train routes", "hint": "How many, 10 points each", "perUnit": 10 },
+          { "id": "len6", "label": "6-train routes", "hint": "How many, 15 points each", "perUnit": 15 }
+        ],
+        "total": "Route points"
+      },
+      {
+        "id": "end",
+        "label": "End of game",
+        "rows": [
+          { "id": "done", "label": "Tickets completed", "hint": "Add their values" },
+          { "id": "failed", "label": "Tickets not completed", "hint": "Their values, taken off", "perUnit": -1 },
+          { "id": "longest", "label": "Longest route", "hint": "10 for the longest" }
+        ]
+      }
+    ],
+    "grandTotal": "Final score"
+  },
+  "pdf": { "showScoringChart": false },
+  "scoringReference": {
+    "columns": ["Route length", "Points"],
+    "rows": [
+      ["1 train", "1"],
+      ["2 trains", "2"],
+      ["3 trains", "4"],
+      ["4 trains", "7"],
+      ["5 trains", "10"],
+      ["6 trains", "15"],
+      ["Completed destination ticket", "+ its value"],
+      ["Destination ticket not completed", "− its value"],
+      ["Longest continuous route", "+10"],
+      ["Tie", "Most completed tickets, then the longest route"]
+    ]
+  },
+  "content": {
+    "intro": "Add up a Ticket to Ride game in a minute: count each player's routes by length, add the tickets and the longest route bonus, and the calculator does the rest. Print the score sheet if you'd rather use a pencil.",
+    "howToUse": [
+      "Write each player's name at the top of a column. Instead of trusting the score track around the board, count each player's claimed routes by length: how many 1-train routes, how many 2-train routes and so on. Type the counts; the calculator turns them into points using the table, 1, 2, 4, 7, 10 and 15.",
+      "Then reveal the destination tickets. Add the values of every completed ticket in one row, and the values of every ticket left unfinished in the next; type that second number as a plain number and the sheet takes it off. Finally give 10 to the player with the longest continuous route.",
+      "The calculator adds route points, tickets and the bonus for a final score and circles the leader. On the printed sheet, multiply each count by the points shown beside its row, or write the route points directly."
+    ],
+    "exampleRound": [
+      {
+        "caption": "Ana's final count",
+        "rows": [
+          { "label": "Two 1s, three 2s, four 3s: 2 + 6 + 16", "value": "24" },
+          { "label": "Two 4s, one 5, one 6: 14 + 10 + 15", "value": "39" },
+          { "label": "Tickets completed: 20 + 14", "value": "+34" },
+          { "label": "One ticket not completed", "value": "−8" },
+          { "label": "Longest route", "value": "+10" }
+        ],
+        "result": "Final score: 99, using 39 of her 45 trains"
+      },
+      {
+        "caption": "A tie at the top",
+        "rows": [
+          { "label": "Ben finishes on 112 with 5 tickets completed", "value": "112" },
+          { "label": "Cleo finishes on 112 with 4 tickets completed", "value": "112" }
+        ],
+        "result": "Ben wins the tie on completed tickets"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a game of Ticket to Ride is scored",
+      "paragraphs": [
+        "Each player starts with 45 trains and a few secret destination tickets, each naming two cities and a value. On a turn you do one thing: draw two train cards, claim a route between two cities by playing a set of cards of the route's colour and length, or draw more destination tickets.",
+        "Claiming a route scores right away, and longer routes are worth much more per train: a 6-train route scores 15, more than three 2-train routes put together. Tickets stay hidden until the end. If your claimed routes connect a ticket's two cities, it adds its value; if not, it takes that value away, so a ticket drawn late can cost as much as it promised.",
+        "When any player ends a turn with two or fewer trains left, every player, including that one, takes one final turn. Then the tickets are revealed and counted, the player with the longest continuous path of trains gets a 10-point bonus, and the highest total wins."
+      ]
+    },
+    "tips": [
+      "Recount the routes at the end. Score markers get bumped or forgotten during play, and counting routes by length is the reliable way to check the track.",
+      "A ticket left unfinished is subtracted at its full value. Type its value in the not-completed row, and the calculator takes it off for you.",
+      "If two players tie for the longest route, both get the 10-point bonus.",
+      "Ticket to Ride Europe adds 4 points for each train station you never placed, and its 10-point bonus also goes to the longest continuous route. Add the station points to the longest route row if you play that map."
+    ],
+    "faqs": [
+      { "q": "How do you score Ticket to Ride?", "a": "Routes score as they are claimed: 1, 2, 4, 7, 10 and 15 points for routes of 1 to 6 trains. At the end, completed destination tickets add their value and unfinished ones subtract it, and the longest continuous route earns 10 points." },
+      { "q": "How many points is each route worth in Ticket to Ride?", "a": "A 1-train route is worth 1, 2 trains 2, 3 trains 4, 4 trains 7, 5 trains 10 and 6 trains 15." },
+      { "q": "What happens to tickets you don't complete?", "a": "Their value is taken off your score at the end of the game, so unfinished tickets can turn a lead into a loss." },
+      { "q": "When does Ticket to Ride end?", "a": "When a player ends their turn with 0, 1 or 2 trains left. Every player, including that one, then takes one final turn before the scores are counted." },
+      { "q": "What is the tiebreaker in Ticket to Ride?", "a": "The tied player who completed the most destination tickets wins. If that is still tied, the player with the longest route bonus wins." },
+      { "q": "How many people can play Ticket to Ride?", "a": "Two to five in the base game. The printable sheet and the online calculator both have room for five." }
+    ]
+  },
+  "related": ["wingspan-score-sheet", "7-wonders-score-sheet", "azul-score-sheet", "mexican-train-score-sheet", "rummikub-score-sheet"],
+  "phase": 3,
+  "status": "live"
+}

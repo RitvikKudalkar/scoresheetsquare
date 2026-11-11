@@ -1,0 +1,96 @@
+{
+  "slug": "wingspan-score-sheet",
+  "name": "Wingspan",
+  "category": "board",
+  "keywords": ["wingspan score sheet", "wingspan score sheet printable", "wingspan score pad", "wingspan scoring"],
+  "title": "Wingspan Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Wingspan score sheet with a row for birds, bonus cards, round goals, eggs, cached food and tucked cards, plus an online scorekeeper.",
+  "players": { "min": 1, "max": 5, "default": 4 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "category",
+    "sections": [
+      {
+        "id": "points",
+        "label": "End of game",
+        "rows": [
+          { "id": "birds", "label": "Birds", "hint": "Points printed on your birds" },
+          { "id": "bonus", "label": "Bonus cards", "hint": "Points from each bonus card" },
+          { "id": "goals", "label": "End-of-round goals", "hint": "From the goal board" },
+          { "id": "eggs", "label": "Eggs", "hint": "1 each" },
+          { "id": "food", "label": "Food on cards", "hint": "1 each" },
+          { "id": "tucked", "label": "Tucked cards", "hint": "1 each" }
+        ]
+      }
+    ],
+    "grandTotal": "Total"
+  },
+  "pdf": { "showScoringChart": false },
+  "scoringReference": {
+    "columns": ["Row", "What counts", "Points"],
+    "rows": [
+      ["Birds", "Each bird in your habitats", "The points printed on the card"],
+      ["Bonus cards", "Each bonus card you hold", "As the card says"],
+      ["End-of-round goals", "Your markers on the goal board", "As placed after each round"],
+      ["Eggs", "Each egg on your birds", "1"],
+      ["Food on cards", "Each food token cached on a bird", "1"],
+      ["Tucked cards", "Each card tucked under a bird", "1"],
+      ["Tie", "Most unused food tokens in your supply", "Wins the tie"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Wingspan score sheet with a row for every way to score, or add up the final count on your phone. Count one row at a time and nothing gets missed.",
+    "howToUse": [
+      "Write each player's name at the top of a column. When the fourth round ends, go down the rows together: everyone counts their bird points first, then bonus cards, end-of-round goals, eggs, cached food and tucked cards, and writes each number in its row.",
+      "Counting one category at a time is quicker and fairer than each player adding their whole board: everyone checks the same thing at the same moment, and it is easy to see where a big lead came from.",
+      "On a phone, tap a box to write each number; the sheet adds every column and circles the leader. If two totals tie, the player with more unused food tokens in their supply wins."
+    ],
+    "exampleRound": [
+      {
+        "caption": "Ana's final count",
+        "rows": [
+          { "label": "Birds", "value": "38" },
+          { "label": "Bonus cards", "value": "9" },
+          { "label": "End-of-round goals", "value": "14" },
+          { "label": "Eggs", "value": "21" },
+          { "label": "Food on cards", "value": "4" },
+          { "label": "Tucked cards", "value": "6" }
+        ],
+        "result": "Total: 92"
+      },
+      {
+        "caption": "A tie at the top",
+        "rows": [
+          { "label": "Ben finishes on 87 with 3 food tokens left in his supply", "value": "87" },
+          { "label": "Cleo finishes on 87 with 1 food token left", "value": "87" }
+        ],
+        "result": "Ben wins the tie on unused food"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a game of Wingspan is scored",
+      "paragraphs": [
+        "Wingspan lasts four rounds. Each round, players take turns placing action cubes to play a bird card into one of their three habitats, or to use a habitat's row of birds to gain food, lay eggs or draw more bird cards. Every bird you play makes that row stronger, so the engine you build matters more than any single turn, and each round gives you one fewer action than the last.",
+        "At the end of each round, the round's goal is checked and players place a marker on the goal board. On the competitive side, the players with the most of the goal item take the top places and points; on the other side, each player scores one point per item, up to five. Those markers are counted at the end.",
+        "When the fourth round is over, everyone adds up the points printed on their birds, the points from their bonus cards and goal markers, and one point for every egg, every food token cached on a bird and every card tucked under a bird. Points come from many small places, which is why a score sheet that lists them all is so useful."
+      ]
+    },
+    "tips": [
+      "Count eggs, cached food and tucked cards separately even though each is worth 1. It catches the common slip of counting a tucked card as an egg.",
+      "Food tokens in your supply are worth nothing at the end; they only break ties. Food cached on a bird card is worth 1 each.",
+      "Bonus cards score once at the end, by whatever the card says, so read each one out before writing its points.",
+      "If unused food is also tied, the rules have the tied players share the win."
+    ],
+    "faqs": [
+      { "q": "How do you score Wingspan?", "a": "At the end of round four, add the points printed on your birds, your bonus card points, your end-of-round goal points, and 1 point for each egg, each food token cached on a bird and each tucked card. The highest total wins." },
+      { "q": "What is the tiebreaker in Wingspan?", "a": "The tied player with the most unused food tokens in their supply wins. If they are still tied, they share the victory." },
+      { "q": "How many rounds are in Wingspan?", "a": "Four. Each round gives every player one fewer action than the round before, eight actions in round one down to five in round four." },
+      { "q": "Do eggs count as points in Wingspan?", "a": "Yes, each egg on your birds is worth 1 point at the end. Eggs spent to play birds are gone and don't count." },
+      { "q": "How do end-of-round goals score?", "a": "It depends on which side of the goal board you use. The competitive side gives points for first, second and third place in that round's goal; the other side gives 1 point for each matching item, up to 5." },
+      { "q": "How many people can play Wingspan?", "a": "One to five. The printable sheet and the online scorekeeper both have room for five players." }
+    ]
+  },
+  "related": ["7-wonders-score-sheet", "azul-score-sheet", "ticket-to-ride-score-calculator", "yahtzee-score-sheet", "qwixx-score-sheet"],
+  "phase": 3,
+  "status": "live"
+}
