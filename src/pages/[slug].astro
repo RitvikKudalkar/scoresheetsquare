@@ -31,6 +31,8 @@ const related = game.related
   .filter((c): c is NonNullable<typeof c> => Boolean(c));
 
 const preview = `/images/sheets/${game.slug}.png`;
+// "Also called Yatzy or Yacht." Game names are set in italics in running text (DESIGN.md).
+const aliasParts = game.aliases.length > 0 ? new Intl.ListFormat('en', { style: 'long', type: 'disjunction' }).formatToParts(game.aliases) : [];
 const sheetGame = { slug: game.slug, name: game.name, players: game.players, winCondition: game.winCondition, sheet: game.sheet };
 
 const schema = [
@@ -69,6 +71,7 @@ const schema = [
         <p class="t-lead">Free printable PDF and online scorekeeper</p>
       </div>
       <p class="measure">{content.intro}</p>
+      {aliasParts.length > 0 && <p class="measure aliases">Also called {aliasParts.map((p) => (p.type === 'element' ? <em>{p.value}</em> : p.value))}.</p>}
       {
         game.companions.length > 0 && (
           <ul class="rows companions">

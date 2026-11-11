@@ -74,7 +74,8 @@
       { "q": "How many rounds are in Shanghai Rummy?", "a": "Seven in the most common version. Some families play ten or eleven rounds with different contracts; the online sheet follows the seven-round game." },
       { "q": "What does buying a card mean in Shanghai?", "a": "A player who wants the top discard when it isn't their turn can ask to buy it. If the player whose turn it is doesn't take it, the buyer takes the discard plus a penalty card from the stock. Most tables limit buys to three per round." },
       { "q": "What do Aces and Jokers score in Shanghai?", "a": "It varies by table. Aces are usually 15 or 20 and Jokers 25 or 50. Whichever you choose, write the total points for each hand on the sheet." },
-      { "q": "How many people can play Shanghai Rummy?", "a": "Three to eight. Most groups shuffle two decks with Jokers together, and add a third deck for six or more players." }
+      { "q": "How many people can play Shanghai Rummy?", "a": "Three to eight. Most groups shuffle two decks with Jokers together, and add a third deck for six or more players." },
+      { "q": "Is Contract Rummy the same as Shanghai Rummy?", "a": "Contract Rummy is the family of rummy games in which every round has a required meld, and Shanghai is one of the best known. Other versions change the contracts, the card values or the number of rounds. This sheet's row labels follow the seven-round Shanghai contracts; for another version, the blank printable score sheet lets you write in your own." }
     ]
   },
   "related": ["phase-10-score-sheet", "rummy-500-score-sheet", "3-13-score-sheet", "five-crowns-score-sheet", "gin-rummy-score-sheet"],

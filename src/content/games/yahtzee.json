@@ -109,7 +109,8 @@
       { "q": "What is a Yahtzee bonus?", "a": "Once you have scored 50 in the Yahtzee box, each extra Yahtzee you roll earns another 100 points. If you put a zero in the Yahtzee box, extra Yahtzees earn no bonus." },
       { "q": "Can you score a zero in Yahtzee?", "a": "Yes. If a roll fits nowhere you want it, you must still fill a box, so you write a zero in one. This is often called scratching a box." },
       { "q": "What is the highest possible Yahtzee score?", "a": "Without Yahtzee bonuses the maximum is 375. With a Yahtzee bonus on every possible turn, the maximum is 1,575." },
-      { "q": "How many people can play Yahtzee?", "a": "Any number from one up. The printable sheet has six columns; the online scorekeeper takes up to ten players." }
+      { "q": "How many people can play Yahtzee?", "a": "Any number from one up. The printable sheet has six columns; the online scorekeeper takes up to ten players." },
+      { "q": "Does this sheet work for Yatzy or Yacht?", "a": "Not box for box. Yatzy, the Scandinavian version, has 15 boxes including one pair and two pairs, gives a 50-point upper bonus at 63, scores the straights as 15 and 20 and a full house as the total of the dice, and has no Yahtzee bonus. Yacht, the older game, has no upper bonus at all. For either one, print the blank score sheet and write your boxes down the side." }
     ]
   },
   "related": ["kismet-score-sheet", "farkle-score-sheet", "tenzi-score-sheet", "ship-captain-crew-score-sheet", "phase-10-score-sheet"],
