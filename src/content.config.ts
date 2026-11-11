@@ -40,6 +40,7 @@ const sheet = z.discriminatedUnion('engine', [
     engine: z.literal('round-totals'),
     rounds: z.number().int().min(1),
     roundLabels: z.array(z.string()).optional(),
+    labelsFromEnd: z.boolean().optional(),
     target: z.number().optional(),
     phases: z.number().int().min(1).optional(),
     finishRound: z.boolean().optional(),

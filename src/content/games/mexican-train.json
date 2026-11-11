@@ -76,7 +76,7 @@
       { "q": "Can you play a shorter game?", "a": "Yes. With a double-9 set the game runs ten rounds, from double-9 down to double-blank. Leave the top rows of the sheet empty and start at the Double 9 row." }
     ]
   },
-  "related": ["phase-10-score-sheet", "five-crowns-score-sheet", "uno-score-sheet", "farkle-score-sheet", "yahtzee-score-sheet"],
+  "related": ["chicken-foot-score-sheet", "dominoes-score-sheet", "rummikub-score-sheet", "phase-10-score-sheet", "five-crowns-score-sheet", "uno-score-sheet"],
   "companions": [
     { "href": "/mexican-train-dominoes-rules", "label": "Mexican Train rules", "note": "Setup, doubles, scoring" },
     { "href": "/mexican-train-online", "label": "Play Mexican Train online", "note": "Free, against the computer" }

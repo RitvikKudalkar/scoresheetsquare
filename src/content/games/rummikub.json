@@ -1,0 +1,82 @@
+{
+  "slug": "rummikub-score-sheet",
+  "name": "Rummikub",
+  "category": "tile",
+  "keywords": ["rummikub score sheet", "rummikub score sheet printable", "rummikub scoring", "rummikub score card"],
+  "title": "Rummikub Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Rummikub score sheet in standard, large print and 2-per-page PDFs, plus an online scorekeeper that checks every round adds up to zero.",
+  "players": { "min": 2, "max": 4, "default": 4 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 10,
+    "roundOptions": [4, 6, 8, 10],
+    "roundPoints": { "total": 0 }
+  },
+  "pdf": { "showScoringChart": false },
+  "scoringReference": {
+    "columns": ["At the end of a round", "Points"],
+    "rows": [
+      ["Each number tile left on your rack", "Minus its number"],
+      ["A joker left on your rack", "Minus 30"],
+      ["The player who goes out", "Plus everyone else's rack totals"],
+      ["Pool empty and nobody can play", "Lowest rack wins; the others lose the difference"],
+      ["After the last round", "Highest total wins"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Rummikub score sheet for the table, or keep score on your phone. The online sheet checks that every round adds up to zero, so a miscount shows straight away.",
+    "howToUse": [
+      "Write each player's name at the top of a column. When someone goes out and calls Rummikub, every other player adds up the tiles left on their rack and writes that total as a minus number. A joker still on a rack counts 30.",
+      "The player who went out writes the total of everyone else's racks as a plus number. That means each round's row adds up to zero, which makes mistakes easy to spot; the online sheet flags any round that doesn't.",
+      "Play as many rounds as you agreed, then the highest total wins. On a phone, choose 4, 6, 8 or 10 under Rounds, tap a box to write a score, and use the ± key for the minus numbers."
+    ],
+    "exampleRound": [
+      {
+        "caption": "Four players, Ana calls Rummikub",
+        "rows": [
+          { "label": "Ben has 3, 7 and 12 left", "value": "−22" },
+          { "label": "Cleo has a joker and a 5 left", "value": "−35" },
+          { "label": "Dev has 1, 1 and 9 left", "value": "−11" },
+          { "label": "Ana takes the total of all three racks", "value": "+68" }
+        ],
+        "result": "−22 − 35 − 11 + 68 = 0: the round adds up"
+      },
+      {
+        "caption": "Three players, the pool runs out and nobody can play",
+        "rows": [
+          { "label": "Ana's rack adds up to 6, the lowest", "value": "+22" },
+          { "label": "Ben's rack adds up to 14, so he loses the difference", "value": "−8" },
+          { "label": "Cleo's rack adds up to 20", "value": "−14" }
+        ],
+        "result": "Ana wins the round with the lowest rack, and the row still adds up to zero"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a round of Rummikub works",
+      "paragraphs": [
+        "Rummikub has 106 tiles: numbers 1 to 13 in four colours, two of each, plus two jokers. Every player draws fourteen tiles onto their rack, and the rest stay face down in the pool. Tiles go onto the table in sets: groups of three or four tiles with the same number in different colours, or runs of three or more consecutive numbers in one colour.",
+        "Your first play must be sets worth at least 30 points in total, made only from tiles on your own rack. After that you may play tiles onto the table and rearrange the sets already there, splitting, joining and moving tiles as you like, as long as every set is valid when your turn ends. If you cannot or will not play, draw one tile from the pool.",
+        "The round ends when a player plays their last tile and calls Rummikub. The others count the tiles left on their racks, and the winner collects the lot. If the pool runs out first, play goes on until nobody can move, and then the lowest rack wins the round."
+      ]
+    },
+    "tips": [
+      "A joker caught on your rack costs 30, more than any number tile. If someone looks close to going out, play your joker while you still can.",
+      "Check each round: the winner's plus number should equal the other players' minus numbers added together, so the row comes to zero.",
+      "The 30-point first meld only decides when you may start playing to the table. It has no effect on the score.",
+      "Rummikub has no fixed number of rounds. Agree on one before you start, or play until someone passes a target such as 200 and compare the totals then."
+    ],
+    "faqs": [
+      { "q": "How do you score Rummikub?", "a": "When a player goes out, every other player loses the total of the tiles left on their rack, with a joker counting 30. The player who went out gains the sum of all those totals, so each round adds up to zero. The highest total after the agreed rounds wins." },
+      { "q": "How much is a joker worth in Rummikub?", "a": "Left on your rack when someone goes out, a joker costs you 30 points. Played on the table, it simply stands for the tile it replaces." },
+      { "q": "Can you take a joker from the table in Rummikub?", "a": "Yes, once you have made your first meld. Replace it with the tile it stands for, of the same number and colour, from your rack or from the table, then use the joker in a new set on that same turn." },
+      { "q": "What is the first meld in Rummikub?", "a": "Your first play must be one or more sets worth at least 30 points, using only tiles from your own rack. Until then you cannot add to or rearrange the table." },
+      { "q": "What happens when the Rummikub pool runs out?", "a": "Play continues until nobody can make a valid move. The player with the lowest rack total wins the round, and each other player loses the difference between their rack and the winner's." },
+      { "q": "How many rounds are in a game of Rummikub?", "a": "As many as you agree. Four to ten rounds is common, and the online sheet lets you choose 4, 6, 8 or 10." },
+      { "q": "How many people can play Rummikub?", "a": "Two to four with a standard set. The printable sheet and the online scorekeeper both have room for four." }
+    ]
+  },
+  "related": ["mexican-train-score-sheet", "chicken-foot-score-sheet", "dominoes-score-sheet", "rummy-500-score-sheet", "shanghai-rummy-score-sheet", "gin-rummy-score-sheet"],
+  "phase": 3,
+  "status": "live"
+}

@@ -1,0 +1,84 @@
+{
+  "slug": "chicken-foot-score-sheet",
+  "name": "Chicken Foot",
+  "aliases": ["Chickenfoot"],
+  "category": "tile",
+  "keywords": ["chicken foot score sheet", "chicken foot dominoes score sheet", "chicken foot score sheet printable", "chickenfoot score card"],
+  "title": "Chicken Foot Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Chicken Foot dominoes score sheet with every round labelled by its double, for double-9 or double-12 sets, plus an online scorekeeper.",
+  "players": { "min": 2, "max": 8, "default": 4 },
+  "winCondition": "lowest",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 10,
+    "roundOptions": [10, 13],
+    "labelsFromEnd": true,
+    "roundLabels": ["Double 12", "Double 11", "Double 10", "Double 9", "Double 8", "Double 7", "Double 6", "Double 5", "Double 4", "Double 3", "Double 2", "Double 1", "Double blank"]
+  },
+  "pdf": { "showScoringChart": false },
+  "scoringReference": {
+    "columns": ["At the end of a round", "Points"],
+    "rows": [
+      ["Each tile left in your hand", "The total of its pips"],
+      ["The double-blank, if you are caught with it", "50 (25 at some tables)"],
+      ["Going out first", "0"],
+      ["A blocked round", "Everyone counts what they hold"],
+      ["After the double-blank round", "Lowest total wins"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Chicken Foot score sheet with every round labelled by its starting double, or keep score on your phone. It works for a double-9 or a double-12 set.",
+    "howToUse": [
+      "Write each player's name at the top of a column. Each row is one round, labelled with the double that starts it: with a double-9 set the game runs ten rounds, from the double-9 down to the double-blank. For a double-12 set, choose 13 under Doubles on the online sheet, or in Customise for the printed one.",
+      "When a round ends, every player adds up the pips on the tiles left in their hand and writes that number in the round's row. The player who went out writes 0. Being caught with the double-blank costs 50 at most tables, so write 50 for that tile instead of 0.",
+      "After the double-blank round, the lowest total wins. On a phone, tap a box to write a round's points; the sheet keeps every total and circles whoever is lowest."
+    ],
+    "exampleRound": [
+      {
+        "caption": "Four players, round 1 (Double 9)",
+        "rows": [
+          { "label": "Ana goes out", "value": "0" },
+          { "label": "Ben holds 9-8 and 4-2", "value": "23" },
+          { "label": "Cleo holds 6-6", "value": "12" },
+          { "label": "Dev is caught with the double-blank", "value": "50" }
+        ],
+        "result": "After round 1: Ana 0, Cleo 12, Ben 23, Dev 50"
+      },
+      {
+        "caption": "Three players, a blocked round (Double 5)",
+        "rows": [
+          { "label": "Ana holds 3-1", "value": "4" },
+          { "label": "Ben holds 8-7", "value": "15" },
+          { "label": "Cleo holds 2-0 and 6-4", "value": "12" }
+        ],
+        "result": "Nobody went out, so nobody writes 0; Ana's 4 is the best of the round"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a round of Chicken Foot works",
+      "paragraphs": [
+        "Each round starts with a double in the middle of the table: the highest double of the set in round one, one lower in each round after, and the double-blank last. Tiles are dealt from the face-down boneyard; how many depends on the set and the number of players, and eleven each is common for four players with a double-9 set. Players build lines outward from the starting double, matching the number on each open end.",
+        "Whenever someone plays a double, it is laid crosswise and becomes a chicken foot. Three more tiles must be played on its open side, like the toes of a foot, before anyone may play anywhere else. Any player can add the toes on their turn. If you cannot play, draw one tile from the boneyard and play it if it fits; otherwise you pass.",
+        "The round ends when a player plays their last tile, or when it blocks because the boneyard is empty and nobody can play. Everyone else counts the pips on the tiles left in their hand, and those points go on the sheet. As in golf, low scores are good."
+      ]
+    },
+    "tips": [
+      "Agree on the double-blank before the first round. It holds no pips, but most tables charge 50 for being caught with it, and some charge 25.",
+      "An unfinished chicken foot shuts down every other line. If you hold no tile for the toes you must draw, which is how big hands get stuck late in a round.",
+      "In a blocked round everyone counts what they hold, and nobody writes a zero.",
+      "For a double-12 set, choose 13 under Doubles. The sheet then labels the rounds from Double 12, and the game runs three rounds longer."
+    ],
+    "faqs": [
+      { "q": "How do you score Chicken Foot?", "a": "At the end of each round, every player adds up the pips on the tiles left in their hand, and that is their score for the round. The player who went out scores 0. The lowest total after the double-blank round wins." },
+      { "q": "What is the double-blank worth in Chicken Foot?", "a": "Most tables count it as 50 points if you are left holding it, even though it has no pips. Some count 25. Agree before you start." },
+      { "q": "How many rounds are in Chicken Foot?", "a": "One for every double in the set: ten with a double-9 set, from double-9 down to double-blank, and thirteen with a double-12 set." },
+      { "q": "What is a chicken foot in dominoes?", "a": "A double laid crosswise with three tiles played off one side of it, like the toes of a foot. Until the three toes are in place, nobody can play anywhere else." },
+      { "q": "What happens if you can't play on a chicken foot?", "a": "Draw one tile from the boneyard. If it fits, play it; if not, pass. The foot stays open until someone can fill it." },
+      { "q": "How is Chicken Foot different from Mexican Train?", "a": "Both count the pips left in your hand and both play one round per double. Mexican Train gives each player a personal train and a shared Mexican Train, while Chicken Foot has no trains and makes every double sprout three toes." },
+      { "q": "How many people can play Chicken Foot?", "a": "Two to six with a double-9 set, and up to eight with a double-12 set. The printable sheet has six columns; the online scorekeeper takes eight." }
+    ]
+  },
+  "related": ["mexican-train-score-sheet", "dominoes-score-sheet", "rummikub-score-sheet", "five-crowns-score-sheet", "phase-10-score-sheet"],
+  "phase": 3,
+  "status": "live"
+}

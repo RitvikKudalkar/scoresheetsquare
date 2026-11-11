@@ -39,6 +39,8 @@ export type RoundsConfig = {
   engine: 'round-totals';
   rounds: number;
   roundLabels?: string[];
+  /** Chicken Foot: a shorter game drops the first labels, not the last (double-9 starts at "Double 9"). */
+  labelsFromEnd?: boolean;
   target?: number;
   /** Phase 10: each round can be ticked as "phase made"; most phases wins, lowest points breaks ties. */
   phases?: number;
@@ -161,6 +163,14 @@ export function optionChoices(config: SheetConfig) {
     roundsName: word && /^[A-Z][a-z]+$/.test(word) ? `${word}s` : 'Rounds',
     moon: !!rounds?.roundPoints?.moon,
   };
+}
+
+/** The printed name of round `i` (0-based) as this table plays it. */
+export function roundLabel(config: RoundsConfig, i: number): string {
+  const labels = config.roundLabels;
+  if (!labels) return `Round ${i + 1}`;
+  const offset = config.labelsFromEnd ? Math.max(0, labels.length - config.rounds) : 0;
+  return labels[i + offset] ?? `Round ${i + 1}`;
 }
 
 /** Columns each player has on the sheet (3 in Triple Yahtzee, otherwise 1). */
@@ -320,7 +330,7 @@ export function layoutSheet(config: SheetConfig, scores: Scores, playerCount: nu
   const phased = config.engine === 'round-totals' && !!config.phases;
   const labels =
     config.engine === 'round-totals'
-      ? ids.map((_, i) => config.roundLabels?.[i] ?? `Round ${i + 1}`)
+      ? ids.map((_, i) => roundLabel(config, i))
       : ids.map((_, i) => `Turn ${i + 1}`);
   const totals = players.map((p) => sum(ids.map((id) => col(id, p))));
   const computed: ComputedRow[] = [];
@@ -469,7 +479,7 @@ function roundPointNotices(config: RoundsConfig, scores: Scores, playerCount: nu
     if (row.some((v) => v == null)) return [];
     const sum = row.reduce<number>((a, b) => a + (b ?? 0), 0);
     if (allowed.includes(sum)) return [];
-    const label = config.roundLabels?.[r] ?? `Round ${r + 1}`;
+    const label = roundLabel(config, r);
     return [`${label} adds up to ${sum}. Every round should add up to ${total}${moonSum === undefined ? '' : `, or ${String(moonSum).replace('-', '−')} when someone shoots the moon`}.`];
   });
 }

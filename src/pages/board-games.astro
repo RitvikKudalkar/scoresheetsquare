@@ -4,9 +4,9 @@ import CategoryPage from '../components/CategoryPage.astro';
 
 <CategoryPage
   title="Board and Tile Game Score Sheets – Free Printables"
-  description="Free printable score sheets for board and tile games, starting with Mexican Train dominoes, plus online scorekeepers that total every round."
+  description="Free printable score sheets for Mexican Train, Chicken Foot, Rummikub and dominoes, plus online scorekeepers that total every round for you."
   heading="Board and tile game score sheets"
-  lead="Printable sheets and online scorekeepers for dominoes, tile games and board games."
+  lead="Printable sheets and online scorekeepers for Mexican Train, Chicken Foot, Rummikub and dominoes."
   crumb="Board games"
   categories={['board', 'tile']}
   image={{
@@ -21,8 +21,8 @@ import CategoryPage from '../components/CategoryPage.astro';
     {
       heading: 'Dominoes, round by round',
       paragraphs: [
-        'Mexican Train is played over 13 rounds, starting with the double-12 in the middle of the table and working down to the double-blank. When a round ends, every player adds up the pips on the tiles left in front of them, and the lowest total after all 13 rounds wins.',
-        'The Mexican Train sheet labels every round by its starting double, so nobody has to remember which round you are on.',
+        'Mexican Train and Chicken Foot are both played one round per double. Mexican Train starts with the double-12 in the middle of the table and works down to the double-blank over 13 rounds; Chicken Foot usually uses a double-9 set and lasts ten. In both, every player adds up the pips on the tiles left in their hand when a round ends, and the lowest total wins.',
+        'Both sheets label every round by its starting double, so nobody has to remember which round you are on. The Chicken Foot sheet switches between a double-9 and a double-12 game, and relabels its rows to match.',
       ],
       links: [
         { href: '/mexican-train-dominoes-rules', label: 'Mexican Train rules', note: 'Setup, doubles, scoring' },
@@ -30,10 +30,17 @@ import CategoryPage from '../components/CategoryPage.astro';
       ],
     },
     {
-      heading: 'Board games that score at the end',
+      heading: 'Playing to a target',
       paragraphs: [
-        'Many modern board games add up points from several sources when the game is over: routes, cards, sets, bonuses. Sheets for these games are being added, each listing every source as a row so the final count goes quickly and nothing is forgotten.',
-        'Every sheet comes as a standard, large print and 2-per-page PDF for US Letter or A4, and as an online scorekeeper for the table.',
+        'Classic block and draw dominoes score the other way round: only the player who goes out scores, collecting the pips left in everyone else’s hand, and the first to 100 wins. The dominoes sheet also offers 150 and 250 for a longer game, and leaves one column per player or per partnership.',
+        'Rummikub scores every player every round. The player who empties their rack collects the value of everyone else’s tiles, and each other player loses their own, with a joker counting 30. Because the winner’s gain equals the others’ losses, every round adds up to zero, and the online sheet checks that for you.',
+      ],
+    },
+    {
+      heading: 'Printing for the table',
+      paragraphs: [
+        'Every sheet comes as a standard PDF, a large print PDF with bigger type and boxes, and a 2-per-page PDF that fits two sheets on one piece of paper, each ready for US Letter or A4. Customise adds your players’ names before you print.',
+        'If you would rather not print, open the game’s page on a phone and keep score on the sheet itself. It adds up as you go, circles the leader and remembers the game if the phone locks.',
       ],
     },
   ]}
