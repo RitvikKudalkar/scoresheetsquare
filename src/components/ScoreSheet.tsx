@@ -5,6 +5,7 @@ import {
   applyOptions,
   bidKey,
   bidPoints,
+  columnsPer,
   optionChoices,
   type GameOptions,
   isComplete,
@@ -17,6 +18,8 @@ import {
   phasesMade,
   rankPlayers,
   rowIds,
+  rowPoints,
+  subColumns,
   teamColumns,
   tookKey,
   type Scores,
@@ -40,8 +43,9 @@ export default function ScoreSheet(props: Props) {
   return props.game.sheet.engine === 'tally' ? <TallySheet {...props} /> : <PointsSheet {...props} />;
 }
 
+// Triple Yahtzee gives each player several columns, so a row holds players × columnsPer values.
 function emptyScores(game: SheetGame, count: number): Scores {
-  return Object.fromEntries(rowIds(game.sheet).map((id) => [id, Array(count).fill(null)]));
+  return Object.fromEntries(rowIds(game.sheet).map((id) => [id, Array(count * columnsPer(game.sheet)).fill(null)]));
 }
 
 // A believable half-played game, so the home page sheet shows numbers that add up.
@@ -102,6 +106,13 @@ function PointsSheet({ game: base, mode }: Props) {
   const notes = live ? notices(game.sheet, scores, players.map((_, p) => nameOf(p)), layout.totals) : [];
   const phased = game.sheet.engine === 'round-totals' && !!game.sheet.phases;
   const bidding = game.sheet.engine === 'bid-and-make' ? game.sheet : null;
+  // Sheet columns: one per player, or several (Triple Yahtzee's ×1, ×2, ×3).
+  const subs = subColumns(game.sheet);
+  const k = subs?.length ?? 1;
+  const width = players.length * k;
+  const columns = Array.from({ length: width }, (_, v) => v);
+  const ownerOf = (v: number) => Math.floor(v / k);
+  const columnName = (v: number) => (subs ? `${nameOf(ownerOf(v))}, column ${subs[v % k].label}` : nameOf(v));
 
   // A phone gets the on-screen keypad instead of the system keyboard.
   useEffect(() => {
@@ -146,7 +157,7 @@ function PointsSheet({ game: base, mode }: Props) {
 
   const setValue = (rowId: string, p: number, value: number | null) =>
     setScores((s) => {
-      const row = s[rowId] ?? Array(players.length).fill(null);
+      const row = s[rowId] ?? Array(width).fill(null);
       return { ...s, [rowId]: row.map((v, i) => (i === p ? value : v)) };
     });
 
@@ -173,14 +184,14 @@ function PointsSheet({ game: base, mode }: Props) {
     if (players.length >= game.players.max) return;
     pushHistory();
     setPlayers((ps) => [...ps, '']);
-    setScores((s) => Object.fromEntries(Object.entries(s).map(([k, v]) => [k, [...v, null]])));
+    setScores((s) => Object.fromEntries(Object.entries(s).map(([key, v]) => [key, [...v, ...Array(k).fill(null)]])));
   };
 
   const removePlayer = (p: number) => {
     if (players.length <= game.players.min) return;
     pushHistory();
     setPlayers((ps) => ps.filter((_, i) => i !== p));
-    setScores((s) => Object.fromEntries(Object.entries(s).map(([k, v]) => [k, v.filter((_, i) => i !== p)])));
+    setScores((s) => Object.fromEntries(Object.entries(s).map(([key, v]) => [key, v.filter((_, i) => ownerOf(i) !== p)])));
   };
 
   const undo = () => {
@@ -239,7 +250,7 @@ function PointsSheet({ game: base, mode }: Props) {
   const nextCell = () => {
     if (!active) return;
     const r = entryRows.indexOf(active.rowId);
-    if (active.p + 1 < players.length) focusCell(active.rowId, active.p + 1);
+    if (active.p + 1 < width) focusCell(active.rowId, active.p + 1);
     else if (r + 1 < entryRows.length) focusCell(entryRows[r + 1], 0);
     else (document.activeElement as HTMLElement | null)?.blur();
   };
@@ -253,7 +264,7 @@ function PointsSheet({ game: base, mode }: Props) {
   };
 
   const ranked = rankPlayers(game.sheet, layout.totals, game.winCondition, scores);
-  const activeLabel = active ? `${nameOf(active.p)}, ${entries.find((e) => e.id === active.rowId)?.label ?? ''}` : '';
+  const activeLabel = active ? `${columnName(active.p)}, ${entries.find((e) => e.id === active.rowId)?.label ?? ''}` : '';
 
   const cellInput = (key: string, p: number, label: string, className = 'cell-input', placeholder?: string) => (
     <input
@@ -264,7 +275,7 @@ function PointsSheet({ game: base, mode }: Props) {
       value={scores[key]?.[p] ?? ''}
       placeholder={placeholder}
       data-cell={`${game.slug}:${key}:${p}`}
-      aria-label={`${nameOf(p)}, ${label}`}
+      aria-label={`${columnName(p)}, ${label}`}
       onFocus={(e) => {
         snapshot();
         setActive({ rowId: key, p });
@@ -310,7 +321,7 @@ function PointsSheet({ game: base, mode }: Props) {
               <tr>
                 <th scope="col" className="sheet-corner">{live ? 'Tap a name to change it' : 'Players'}</th>
                 {players.map((name, p) => (
-                  <th scope="col" key={p} className="sheet-player">
+                  <th scope="col" key={p} colSpan={k > 1 ? k : undefined} className="sheet-player">
                     <input
                       className="cell-input is-name"
                       value={name}
@@ -328,12 +339,20 @@ function PointsSheet({ game: base, mode }: Props) {
                   </th>
                 ))}
               </tr>
+              {subs && (
+                <tr className="sheet-sub">
+                  <th scope="col" className="sheet-corner">Columns</th>
+                  {columns.map((v) => (
+                    <th scope="col" key={v} className={v % k === 0 ? 'is-first' : undefined}>{subs[v % k].label}</th>
+                  ))}
+                </tr>
+              )}
             </thead>
             {layout.groups.map((group) => (
               <tbody key={group.id}>
                 {group.label && (
                   <tr className="sheet-group">
-                    <th scope="rowgroup" colSpan={players.length + 1}>{group.label}</th>
+                    <th scope="rowgroup" colSpan={width + 1}>{group.label}</th>
                   </tr>
                 )}
                 {group.rows.map((row) => (
@@ -342,7 +361,7 @@ function PointsSheet({ game: base, mode }: Props) {
                       {row.label}
                       {row.hint && <span className="sheet-hint">{row.hint}</span>}
                     </th>
-                    {players.map((_, p) => {
+                    {columns.map((p) => {
                       if (bidding && row.bid) {
                         const nil = scores[nilKey(row.id)]?.[p];
                         const points = bidPoints(bidding, scores[bidKey(row.id)]?.[p], scores[tookKey(row.id)]?.[p], nil, scores[meldKey(row.id)]?.[p]);
@@ -369,9 +388,13 @@ function PointsSheet({ game: base, mode }: Props) {
                         );
                       }
                       const made = scores[phaseKey(row.id)]?.[p] === 1;
+                      // Qwixx: the box takes a count of crosses, and shows what it is worth.
+                      const counted = row.scale || row.perUnit !== undefined ? rowPoints(row, scores[row.id]?.[p]) : null;
+                      const cls = [row.phase && 'has-phase', subs && p % k === 0 && 'is-first', counted !== null && 'has-points'].filter(Boolean).join(' ');
                       return (
-                        <td key={p} className={row.phase ? 'has-phase' : undefined}>
+                        <td key={p} className={cls || undefined}>
                           {cellInput(row.id, p, row.label)}
+                          {counted !== null && <span className="count-points" aria-hidden="true">{String(counted).replace('-', '−')} pts</span>}
                           {row.phase && (
                             <button
                               type="button"
@@ -392,8 +415,8 @@ function PointsSheet({ game: base, mode }: Props) {
                   <tr key={row.id} className={row.strong ? 'sheet-computed is-strong' : 'sheet-computed'}>
                     <th scope="row" className="sheet-label">{row.label}</th>
                     {row.values.map((v, p) => (
-                      <td key={p} className="sheet-total">
-                        <output aria-label={`${nameOf(p)}, ${row.label}`}>{v}</output>
+                      <td key={p} colSpan={row.perPlayer && k > 1 ? k : undefined} className={subs && (row.perPlayer || p % k === 0) ? 'sheet-total is-first' : 'sheet-total'}>
+                        <output aria-label={`${row.perPlayer ? nameOf(p) : columnName(p)}, ${row.label}`}>{v}</output>
                         {row.id === 'grand-total' && p === leader && <PencilCircle />}
                       </td>
                     ))}

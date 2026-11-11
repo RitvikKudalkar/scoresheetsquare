@@ -1,6 +1,20 @@
 // Sheet definitions shared by the server-rendered sheet, the scorekeeper island and the PDF build.
 
-export type CategoryRow = { id: string; label: string; hint?: string };
+export type CategoryRow = {
+  id: string;
+  label: string;
+  hint?: string;
+  /** Qwixx: the box takes a count (crosses in a row) and scores scale[count − 1]. */
+  scale?: number[];
+  /** Qwixx penalties: the box takes a count and scores count × perUnit. */
+  perUnit?: number;
+};
+
+/** Triple Yahtzee: every player has several columns, each total multiplied before they are added. */
+export type SubColumn = { label: string; multiplier: number };
+
+/** Qwixx: the printed play sheet, a row of numbers to cross off for each scored row. */
+export type CrossSheet = { rows: { id: string; numbers: number[] }[]; penaltyRow: string; penaltyBoxes: number };
 
 export type CategorySection = {
   id: string;
@@ -17,6 +31,8 @@ export type CategoryConfig = {
   sections: CategorySection[];
   grandTotal: string;
   teams?: boolean;
+  columnsPerPlayer?: SubColumn[];
+  crossSheet?: CrossSheet;
 };
 
 export type RoundsConfig = {
@@ -102,8 +118,9 @@ export type SheetGame = {
  * `took:<rowId>`, and `nil:<rowId>` with 1 for made and -1 for failed. */
 export type Scores = Record<string, (number | null)[]>;
 
-export type ComputedRow = { id: string; label: string; values: number[]; strong?: boolean };
-export type SheetRow = { id: string; label: string; hint?: string; phase?: boolean; bid?: boolean };
+/** `values` has one entry per sheet column; a `perPlayer` row (Triple Yahtzee's grand total) has one per player. */
+export type ComputedRow = { id: string; label: string; values: number[]; strong?: boolean; perPlayer?: boolean };
+export type SheetRow = { id: string; label: string; hint?: string; phase?: boolean; bid?: boolean; scale?: number[]; perUnit?: number };
 
 export type SheetLayout = {
   groups: { id: string; label?: string; rows: SheetRow[]; computed: ComputedRow[] }[];
@@ -144,6 +161,18 @@ export function optionChoices(config: SheetConfig) {
     roundsName: word && /^[A-Z][a-z]+$/.test(word) ? `${word}s` : 'Rounds',
     moon: !!rounds?.roundPoints?.moon,
   };
+}
+
+/** Columns each player has on the sheet (3 in Triple Yahtzee, otherwise 1). */
+export const subColumns = (config: SheetConfig): SubColumn[] | null => (config.engine === 'category' && config.columnsPerPlayer?.length ? config.columnsPerPlayer : null);
+export const columnsPer = (config: SheetConfig) => subColumns(config)?.length ?? 1;
+
+/** Points a written value is worth: a count converted through a scale or per-unit rate, or the value itself. */
+export function rowPoints(row: { scale?: number[]; perUnit?: number }, v: number | null | undefined): number | null {
+  if (v == null) return null;
+  if (row.scale) return v <= 0 ? 0 : row.scale[Math.min(v, row.scale.length) - 1];
+  if (row.perUnit !== undefined) return v * row.perUnit;
+  return v;
 }
 
 /** Whether each column is a partnership rather than one player (Spades, Hand and Foot). */
@@ -222,10 +251,14 @@ export function layoutSheet(config: SheetConfig, scores: Scores, playerCount: nu
   const players = Array.from({ length: playerCount }, (_, p) => p);
 
   if (config.engine === 'category') {
-    const sectionTotals = players.map(() => 0);
+    // One entry per sheet column: players × sub-columns (Triple Yahtzee), or just players.
+    const subs = subColumns(config);
+    const k = subs?.length ?? 1;
+    const columns = Array.from({ length: playerCount * k }, (_, v) => v);
+    const sectionTotals = columns.map(() => 0);
     const groups = config.sections.map((section) => {
       const computed: ComputedRow[] = [];
-      const raw = players.map((p) => sum(section.rows.map((r) => col(r.id, p))));
+      const raw = columns.map((p) => sum(section.rows.map((r) => rowPoints(r, col(r.id, p)))));
       let final = raw;
       if (section.subtotal) computed.push({ id: `${section.id}-subtotal`, label: section.subtotal, values: raw });
       if (section.bonus) {
@@ -239,8 +272,17 @@ export function layoutSheet(config: SheetConfig, scores: Scores, playerCount: nu
       final.forEach((v, p) => (sectionTotals[p] += v));
       return { id: section.id, label: section.label, rows: section.rows, computed };
     });
-    groups[groups.length - 1].computed.push({ id: 'grand-total', label: config.grandTotal, values: sectionTotals, strong: true });
-    return { groups, totals: sectionTotals };
+    const last = groups[groups.length - 1].computed;
+    if (!subs) {
+      last.push({ id: 'grand-total', label: config.grandTotal, values: sectionTotals, strong: true });
+      return { groups, totals: sectionTotals };
+    }
+    const multiplied = columns.map((v) => sectionTotals[v] * subs[v % k].multiplier);
+    const totals = players.map((p) => sum(multiplied.slice(p * k, p * k + k)));
+    last.push({ id: 'column-total', label: 'Column total', values: sectionTotals, strong: true });
+    last.push({ id: 'multiplied', label: `Multiplied (${subs.map((s) => `×${s.multiplier}`).join(', ')})`, values: multiplied });
+    last.push({ id: 'grand-total', label: config.grandTotal, values: totals, strong: true, perPlayer: true });
+    return { groups, totals };
   }
 
   if (config.engine === 'tally') {
@@ -290,15 +332,18 @@ export function layoutSheet(config: SheetConfig, scores: Scores, playerCount: nu
   };
 }
 
-const hasPlayed = (scores: Scores, p: number) => Object.values(scores).some((vals) => vals[p] != null);
+const hasPlayed = (config: SheetConfig, scores: Scores, p: number) => {
+  const k = columnsPer(config);
+  return Object.values(scores).some((vals) => vals.slice(p * k, p * k + k).some((v) => v != null));
+};
 
 /** Index of the leading player, or -1 before anyone has scored, or while the lead is tied.
  * In a lowest-wins game a column with nothing written is left out, so it never "leads" on 0; in a
  * highest-wins game it stays in, because in Euchre or Uno a side that never scores has simply lost. */
 export function leaderOf(config: SheetConfig, totals: number[], win: WinCondition, scores: Scores): number {
   const ranked = rankPlayers(config, totals, win, scores);
-  if (!ranked.some((i) => hasPlayed(scores, i))) return -1;
-  const playing = win === 'highest' ? ranked : ranked.filter((i) => hasPlayed(scores, i));
+  if (!ranked.some((i) => hasPlayed(config, scores, i))) return -1;
+  const playing = win === 'highest' ? ranked : ranked.filter((i) => hasPlayed(config, scores, i));
   if (playing.length < 2) return -1;
   const [a, b] = playing.map((i) => rankKey(config, totals, win, scores, i));
   return a[0] === b[0] && a[1] === b[1] ? -1 : playing[0];
@@ -356,13 +401,15 @@ export function isComplete(config: SheetConfig, scores: Scores, playerCount: num
     const begun = ids.filter((id) => players.some((p) => scores[id]?.[p] != null));
     return begun.every((id) => players.every((p) => scores[id]?.[p] != null));
   }
-  return ids.every((id) => players.every((p) => scores[id]?.[p] != null));
+  const columns = Array.from({ length: playerCount * columnsPer(config) }, (_, v) => v);
+  return ids.every((id) => columns.every((v) => scores[id]?.[v] != null));
 }
 
 /** Plain-language notes the sheet shows above the grid while a game is in play. */
 export function notices(config: SheetConfig, scores: Scores, names: string[], totals: number[]): string[] {
   if (config.engine === 'bid-and-make') return bidNotices(config, scores, names.length);
   if (config.engine === 'round-totals') return [...roundPointNotices(config, scores, names.length), ...meldNotices(config, scores, names, totals)];
+  if (config.engine === 'category') return countNotices(config, scores, names);
   if (config.engine !== 'running-turns') return [];
   const out: string[] = [];
   const ids = rowIds(config);
@@ -377,6 +424,20 @@ export function notices(config: SheetConfig, scores: Scores, names: string[], to
     });
   }
   return out;
+}
+
+/** Qwixx: a row can hold at most 12 crosses (11 numbers and the lock), and a sheet at most 4 penalties. */
+function countNotices(config: CategoryConfig, scores: Scores, names: string[]): string[] {
+  return config.sections.flatMap((section) =>
+    section.rows.flatMap((row) => {
+      const max = row.scale?.length ?? (row.perUnit !== undefined ? config.crossSheet?.penaltyBoxes : undefined);
+      if (max === undefined) return [];
+      return names.flatMap((name, p) => {
+        const v = scores[row.id]?.[p];
+        return v != null && (v > max || v < 0) ? [`${name}: ${row.label} can be 0 to ${max}, not ${v}.`] : [];
+      });
+    }),
+  );
 }
 
 /** A round whose tricks don't add up to the cards dealt has a slip in it. */

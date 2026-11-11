@@ -113,7 +113,7 @@
       { "q": "Does this sheet work for Yatzy or Yacht?", "a": "Not box for box. Yatzy, the Scandinavian version, has 15 boxes including one pair and two pairs, gives a 50-point upper bonus at 63, scores the straights as 15 and 20 and a full house as the total of the dice, and has no Yahtzee bonus. Yacht, the older game, has no upper bonus at all. For either one, print the blank score sheet and write your boxes down the side." }
     ]
   },
-  "related": ["kismet-score-sheet", "farkle-score-sheet", "tenzi-score-sheet", "ship-captain-crew-score-sheet", "phase-10-score-sheet"],
+  "related": ["triple-yahtzee-score-sheet", "qwixx-score-sheet", "kismet-score-sheet", "farkle-score-sheet", "tenzi-score-sheet", "ship-captain-crew-score-sheet"],
   "phase": 1,
   "status": "live"
 }

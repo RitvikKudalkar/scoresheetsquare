@@ -111,7 +111,7 @@
       { "q": "What is a Yarborough?", "a": "Kismet's name for chance: any roll at all, scored as the total of the five dice." }
     ]
   },
-  "related": ["yahtzee-score-sheet", "tenzi-score-sheet", "farkle-score-sheet", "ship-captain-crew-score-sheet", "bunco-score-sheet"],
+  "related": ["yahtzee-score-sheet", "triple-yahtzee-score-sheet", "qwixx-score-sheet", "farkle-score-sheet", "tenzi-score-sheet", "ship-captain-crew-score-sheet"],
   "phase": 2,
   "status": "live"
 }

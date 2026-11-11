@@ -7,6 +7,7 @@ import { Resvg } from '@resvg/resvg-js';
 import { pageToSvg, pdfFileName, sheetPages, type Paper, type Version } from '../src/lib/print-layout.ts';
 import { measureWith, sheetPdf } from '../src/lib/print-pdf.ts';
 import type { SheetGame } from '../src/lib/sheet.ts';
+import { catalogue } from '../src/lib/catalogue.ts';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const gamesDir = join(root, 'src/content/games');
@@ -37,6 +38,14 @@ const blankSheet: GameFile = {
 const files = (await readdir(gamesDir)).filter((f) => f.endsWith('.json'));
 const games: GameFile[] = [blankSheet];
 for (const file of files) games.push(JSON.parse(await readFile(join(gamesDir, file), 'utf8')) as GameFile);
+
+// Every game listed in the catalogue must have a live page, so no list ever shows "Sheet coming soon".
+const liveSlugs = new Set(games.filter((g) => g.status === 'live').map((g) => g.slug));
+const missing = catalogue.filter((e) => !liveSlugs.has(e.slug)).map((e) => e.slug);
+if (missing.length) {
+  console.error(`sheets: catalogue entries without a live game file: ${missing.join(', ')}`);
+  process.exit(1);
+}
 
 let count = 0;
 for (const game of games) {

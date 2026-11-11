@@ -1,0 +1,112 @@
+{
+  "slug": "qwixx-score-sheet",
+  "name": "Qwixx",
+  "category": "dice",
+  "keywords": ["qwixx score sheet", "qwixx score sheets", "qwixx score sheet printable", "printable qwixx score sheets"],
+  "title": "Qwixx Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Qwixx score sheets to cross off, in standard, large print and 2-per-page PDFs, plus an online scorekeeper that turns crosses into points.",
+  "players": { "min": 2, "max": 5, "default": 4 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "category",
+    "sections": [
+      {
+        "id": "rows",
+        "label": "Crosses in each row",
+        "rows": [
+          { "id": "red", "label": "Red", "hint": "Crosses, lock counts as one", "scale": [1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78] },
+          { "id": "yellow", "label": "Yellow", "hint": "Crosses, lock counts as one", "scale": [1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78] },
+          { "id": "green", "label": "Green", "hint": "Crosses, lock counts as one", "scale": [1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78] },
+          { "id": "blue", "label": "Blue", "hint": "Crosses, lock counts as one", "scale": [1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78] },
+          { "id": "penalties", "label": "Penalties", "hint": "How many, −5 each", "perUnit": -5 }
+        ]
+      }
+    ],
+    "grandTotal": "Total",
+    "crossSheet": {
+      "rows": [
+        { "id": "red", "numbers": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+        { "id": "yellow", "numbers": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+        { "id": "green", "numbers": [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2] },
+        { "id": "blue", "numbers": [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2] }
+      ],
+      "penaltyRow": "penalties",
+      "penaltyBoxes": 4
+    }
+  },
+  "pdf": { "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Crosses in a row", "Points"],
+    "rows": [
+      ["1", "1"],
+      ["2", "3"],
+      ["3", "6"],
+      ["4", "10"],
+      ["5", "15"],
+      ["6", "21"],
+      ["7", "28"],
+      ["8", "36"],
+      ["9", "45"],
+      ["10", "55"],
+      ["11", "66"],
+      ["12 (a full row with its lock)", "78"],
+      ["Each penalty", "−5"]
+    ]
+  },
+  "content": {
+    "intro": "Print Qwixx score sheets to cross off at the table, or count up the crosses on your phone. The online sheet turns each row's crosses into points for you.",
+    "howToUse": [
+      "Print one play sheet for each player: the Standard PDF has two sheets to a page, cut along the line. Each sheet has the four rows to cross off, a lock box at the end of every row, four penalty boxes and the points table, so nobody needs the box.",
+      "At the end of the game, count the crosses in each row, including the lock if you locked it, and look up the points in the table under the rows: 1 cross is 1 point, 2 crosses are 3, and so on up to 78 for twelve. Take off 5 for every penalty and write the total in the last box.",
+      "Prefer to count on a phone? Type the number of crosses in each row and the number of penalties, not the points. The online sheet converts the crosses, takes off the penalties, adds up every player and circles the leader."
+    ],
+    "exampleRound": [
+      {
+        "caption": "One player's finished sheet",
+        "rows": [
+          { "label": "Red: 7 crosses", "value": "28" },
+          { "label": "Yellow: 4 crosses", "value": "10" },
+          { "label": "Green: 8 crosses and the lock, so 9", "value": "45" },
+          { "label": "Blue: 2 crosses", "value": "3" },
+          { "label": "Penalties: 1", "value": "−5" }
+        ],
+        "result": "Total: 28 + 10 + 45 + 3 − 5 = 81"
+      },
+      {
+        "caption": "Locking the red row",
+        "rows": [
+          { "label": "Ana has 5 crosses in red before the roll", "value": "15" },
+          { "label": "The white dice show 6 and 6: she crosses red 12", "value": "21" },
+          { "label": "She crosses the lock too, which counts as a cross", "value": "28" }
+        ],
+        "result": "Red is closed for everyone; Ana's row is worth 28"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a turn of Qwixx works",
+      "paragraphs": [
+        "Qwixx uses six dice: two white and one each in red, yellow, green and blue. On each turn the active player rolls all six. First, every player at the table may cross out the sum of the two white dice in any one of their rows. Then the active player alone may also cross out the sum of one white die and one coloured die, in the row of that colour.",
+        "Numbers in a row must be crossed from left to right. You may skip numbers, but once skipped they are gone for good, so crossing a 9 early in the red row gives up the 2 to 8. If the active player crosses nothing at all on their own roll, they must cross a penalty box.",
+        "To lock a row, cross its last number, the red or yellow 12 or the green or blue 2, which you may only do once that row already has at least five crosses. You then cross the lock as well, and that colour's die leaves the game. The game ends at once when a second row is locked or a player crosses their fourth penalty."
+      ]
+    },
+    "tips": [
+      "Count the lock as a cross. A red row with 2, 4, 6, 8 and 10 crossed, then 12 and the lock, has seven crosses worth 28, not six worth 21.",
+      "Only the active player takes a penalty. Crossing nothing on someone else's roll costs nothing.",
+      "A player on three penalties can end the game with the fourth. If you are ahead, that can be the quickest way to win.",
+      "The rules name no tiebreak. If two players finish level, share the win or play a deciding game."
+    ],
+    "faqs": [
+      { "q": "How do you score Qwixx?", "a": "Count the crosses in each coloured row, including the lock, and look up its points: 1 cross is 1 point, 2 are 3, 3 are 6, and so on up to 78 for twelve. Add the four rows and take off 5 points for every penalty." },
+      { "q": "How many crosses do you need to lock a row in Qwixx?", "a": "At least five crosses in that row before you cross its last number. The lock then counts as one more cross." },
+      { "q": "When does a game of Qwixx end?", "a": "Straight away when a second row is locked, or when any player crosses their fourth penalty box. Everyone then adds up their sheet." },
+      { "q": "Can you go back and cross a number you skipped?", "a": "No. Numbers are crossed from left to right, and anything you skip in a row can never be crossed later." },
+      { "q": "When do you take a penalty in Qwixx?", "a": "Only on your own turn, when you cross out nothing with either the white dice or a white and coloured pair. Each penalty is worth minus 5." },
+      { "q": "How many people can play Qwixx?", "a": "Two to five. Print one play sheet per player; the online scorekeeper takes up to five." },
+      { "q": "Do I type crosses or points into the online sheet?", "a": "Crosses. Type how many crosses each row has and how many penalties, and the sheet works out the points using the table." }
+    ]
+  },
+  "related": ["yahtzee-score-sheet", "triple-yahtzee-score-sheet", "farkle-score-sheet", "kismet-score-sheet", "ship-captain-crew-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

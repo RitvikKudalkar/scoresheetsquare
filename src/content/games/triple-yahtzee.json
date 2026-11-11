@@ -1,0 +1,121 @@
+{
+  "slug": "triple-yahtzee-score-sheet",
+  "name": "Triple Yahtzee",
+  "category": "dice",
+  "keywords": ["triple yahtzee score sheet", "triple yahtzee score sheet printable", "triple yahtzee score card", "printable triple yahtzee score sheets"],
+  "title": "Triple Yahtzee Score Sheet – Free Printable PDF",
+  "description": "Free printable Triple Yahtzee score sheet with ×1, ×2 and ×3 columns, in standard, large print and 2-per-page PDFs, plus an online scorekeeper.",
+  "players": { "min": 1, "max": 6, "default": 2 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "category",
+    "columnsPerPlayer": [
+      { "label": "×1", "multiplier": 1 },
+      { "label": "×2", "multiplier": 2 },
+      { "label": "×3", "multiplier": 3 }
+    ],
+    "sections": [
+      {
+        "id": "upper",
+        "label": "Upper section",
+        "rows": [
+          { "id": "ones", "label": "Ones", "hint": "Add only the 1s" },
+          { "id": "twos", "label": "Twos", "hint": "Add only the 2s" },
+          { "id": "threes", "label": "Threes", "hint": "Add only the 3s" },
+          { "id": "fours", "label": "Fours", "hint": "Add only the 4s" },
+          { "id": "fives", "label": "Fives", "hint": "Add only the 5s" },
+          { "id": "sixes", "label": "Sixes", "hint": "Add only the 6s" }
+        ],
+        "subtotal": "Upper score",
+        "bonus": { "threshold": 63, "points": 35, "label": "Bonus (63 or more)" },
+        "total": "Upper total"
+      },
+      {
+        "id": "lower",
+        "label": "Lower section",
+        "rows": [
+          { "id": "three-kind", "label": "Three of a kind", "hint": "Add all five dice" },
+          { "id": "four-kind", "label": "Four of a kind", "hint": "Add all five dice" },
+          { "id": "full-house", "label": "Full house", "hint": "25" },
+          { "id": "small-straight", "label": "Small straight", "hint": "30" },
+          { "id": "large-straight", "label": "Large straight", "hint": "40" },
+          { "id": "yahtzee", "label": "Yahtzee", "hint": "50" },
+          { "id": "chance", "label": "Chance", "hint": "Add all five dice" },
+          { "id": "yahtzee-bonus", "label": "Yahtzee bonus", "hint": "100 each, once all 3 Yahtzees are in" }
+        ],
+        "total": "Lower total"
+      }
+    ],
+    "grandTotal": "Grand total"
+  },
+  "pdf": { "showScoringChart": true },
+  "scoringReference": {
+    "columns": ["Box", "What scores", "Points"],
+    "rows": [
+      ["Ones to Sixes", "Only the dice showing that number", "Sum of those dice"],
+      ["Upper bonus", "Upper score of 63 or more in that column", "35"],
+      ["Three of a kind", "At least three dice the same", "Sum of all five dice"],
+      ["Four of a kind", "At least four dice the same", "Sum of all five dice"],
+      ["Full house", "Three of one number and two of another", "25"],
+      ["Small straight", "Four in a row", "30"],
+      ["Large straight", "Five in a row", "40"],
+      ["Yahtzee", "All five dice the same", "50"],
+      ["Chance", "Any five dice", "Sum of all five dice"],
+      ["Yahtzee bonus", "Each extra Yahtzee once all three Yahtzee boxes are filled", "100"],
+      ["Column totals", "First, second and third column", "×1, ×2 and ×3"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Triple Yahtzee score sheet with the ×1, ×2 and ×3 columns side by side, or keep score on your phone. The sheet multiplies each column and adds up the grand total.",
+    "howToUse": [
+      "Each player gets their own printed card with three columns: ×1, ×2 and ×3. Write your name at the top. On every turn, write the score for the roll in any empty box in any of your three columns, exactly as you would in Yahtzee.",
+      "Write the plain score in the box, never the multiplied one. At the end, add each column on its own, including its upper bonus, then multiply the column totals by 1, 2 and 3 and add the three results for your grand total.",
+      "On a phone, every player has three columns under their name. Tap a box to write a score; the sheet works out each column's bonus, multiplies the totals, adds the grand total and circles the leader. Print this game puts everyone's scores onto printed cards."
+    ],
+    "exampleRound": [
+      {
+        "caption": "One player's finished card",
+        "rows": [
+          { "label": "Column ×1 adds up to 210", "value": "210" },
+          { "label": "Column ×2 adds up to 245, doubled", "value": "490" },
+          { "label": "Column ×3 adds up to 260, tripled", "value": "780" }
+        ],
+        "result": "Grand total: 1,480"
+      },
+      {
+        "caption": "Where to write a large straight",
+        "rows": [
+          { "label": "Written in the ×1 column, it is worth", "value": "40" },
+          { "label": "Written in the ×3 column, the same roll is worth", "value": "120" }
+        ],
+        "result": "Writing it in ×3 is worth 80 points more"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a turn of Triple Yahtzee works",
+      "paragraphs": [
+        "Triple Yahtzee is three games of Yahtzee played side by side. Each player has three columns with the usual 13 boxes. On a turn you roll five dice up to three times, keeping whichever dice you like between rolls, then write the score in any empty box in any of your three columns.",
+        "Because every column has its own 13 boxes, a game lasts 39 turns. You choose the column as well as the box, so a big roll belongs in the ×3 column and a poor one is best parked in ×1. Each column also earns its own upper bonus of 35 for an upper score of 63 or more, which becomes 70 in the ×2 column and 105 in the ×3 column once the totals are multiplied.",
+        "At the end each column is added up separately, multiplied by 1, 2 or 3, and the three results are added for the grand total. With every box at its best, a single game can reach 2,250 points before any Yahtzee bonuses, so totals well over a thousand are normal."
+      ]
+    },
+    "tips": [
+      "Write the plain score in every box. A full house in the ×3 column is written as 25; the multiplying happens once, at the bottom of the column.",
+      "Extra Yahtzees earn the 100-point bonus only once all three of your Yahtzee boxes are filled. Write the 100 in the column where you score that roll, so it counts 200 in ×2 and 300 in ×3. Many tables also require those three boxes to hold 50, not a zero.",
+      "A zero costs three times as much in the ×3 column. When you have to scratch a box, scratch it in ×1.",
+      "Each column's upper bonus is checked on its own raw upper score of 63, before any multiplying."
+    ],
+    "faqs": [
+      { "q": "How do you score Triple Yahtzee?", "a": "Each player fills three columns of Yahtzee boxes. Add each column with its own upper bonus, multiply the first by 1, the second by 2 and the third by 3, and add the three results for the grand total." },
+      { "q": "How many turns are in Triple Yahtzee?", "a": "Thirty-nine: there are 13 boxes in each of the three columns, and every turn fills one box." },
+      { "q": "Do you have to fill the columns in order?", "a": "No. On every turn you choose both the box and the column, so you can save the ×3 column for your best rolls." },
+      { "q": "How does the Yahtzee bonus work in Triple Yahtzee?", "a": "Once all three of your Yahtzee boxes are filled, each extra Yahtzee earns 100 points, multiplied by the column you score it in: 100, 200 or 300." },
+      { "q": "Is the upper bonus multiplied in Triple Yahtzee?", "a": "Yes. Each column earns 35 for an upper score of 63 or more, and that bonus is part of the column total, so it counts 35, 70 or 105." },
+      { "q": "What is the highest possible Triple Yahtzee score?", "a": "2,250 without Yahtzee bonuses: the 375 maximum of a Yahtzee column counted once, twice and three times." },
+      { "q": "How many people can play Triple Yahtzee?", "a": "One to six. Each player gets their own printed card, and the online scorekeeper takes up to six players." }
+    ]
+  },
+  "related": ["yahtzee-score-sheet", "kismet-score-sheet", "qwixx-score-sheet", "farkle-score-sheet", "ship-captain-crew-score-sheet"],
+  "phase": 2,
+  "status": "live"
+}

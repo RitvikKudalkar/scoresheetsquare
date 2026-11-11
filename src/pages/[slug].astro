@@ -82,7 +82,7 @@ const schema = [
         )
       }
 
-      <DownloadBlock slug={game.slug} alt={game.sheet.engine === 'tally' ? `Printable ${game.name} tally card with columns for wins, losses and buncos in every round` : `Printable ${game.name} score sheet with a column for each player and a row for every ${game.sheet.engine === 'category' ? 'scoring box' : game.sheet.engine === 'running-turns' ? 'turn' : game.sheet.engine === 'bid-and-make' ? 'round, with boxes for the bid, tricks won and points' : 'round'}`}>
+      <DownloadBlock slug={game.slug} alt={game.sheet.engine === 'category' && game.sheet.crossSheet ? `Printable ${game.name} play sheets with four rows of numbers to cross off, lock boxes, penalty boxes and the points table` : game.sheet.engine === 'category' && game.sheet.columnsPerPlayer ? `Printable ${game.name} score card with three multiplier columns and a row for every scoring box` : game.sheet.engine === 'tally' ?`Printable ${game.name} tally card with columns for wins, losses and buncos in every round` : `Printable ${game.name} score sheet with a column for each player and a row for every ${game.sheet.engine === 'category' ? 'scoring box' : game.sheet.engine === 'running-turns' ? 'turn' : game.sheet.engine === 'bid-and-make' ? 'round, with boxes for the bid, tricks won and points' : 'round'}`}>
         <CustomPdf client:idle game={sheetGame} />
       </DownloadBlock>
       <AdSlot />

@@ -1,7 +1,7 @@
 // One layout for every paper sheet: the build-time PDFs, their preview PNGs, the browser's custom PDF
 // and "Print this game". It returns plain drawing operations in points, origin top-left; each backend
 // (pdf-lib, SVG) only has to draw rectangles, lines and text.
-import { bidKey, bidPoints, layoutSheet, meldKey, nilKey, teamColumns, tookKey, type Scores, type SheetGame } from './sheet.ts';
+import { bidKey, bidPoints, columnsPer, layoutSheet, meldKey, nilKey, subColumns, teamColumns, tookKey, type CategoryConfig, type Scores, type SheetGame } from './sheet.ts';
 
 export type Paper = 'letter' | 'a4';
 export type Version = 'standard' | 'large-print' | '2-per-page';
@@ -60,29 +60,34 @@ function drawSheet(
   const ops: Op[] = [];
   const names = opts.players ?? [];
   const tally = game.sheet.engine === 'tally' ? game.sheet : null;
+  // Triple Yahtzee: a card is one player's, with a column for each multiplier.
+  const multi = subColumns(game.sheet);
   // A Bunco card is one player's: its columns are the tallies, not players.
   const heads = tally
     ? tally.tallies.map((t) => t.label)
-    : Array.from(
+    : multi
+      ? multi.map((c) => c.label)
+      : Array.from(
         { length: Math.min(game.players.max, names.length || (opts.version === 'standard' ? Math.max(game.players.default, s.columns) : s.columns)) },
         (_, p) => names[p] ?? '',
       );
   const columns = heads.length;
   // A blank sheet (no names) keeps every Wizard round, so it suits any number of players.
-  const layout = layoutSheet(game.sheet, opts.scores ?? {}, columns, names.length === 0);
+  const layout = layoutSheet(game.sheet, opts.scores ?? {}, multi ? 1 : columns, names.length === 0);
   const phased = game.sheet.engine === 'round-totals' && !!game.sheet.phases;
   const bidding = game.sheet.engine === 'bid-and-make' ? game.sheet : null;
 
   // Rows: header row, then each group's label, rows and computed rows.
-  type Row = { kind: 'head' | 'sub' | 'group' | 'entry' | 'computed'; label: string; hint?: string; id?: string; strong?: boolean; values?: number[] };
-  const rows: Row[] = [{ kind: 'head', label: tally ? (opts.cardName?.trim() ? `Name: ${opts.cardName.trim()}` : 'Name') : teamColumns(game.sheet) ? 'Teams' : 'Players' }];
+  type Row = { kind: 'head' | 'sub' | 'group' | 'entry' | 'computed'; label: string; hint?: string; id?: string; strong?: boolean; values?: number[]; perPlayer?: boolean };
+  const card = tally || multi;
+  const rows: Row[] = [{ kind: 'head', label: card ? (opts.cardName?.trim() ? `Name: ${opts.cardName.trim()}` : 'Name') : teamColumns(game.sheet) ? 'Teams' : 'Players' }];
   // Bid games split each column into bid, tricks won and points (Pinochle adds meld).
   if (bidding) rows.push({ kind: 'sub', label: '' });
   const subs = bidding?.meld ? ['Bid', 'Meld', 'Won', 'Pts'] : ['Bid', 'Won', 'Pts'];
   for (const g of layout.groups) {
     if (g.label) rows.push({ kind: 'group', label: g.label });
     for (const r of g.rows) rows.push({ kind: 'entry', label: r.label, hint: r.hint, id: r.id });
-    for (const c of g.computed) rows.push({ kind: 'computed', label: c.label, strong: c.strong, values: c.values });
+    for (const c of g.computed) rows.push({ kind: 'computed', label: c.label, strong: c.strong, values: c.values, perPlayer: c.perPlayer });
   }
   if (tally) rows.push({ kind: 'computed', label: 'Night total', strong: true, values: [] });
 
@@ -107,7 +112,7 @@ function drawSheet(
     const h = rowH * weightOf(r);
     const base = y + h / 2 + s.label * 0.34;
     if (r.kind === 'head') {
-      ops.push({ kind: 'text', x: box.x + 4, y: base, text: r.label, size: s.label * 0.85, weight: 'regular', color: INK_SOFT, align: 'left' });
+      ops.push({ kind: 'text', x: box.x + 4, y: base, text: fit(r.label, s.label * 0.85, 'regular', labelW - 8, measure), size: s.label * 0.85, weight: 'regular', color: INK_SOFT, align: 'left' });
       for (let p = 0; p < columns; p++) {
         const name = heads[p];
         if (name.trim()) {
@@ -152,6 +157,13 @@ function drawSheet(
           });
           continue;
         }
+        // A per-player total (Triple Yahtzee's grand total) is written once, across the card.
+        if (r.perPlayer && multi) {
+          if (p === 0 && opts.scores) {
+            ops.push({ kind: 'text', x: box.x + labelW + (colW * columns) / 2, y: base + (s.score - s.label) * 0.3, text: String(r.values![0]), size: s.score, weight: 'bold', color: GRAPHITE, align: 'center' });
+          }
+          continue;
+        }
         const value = r.kind === 'computed' ? (opts.scores ? r.values![p] : null) : opts.scores?.[r.id!]?.[p] ?? null;
         if (value !== null && value !== undefined) {
           const cx = box.x + labelW + colW * p + colW / 2;
@@ -188,6 +200,8 @@ function drawSheet(
 
   const note = phased
     ? 'Tick the box in a round when the phase is made.'
+    : multi
+      ? `Each column is a full game. Multiply its total (${multi.map((c) => `×${c.multiplier}`).join(', ')}) and add them up.`
     : bidding
       ? bidding.meld
         ? 'Only the side that won the bidding writes a bid. Won is the counters taken in tricks.'
@@ -216,12 +230,19 @@ export function sheetPages(game: SheetGame, opts: SheetOptions, measure: Measure
   const [pw, ph] = PAPERS[opts.paper];
   const full = { x: MARGIN, y: MARGIN, w: pw - MARGIN * 2, h: ph - MARGIN * 2 };
 
-  // Tally games with names: one named card per player, two to a page (one per page in large print).
-  if (game.sheet.engine === 'tally' && opts.players?.length) {
-    const card = (cardName: string, box: typeof full, version: Version) =>
-      drawSheet(game, box, { ...opts, version, players: undefined, cardName }, measure);
-    if (opts.version === 'large-print') {
-      return opts.players.map((name) => ({ width: pw, height: ph, ops: card(name, full, 'large-print') }));
+  // Qwixx: the blank and named PDFs are play sheets to cross off; "Print this game" stays a score table.
+  if (game.sheet.engine === 'category' && game.sheet.crossSheet && !opts.scores) return crossPages(game, game.sheet, opts, measure);
+
+  // Tally and Triple Yahtzee games with names: one named card per player, two to a page (one per page in large print).
+  const k = columnsPer(game.sheet);
+  if ((game.sheet.engine === 'tally' || k > 1) && opts.players?.length) {
+    const own = (p: number): Scores | undefined =>
+      opts.scores && k > 1 ? Object.fromEntries(Object.entries(opts.scores).map(([key, v]) => [key, v.slice(p * k, p * k + k)])) : undefined;
+    const card = (cardName: string, box: typeof full, version: Version, p: number) =>
+      drawSheet(game, box, { ...opts, version, players: undefined, cardName, scores: own(p) }, measure);
+    // A Triple Yahtzee card is a full sheet, so Standard gives each player a page as Large print does.
+    if (opts.version === 'large-print' || (k > 1 && opts.version === 'standard')) {
+      return opts.players.map((name, p) => ({ width: pw, height: ph, ops: card(name, full, opts.version, p) }));
     }
     const pages: Page[] = [];
     const { width, height, left, right } = twoUp(opts.paper);
@@ -230,7 +251,7 @@ export function sheetPages(game: SheetGame, opts: SheetOptions, measure: Measure
       pages.push({
         width,
         height,
-        ops: [...card(opts.players[i], left, '2-per-page'), ...(second === undefined ? [] : card(second, right, '2-per-page'))],
+        ops: [...card(opts.players[i], left, '2-per-page', i), ...(second === undefined ? [] : card(second, right, '2-per-page', i + 1))],
       });
     }
     return pages;
@@ -241,6 +262,137 @@ export function sheetPages(game: SheetGame, opts: SheetOptions, measure: Measure
     return [{ width, height, ops: [...drawSheet(game, left, opts, measure), ...drawSheet(game, right, opts, measure)] }];
   }
   return [{ width: pw, height: ph, ops: drawSheet(game, full, opts, measure) }];
+}
+
+/** Draws the outline of a box as four lines. */
+const outline = (x: number, y: number, w: number, h: number, width: number, color: string): Op[] => [
+  { kind: 'line', x1: x, y1: y, x2: x + w, y2: y, width, color },
+  { kind: 'line', x1: x + w, y1: y, x2: x + w, y2: y + h, width, color },
+  { kind: 'line', x1: x + w, y1: y + h, x2: x, y2: y + h, width, color },
+  { kind: 'line', x1: x, y1: y + h, x2: x, y2: y, width, color },
+];
+
+type Box = { x: number; y: number; w: number; h: number };
+
+/** Qwixx play sheet, drawn for this site in one ink: a row of numbers to cross off per colour with a
+ * lock box, the crosses-to-points table lined up under the number columns, penalty boxes and a sum line. */
+function drawCrossCard(game: SheetGame, cfg: CategoryConfig, box: Box, L: number, cardName: string, siteUrl: string | undefined, measure: Measure): Op[] {
+  const cross = cfg.crossSheet!;
+  const allRows = cfg.sections.flatMap((s) => s.rows);
+  const label = (id: string) => allRows.find((r) => r.id === id)?.label ?? id;
+  const scale = allRows.find((r) => r.scale)?.scale ?? [];
+  const penalty = allRows.find((r) => r.id === cross.penaltyRow);
+  const ops: Op[] = [];
+  const { x, w } = box;
+  const slots = Math.max(...cross.rows.map((r) => r.numbers.length)) + 1; // the numbers, then the lock
+  const labelW = Math.max(...[...cross.rows.map((r) => label(r.id)), 'Crosses', 'Points'].map((t) => measure(t, L, 'bold'))) + L;
+  const gap = L * 0.25;
+  const boxW = (w - labelW) / slots;
+  const bandH = L * 2.2;
+  const nameH = L * 2.4;
+  const noteH = L * 1.6;
+  const tableH = L * 1.8 * 2;
+  const penH = L * 2.6;
+  const sumH = L * 3.6;
+  const footH = siteUrl ? L * 1.6 : 0;
+  const free = box.h - bandH - nameH - noteH - tableH - penH - sumH - footH - L * 0.8;
+  const rowH = Math.min(boxW * 0.95, free / cross.rows.length);
+  let y = box.y;
+
+  ops.push({ kind: 'rect', x, y, w, h: bandH, fill: INK });
+  ops.push({ kind: 'text', x: x + 10, y: y + bandH * 0.66, text: game.name, size: L * 1.3, weight: 'bold', color: PAPER_WHITE, align: 'left' });
+  ops.push({ kind: 'text', x: x + w - 10, y: y + bandH * 0.64, text: 'ScoreSheetSquare.com', size: L * 0.75, weight: 'regular', color: PAPER_WHITE, align: 'right' });
+  y += bandH;
+
+  ops.push({ kind: 'text', x, y: y + nameH * 0.7, text: 'Name', size: L * 0.85, weight: 'regular', color: INK_SOFT, align: 'left' });
+  if (cardName.trim()) ops.push({ kind: 'text', x: x + labelW, y: y + nameH * 0.7, text: cardName.trim(), size: L * 1.05, weight: 'bold', color: GRAPHITE, align: 'left' });
+  ops.push({ kind: 'line', x1: x + labelW, y1: y + nameH * 0.82, x2: x + w * 0.62, y2: y + nameH * 0.82, width: 0.5, color: INK_SOFT });
+  y += nameH;
+
+  for (const r of cross.rows) {
+    ops.push({ kind: 'text', x, y: y + rowH / 2 + L * 0.34, text: label(r.id), size: L, weight: 'bold', color: INK, align: 'left' });
+    const numSize = Math.min(rowH, boxW) * 0.42;
+    r.numbers.forEach((n, i) => {
+      const bx = x + labelW + boxW * i;
+      ops.push(...outline(bx + gap / 2, y + gap / 2, boxW - gap, rowH - gap, 0.8, INK));
+      ops.push({ kind: 'text', x: bx + boxW / 2, y: y + rowH / 2 + numSize * 0.34, text: String(n), size: numSize, weight: 'regular', color: INK, align: 'center' });
+    });
+    // The lock: a heavier box after the last number.
+    const lx = x + labelW + boxW * r.numbers.length;
+    ops.push(...outline(lx + gap / 2, y + gap / 2, boxW - gap, rowH - gap, 1.6, INK));
+    ops.push({ kind: 'text', x: lx + boxW / 2, y: y + rowH / 2 + L * 0.25, text: 'Lock', size: L * 0.7, weight: 'bold', color: INK, align: 'center' });
+    y += rowH;
+  }
+  const rule = 'Cross numbers left to right. Lock a row by crossing its last number once it has 5 crosses; the lock counts as a cross.';
+  ops.push({ kind: 'text', x, y: y + L * 1.1, text: fit(rule, L * 0.62, 'regular', w, measure), size: L * 0.62, weight: 'regular', color: INK_SOFT, align: 'left' });
+  y += noteH;
+
+  // Crosses → points, lined up under the number columns.
+  const lineY = (i: number) => y + L * 1.8 * i;
+  ops.push({ kind: 'text', x, y: lineY(0) + L * 1.25, text: 'Crosses', size: L * 0.8, weight: 'regular', color: INK_SOFT, align: 'left' });
+  ops.push({ kind: 'text', x, y: lineY(1) + L * 1.25, text: 'Points', size: L * 0.8, weight: 'bold', color: INK, align: 'left' });
+  scale.slice(0, slots).forEach((pts, i) => {
+    const cx = x + labelW + boxW * i + boxW / 2;
+    ops.push({ kind: 'text', x: cx, y: lineY(0) + L * 1.25, text: String(i + 1), size: L * 0.8, weight: 'regular', color: INK_SOFT, align: 'center' });
+    ops.push({ kind: 'text', x: cx, y: lineY(1) + L * 1.25, text: String(pts), size: L * 0.8, weight: 'bold', color: INK, align: 'center' });
+  });
+  ops.push({ kind: 'line', x1: x, y1: lineY(1), x2: x + w, y2: lineY(1), width: 0.5, color: '#9fb3a8' });
+  ops.push({ kind: 'line', x1: x, y1: lineY(2), x2: x + w, y2: lineY(2), width: 1.2, color: INK });
+  y += tableH + L * 0.4;
+
+  // Penalty boxes.
+  const pen = `${penalty?.label ?? 'Penalties'} (${penalty?.perUnit ?? -5} each)`.replace('-', '−');
+  ops.push({ kind: 'text', x, y: y + penH / 2 + L * 0.34, text: pen, size: L * 0.9, weight: 'bold', color: INK, align: 'left' });
+  const pbx = x + measure(pen, L * 0.9, 'bold') + L;
+  for (let i = 0; i < cross.penaltyBoxes; i++) ops.push(...outline(pbx + i * penH * 0.9, y + penH * 0.15, penH * 0.7, penH * 0.7, 0.8, INK));
+  y += penH + L * 0.4;
+
+  // Sum line: each row's points, minus penalties, equals the total.
+  const parts = [...cross.rows.map((r) => label(r.id)), penalty?.label ?? 'Penalties', 'Total'];
+  const opW = L * 1.4;
+  const cellW = (w - opW * (parts.length - 1)) / parts.length;
+  const boxH = sumH - L * 1.4;
+  parts.forEach((t, i) => {
+    const bx = x + i * (cellW + opW);
+    const last = i === parts.length - 1;
+    ops.push(...outline(bx, y, cellW, boxH, last ? 1.6 : 0.8, INK));
+    ops.push({ kind: 'text', x: bx + cellW / 2, y: y + boxH + L * 1.05, text: fit(t, L * 0.7, 'regular', cellW + opW, measure), size: L * 0.7, weight: last ? 'bold' : 'regular', color: INK_SOFT, align: 'center' });
+    if (!last) {
+      const sign = i === parts.length - 2 ? '=' : i === parts.length - 3 ? '−' : '+';
+      ops.push({ kind: 'text', x: bx + cellW + opW / 2, y: y + boxH / 2 + L * 0.4, text: sign, size: L * 1.2, weight: 'regular', color: INK, align: 'center' });
+    }
+  });
+  y += sumH;
+  if (siteUrl) ops.push({ kind: 'text', x, y: y + L * 1.2, text: `Free printable and online scorekeeper: ${siteUrl}`, size: L * 0.62, weight: 'regular', color: INK_SOFT, align: 'left' });
+  return ops;
+}
+
+/** Qwixx pages: Standard stacks two play sheets on a portrait page, Large print gives each sheet a page,
+ * and 2 per page sets two side by side on a landscape page. A named PDF gets one sheet per name. */
+function crossPages(game: SheetGame, cfg: CategoryConfig, opts: SheetOptions, measure: Measure): Page[] {
+  const [pw, ph] = PAPERS[opts.paper];
+  const names = opts.players?.length ? opts.players : opts.version === 'large-print' ? [''] : ['', ''];
+  if (opts.version === 'large-print') {
+    const box = { x: MARGIN, y: MARGIN, w: pw - MARGIN * 2, h: (ph - MARGIN * 2) * 0.66 };
+    return names.map((n) => ({ width: pw, height: ph, ops: drawCrossCard(game, cfg, box, 15, n, opts.siteUrl, measure) }));
+  }
+  const pages: Page[] = [];
+  for (let i = 0; i < names.length; i += 2) {
+    const pair = names.slice(i, i + 2);
+    const ops: Op[] = [];
+    if (opts.version === '2-per-page') {
+      const { width, height, left, right } = twoUp(opts.paper);
+      pair.forEach((n, j) => ops.push(...drawCrossCard(game, cfg, j === 0 ? left : right, 8.5, n, opts.siteUrl, measure)));
+      ops.push({ kind: 'line', x1: width / 2, y1: MARGIN / 2, x2: width / 2, y2: height - MARGIN / 2, width: 0.4, color: '#9fb3a8' });
+      pages.push({ width, height, ops });
+    } else {
+      const h = (ph - MARGIN * 3) / 2;
+      pair.forEach((n, j) => ops.push(...drawCrossCard(game, cfg, { x: MARGIN, y: MARGIN + j * (h + MARGIN), w: pw - MARGIN * 2, h }, 10.5, n, opts.siteUrl, measure)));
+      ops.push({ kind: 'line', x1: MARGIN / 2, y1: ph / 2, x2: pw - MARGIN / 2, y2: ph / 2, width: 0.4, color: '#9fb3a8' });
+      pages.push({ width: pw, height: ph, ops });
+    }
+  }
+  return pages;
 }
 
 export function pdfFileName(slug: string, version: Version, paper: Paper): string {

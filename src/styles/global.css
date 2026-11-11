@@ -721,3 +721,11 @@ html.table-open { overflow: hidden; }
   .mt-scores .pencil-circle path { stroke-dashoffset: 0; }
 }
 .companions { max-inline-size: 520px; }
+
+/* ── Counted boxes (Qwixx): the count is written, its points shown small ─ */
+.has-points .cell-input { padding-block-end: 12px; }
+.count-points { position: absolute; inset-inline-end: 6px; inset-block-end: 3px; font-size: 0.75rem; line-height: 1; color: var(--color-pad-ink-soft); pointer-events: none; }
+
+/* ── Several columns per player (Triple Yahtzee ×1, ×2, ×3) ─── */
+.sheet-sub th:not(.sheet-corner) { block-size: auto; padding-block: 4px !important; font-size: var(--text-small); font-weight: 400; color: var(--color-pad-ink-soft); text-align: center; }
+.sheet-grid .is-first { border-inline-start: 1.5px solid var(--color-pad-ink); }

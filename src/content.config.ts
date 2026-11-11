@@ -2,7 +2,13 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-const row = z.object({ id: z.string(), label: z.string(), hint: z.string().optional() });
+const row = z.object({
+  id: z.string(),
+  label: z.string(),
+  hint: z.string().optional(),
+  scale: z.array(z.number()).min(1).optional(),
+  perUnit: z.number().optional(),
+});
 
 const sheet = z.discriminatedUnion('engine', [
   z.object({
@@ -21,6 +27,14 @@ const sheet = z.discriminatedUnion('engine', [
     ),
     grandTotal: z.string(),
     teams: z.boolean().optional(),
+    columnsPerPlayer: z.array(z.object({ label: z.string(), multiplier: z.number() })).min(2).optional(),
+    crossSheet: z
+      .object({
+        rows: z.array(z.object({ id: z.string(), numbers: z.array(z.number().int()).min(2) })).min(1),
+        penaltyRow: z.string(),
+        penaltyBoxes: z.number().int().min(1),
+      })
+      .optional(),
   }),
   z.object({
     engine: z.literal('round-totals'),
