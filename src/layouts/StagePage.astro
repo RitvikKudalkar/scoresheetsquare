@@ -34,7 +34,7 @@ const breadcrumb = {
 };
 ---
 
-<Base title={title} description={description} schema={[...schema, breadcrumb]} image={image.src}>
+<Base title={title} description={description} schema={[...schema, breadcrumb]} >
   <Header slot="before-main" />
   <div class="split stage-page">
     <figure class:list={['stage photo-stage', { 'is-contained': image.fit === 'contain' }]}>

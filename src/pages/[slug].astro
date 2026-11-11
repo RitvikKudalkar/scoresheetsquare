@@ -30,7 +30,6 @@ const related = game.related
   .map((slug) => catalogue.find((c) => c.slug === slug))
   .filter((c): c is NonNullable<typeof c> => Boolean(c));
 
-const preview = `/images/sheets/${game.slug}.png`;
 // "Also called Yatzy or Yacht." Game names are set in italics in running text (DESIGN.md).
 const aliasParts = game.aliases.length > 0 ? new Intl.ListFormat('en', { style: 'long', type: 'disjunction' }).formatToParts(game.aliases) : [];
 const sheetGame = { slug: game.slug, name: game.name, players: game.players, winCondition: game.winCondition, sheet: game.sheet };
@@ -59,7 +58,7 @@ const schema = [
 ];
 ---
 
-<Base title={game.title} description={game.description} schema={schema} image={preview}>
+<Base title={game.title} description={game.description} schema={schema} image={`/images/og/${game.slug}.png`} imageAlt={`A printable ${game.name} score sheet from ScoreSheetSquare`}>
   <Header slot="before-main" />
   <div class="split game">
     <div class="game-top reading-block" data-reveal>
