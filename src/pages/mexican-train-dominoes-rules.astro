@@ -8,10 +8,25 @@ import Domino from '../components/Domino.tsx';
 const site = Astro.site!;
 const url = new URL('/mexican-train-dominoes-rules', site).href;
 
+// Common deals by set. Rulebooks disagree, most of all for double-9, so these are ranges that leave a usable boneyard.
 const deal = [
-  ['2 to 4 players', '15 tiles each'],
-  ['5 or 6 players', '12 tiles each'],
-  ['7 or 8 players', '10 tiles each'],
+  ['Double-12', '2 to 4 players', '15 each (16 for two at some tables)'],
+  ['Double-12', '5 or 6 players', '12 each'],
+  ['Double-12', '7 or 8 players', '10 or 11 each'],
+  ['Double-9', '2 players', '10 to 15 each'],
+  ['Double-9', '3 players', '8 to 13 each'],
+  ['Double-9', '4 players', '7 to 10 each'],
+  ['Double-6', '2 players', '7 to 9 each'],
+  ['Double-6', '3 or 4 players', '4 to 7 each'],
+  ['Double-15', '9 to 12 players', '11 each'],
+];
+
+const strategy = [
+  ['Build your own train first.', 'Tiles on your own train are safe from other players, and a long personal train is your plan for the round. Save the Mexican Train and open trains for tiles that do not fit your own line.'],
+  ['Get rid of heavy tiles early.', 'A 12-11 left in your hand costs 23 points. If a high tile does not fit your plan, play it on the Mexican Train or an open train while you can.'],
+  ['Use doubles to slow the table.', 'A double you can cover yourself is a free extra play. One you leave uncovered late in a round forces every other player to answer it before they can play anywhere else.'],
+  ['Keep your marker off.', 'Once your marker is out, other players can unload their tiles on your train and use up the number you were saving. Play on your own train as soon as you can to take it back.'],
+  ['Watch the other hands.', 'A player down to two or three tiles is about to go out. That is the moment to empty your most valuable tiles wherever you can, not to wait for the perfect play.'],
 ];
 
 const sets = [
@@ -37,6 +52,7 @@ const faqs = [
   { q: 'What happens when you cannot play?', a: 'Draw one tile from the boneyard. If it fits, play it. If it does not, your turn ends and you put your marker on your own train, which opens it to everyone until you play on it again.' },
   { q: 'How do you win Mexican Train?', a: 'Each round ends when someone plays their last tile. Everyone else counts the pips left in their hand and adds them to their score. After all 13 rounds, the lowest total wins.' },
   { q: 'What if the boneyard runs out?', a: 'Keep playing without drawing. A player who cannot play puts their marker out and passes. If nobody at the table can play, the round ends and everyone scores the tiles they hold.' },
+  { q: 'What happens if there is a tie in Mexican Train?', a: 'There is no single official tiebreak. The most common is that the tied player who went out in more rounds wins, which is easy to count from the zeros on the score sheet. If that is level too, share the win or play one more round between the tied players.' },
   { q: 'Can you play two doubles in one turn?', a: 'Many tables allow it: play the second double, then a tile that covers it, and the first double must be covered next. Others allow one double per turn. It is a house rule, so settle it before you deal.' },
 ];
 
@@ -78,7 +94,7 @@ const diagram = [
 
 <Base
   title="Mexican Train Dominoes Rules – How to Play, Setup & Scoring"
-  description="Mexican Train dominoes rules in plain words: setup, how many tiles to deal, trains, markers, doubles and scoring, with diagrams and common house rules."
+  description="Mexican Train dominoes rules in plain words: setup for double-9 and double-12 sets, tiles to deal, trains, doubles, scoring and strategy tips."
   schema={schema}
 >
   <Header slot="before-main" />
@@ -126,12 +142,21 @@ const diagram = [
         </ol>
         <div class="table-wrap">
           <table class="ref-table">
-            <caption class="sr-only">Tiles dealt with a double-12 set</caption>
-            <thead><tr><th scope="col">Players</th><th scope="col">Tiles each</th></tr></thead>
-            <tbody>{deal.map(([p, t]) => <tr><th scope="row">{p}</th><td>{t}</td></tr>)}</tbody>
+            <caption class="sr-only">Tiles to deal by domino set and number of players</caption>
+            <thead><tr><th scope="col">Set</th><th scope="col">Players</th><th scope="col">Tiles to deal</th></tr></thead>
+            <tbody>{deal.map(([set, p, t]) => <tr><th scope="row">{set}</th><td>{p}</td><td>{t}</td></tr>)}</tbody>
           </table>
         </div>
-        <p class="measure t-small t-soft">Rulebooks differ by a tile or two. Some deal 16 each for two players; what matters is leaving a healthy boneyard.</p>
+        <p class="measure t-small t-soft">Rulebooks differ, sometimes by several tiles, especially for double-9 sets. Whatever you choose, leave at least a quarter of the tiles in the boneyard so players who cannot play have something to draw.</p>
+      </section>
+
+      <section aria-labelledby="first-title" data-reveal>
+        <h2 id="first-title" class="t-head">The first turn of a round</h2>
+        <div class="measure prose">
+          <p>Each round's engine is the double for that round: the double-12 in round one, the double-11 in round two and so on. Take it out of the set before shuffling and set it in the hub. If your table shuffles everything together instead, players draw their hands, whoever holds the round's double places it, and if nobody has it, everyone draws one more tile in turn until it turns up.</p>
+          <p>The deal passes to the left each round, and the player to the dealer's left starts. Your first tile on your own train must match the engine, so in round one it needs a 12 on one end. If you have no tile with that number, draw one; if it still does not match, put your marker on your empty train and pass.</p>
+          <p>Some tables give everyone a longer first turn: on their opening move, each player may lay as many tiles as they can in a row on their own train. It makes rounds much quicker. Under the usual rules, the first turn is one tile like any other.</p>
+        </div>
       </section>
 
       <section aria-labelledby="turn-title" data-reveal>
@@ -167,7 +192,7 @@ const diagram = [
         <div class="measure prose">
           <p>The round ends the moment a player plays their last tile. If the boneyard is empty and nobody can play, it ends there instead.</p>
           <p>Everyone else then adds up the pips (the dots) on the tiles left in their hand. That is their score for the round, and the player who went out scores zero. Blanks count as zero, though many tables charge 50 for being caught holding the double-blank.</p>
-          <p>The next round starts with the double-11 in the hub, then the double-10, and so on down to the double-blank in round 13. Once the double-blank round is scored, the lowest total wins. If two players tie, the one who went out in more rounds wins.</p>
+          <p>The next round starts with the double-11 in the hub, then the double-10, and so on down to the double-blank in round 13. Once the double-blank round is scored, the lowest total wins. If two players tie, most tables give it to the one who went out in more rounds.</p>
         </div>
         <div class="slip">
           <p class="slip-time">Three players, end of round one</p>
@@ -182,12 +207,29 @@ const diagram = [
 
       <section aria-labelledby="sets-title" data-reveal>
         <h2 id="sets-title" class="t-head">Shorter and longer games</h2>
-        <p class="measure">There is one round for every double in the set, so a smaller set makes a shorter game. With fewer tiles, deal smaller hands: around 5 each with a double-6 set and 7 each with a double-9.</p>
+        <p class="measure">There is one round for every double in the set, so a smaller set makes a shorter game. With fewer tiles, deal smaller hands; the setup table above gives the usual numbers for each set.</p>
         <div class="table-wrap">
           <table class="ref-table">
             <thead><tr><th scope="col">Set</th><th scope="col">Rounds</th><th scope="col">Best for</th></tr></thead>
             <tbody>{sets.map(([s, r, p]) => <tr><th scope="row">{s}</th><td>{r}</td><td>{p}</td></tr>)}</tbody>
           </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="nine-title" data-reveal>
+        <h2 id="nine-title" class="t-head">Playing with a double-9 set</h2>
+        <div class="measure prose">
+          <p>A double-9 set has 55 tiles and suits two to four players. The rules are the same as with a double-12; only the numbers change. Round one starts with the double-9 in the hub, each round after starts one double lower, and the game ends after the double-blank round, ten rounds in all.</p>
+          <p>Deal fewer tiles than you would from a double-12 set, because there are far fewer to go round: the setup table gives the usual range. Every first tile on a train needs a 9 in round one, and the heaviest tile you can be caught with is the 9-8, worth 17, so scores run lower than in the double-12 game.</p>
+          <p>To keep score, use the <a href="/mexican-train-score-sheet">Mexican Train score sheet</a> and start at its Double 9 row. If you prefer branching doubles to trains, a double-9 set is also the usual choice for <a href="/chicken-foot-score-sheet">Chicken Foot</a>.</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="quick-title" data-reveal>
+        <h2 id="quick-title" class="t-head">Quick games</h2>
+        <div class="measure prose">
+          <p>Thirteen rounds can take a whole evening. For a shorter game, agree on three or six rounds before you start, for example the double-12, double-11 and double-10, and the lowest total after the last of them wins. Every round is played and scored exactly as usual.</p>
+          <p>Combine a short game with the longer first turn from the house rules below and a round can take ten minutes. The score sheet works the same way: stop after the rows you agreed and add up.</p>
         </div>
       </section>
 
@@ -200,6 +242,11 @@ const diagram = [
             <tbody>{houseRules.map(([r, a, b]) => <tr><th scope="row">{r}</th><td>{a}</td><td>{b}</td></tr>)}</tbody>
           </table>
         </div>
+      </section>
+
+      <section aria-labelledby="strategy-title" data-reveal>
+        <h2 id="strategy-title" class="t-head">Strategy tips</h2>
+        <div class="measure prose">{strategy.map(([lead, text]) => <p><strong>{lead}</strong> {text}</p>)}</div>
       </section>
 
       <section aria-labelledby="faq-title" data-reveal>
