@@ -44,6 +44,8 @@ export type RoundsConfig = {
   target?: number;
   /** Phase 10: each round can be ticked as "phase made"; most phases wins, lowest points breaks ties. */
   phases?: number;
+  /** Phase 10 Dice: phases are only tracked; the highest points total wins outright. */
+  pointsDecide?: boolean;
   /** Skyjo: reaching the target ends the game only once that round's scores are all in. */
   finishRound?: boolean;
   /** Columns are partnerships (Hand and Foot). */
@@ -375,7 +377,7 @@ export function leaderOf(config: SheetConfig, totals: number[], win: WinConditio
 
 // Phases made first (Phase 10), then points in the direction that wins.
 const rankKey = (config: SheetConfig, totals: number[], win: WinCondition, scores: Scores, i: number) =>
-  [-phasesMade(config, scores, i), win === 'highest' ? -totals[i] : totals[i]] as const;
+  [config.engine === 'round-totals' && config.pointsDecide ? 0 : -phasesMade(config, scores, i), win === 'highest' ? -totals[i] : totals[i]] as const;
 
 /** Player indexes from first place to last. */
 export function rankPlayers(config: SheetConfig, totals: number[], win: WinCondition, scores: Scores): number[] {

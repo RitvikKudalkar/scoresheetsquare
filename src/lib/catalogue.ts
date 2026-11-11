@@ -22,6 +22,7 @@ export const catalogue: CatalogueEntry[] = [
   { slug: 'mexican-train-score-sheet', name: 'Mexican Train', category: 'tile', min: 2, max: 8, scoring: 'Round totals' },
   // Phase 2
   { slug: 'triple-yahtzee-score-sheet', name: 'Triple Yahtzee', category: 'dice', min: 1, max: 6, scoring: 'Score boxes' },
+  { slug: 'phase-10-dice-score-sheet', name: 'Phase 10 Dice', category: 'dice', min: 2, max: 6, scoring: 'Phases and points' },
   { slug: 'qwixx-score-sheet', name: 'Qwixx', category: 'dice', min: 2, max: 5, scoring: 'Score boxes' },
   { slug: 'kismet-score-sheet', name: 'Kismet', category: 'dice', min: 1, max: 6, scoring: 'Score boxes' },
   { slug: 'ship-captain-crew-score-sheet', name: 'Ship Captain Crew', category: 'dice', min: 2, max: 8, scoring: 'Running total' },

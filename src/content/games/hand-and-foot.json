@@ -1,6 +1,7 @@
 {
   "slug": "hand-and-foot-score-sheet",
   "name": "Hand and Foot",
+  "aliases": ["Hand, Knee and Foot"],
   "category": "card",
   "keywords": ["hand and foot score sheet", "hand and foot score sheet printable", "hand and foot scoring sheet", "hand and foot score card"],
   "title": "Hand and Foot Score Sheet – Free Printable PDF & Scorekeeper",
@@ -125,7 +126,8 @@
       { "q": "What is the difference between a clean and a dirty book?", "a": "A book is seven cards of the same rank. A clean (natural) book has no wild cards and is worth 500; a dirty (mixed) book includes wild cards and is worth 300." },
       { "q": "What are the meld minimums in Hand and Foot?", "a": "A common set is 50 points in round one, 90 in round two, 120 in round three and 150 in round four. The first meld a team lays down in a round must add up to at least that." },
       { "q": "How many rounds are in a game of Hand and Foot?", "a": "Usually four, one for each meld minimum. The team with the highest total after the fourth round wins." },
-      { "q": "How many people can play Hand and Foot?", "a": "It is usually played by four people in two partnerships, and works for two to six. Each team or player gets a column on the sheet." }
+      { "q": "How many people can play Hand and Foot?", "a": "It is usually played by four people in two partnerships, and works for two to six. Each team or player gets a column on the sheet." },
+      { "q": "Does this sheet work for Hand, Knee and Foot?", "a": "Yes. Hand, Knee and Foot adds a third pile, the knee, which a player picks up between the hand and the foot. Books, going out and cards laid down score exactly as in Hand and Foot, so use the same lines, and on the cards left line take off everything still held in the hand, knee and foot together." }
     ]
   },
   "related": ["canasta-score-sheet", "five-crowns-score-sheet", "phase-10-score-sheet", "rummy-500-score-sheet", "spades-score-sheet"],

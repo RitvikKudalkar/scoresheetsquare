@@ -73,7 +73,7 @@
       { "q": "How many people can play Phase 10?", "a": "Two to six players. The printable sheet and the online scorekeeper both have room for six." }
     ]
   },
-  "related": ["five-crowns-score-sheet", "skip-bo-score-sheet", "uno-score-sheet", "shanghai-rummy-score-sheet", "mexican-train-score-sheet"],
+  "related": ["phase-10-dice-score-sheet", "five-crowns-score-sheet", "skip-bo-score-sheet", "uno-score-sheet", "shanghai-rummy-score-sheet", "mexican-train-score-sheet"],
   "phase": 1,
   "status": "live"
 }

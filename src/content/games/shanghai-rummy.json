@@ -1,7 +1,7 @@
 {
   "slug": "shanghai-rummy-score-sheet",
   "name": "Shanghai Rummy",
-  "aliases": ["Shanghai", "Contract Rummy"],
+  "aliases": ["Shanghai", "Contract Rummy", "Liverpool Rummy", "Continental Rummy"],
   "category": "card",
   "keywords": ["shanghai rummy score sheet", "shanghai score sheet printable", "contract rummy score sheet", "shanghai rummy score sheet pdf"],
   "title": "Shanghai Rummy Score Sheet – Free Printable PDF",
@@ -75,7 +75,8 @@
       { "q": "What does buying a card mean in Shanghai?", "a": "A player who wants the top discard when it isn't their turn can ask to buy it. If the player whose turn it is doesn't take it, the buyer takes the discard plus a penalty card from the stock. Most tables limit buys to three per round." },
       { "q": "What do Aces and Jokers score in Shanghai?", "a": "It varies by table. Aces are usually 15 or 20 and Jokers 25 or 50. Whichever you choose, write the total points for each hand on the sheet." },
       { "q": "How many people can play Shanghai Rummy?", "a": "Three to eight. Most groups shuffle two decks with Jokers together, and add a third deck for six or more players." },
-      { "q": "Is Contract Rummy the same as Shanghai Rummy?", "a": "Contract Rummy is the family of rummy games in which every round has a required meld, and Shanghai is one of the best known. Other versions change the contracts, the card values or the number of rounds. This sheet's row labels follow the seven-round Shanghai contracts; for another version, the blank printable score sheet lets you write in your own." }
+      { "q": "Is Contract Rummy the same as Shanghai Rummy?", "a": "Contract Rummy is the family of rummy games in which every round has a required meld, and Shanghai is one of the best known. Other versions change the contracts, the card values or the number of rounds. This sheet's row labels follow the seven-round Shanghai contracts; for another version, the blank printable score sheet lets you write in your own." },
+      { "q": "Can I use this sheet for Liverpool Rummy or Continental Rummy?", "a": "Yes. Liverpool Rummy plays the same seven contracts in most versions, from two sets of 3 up to three runs of 4, and the lowest total wins, so every row fits. Some Liverpool rules make the last contract one run of seven, and many count Jokers as 15 instead of 50; just score the cards the way your table does. Family versions of Continental Rummy that play seven contracts fit the same way." }
     ]
   },
   "related": ["phase-10-score-sheet", "rummy-500-score-sheet", "3-13-score-sheet", "five-crowns-score-sheet", "gin-rummy-score-sheet"],

@@ -43,6 +43,7 @@ const sheet = z.discriminatedUnion('engine', [
     labelsFromEnd: z.boolean().optional(),
     target: z.number().optional(),
     phases: z.number().int().min(1).optional(),
+    pointsDecide: z.boolean().optional(),
     finishRound: z.boolean().optional(),
     teams: z.boolean().optional(),
     roundPoints: z.object({ total: z.number(), moon: z.enum(['others', 'self']).optional() }).optional(),

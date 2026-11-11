@@ -1,0 +1,86 @@
+{
+  "slug": "phase-10-dice-score-sheet",
+  "name": "Phase 10 Dice",
+  "category": "dice",
+  "keywords": ["phase 10 dice score sheet", "phase 10 dice score sheet printable", "phase 10 dice scoring", "phase 10 dice score card"],
+  "title": "Phase 10 Dice Score Sheet – Free Printable PDF",
+  "description": "Free printable Phase 10 Dice score sheet with a phase box on every turn, in three PDF versions, plus an online scorekeeper where the highest total wins.",
+  "players": { "min": 2, "max": 6, "default": 4 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 25,
+    "phases": 10,
+    "pointsDecide": true,
+    "roundLabels": ["Turn 1", "Turn 2", "Turn 3", "Turn 4", "Turn 5", "Turn 6", "Turn 7", "Turn 8", "Turn 9", "Turn 10", "Turn 11", "Turn 12", "Turn 13", "Turn 14", "Turn 15", "Turn 16", "Turn 17", "Turn 18", "Turn 19", "Turn 20", "Turn 21", "Turn 22", "Turn 23", "Turn 24", "Turn 25"]
+  },
+  "pdf": { "showScoringChart": false },
+  "scoringReference": {
+    "columns": ["Phase", "To complete it"],
+    "rows": [
+      ["1", "2 sets of 3"],
+      ["2", "1 set of 3 and 1 run of 4"],
+      ["3", "1 set of 4 and 1 run of 4"],
+      ["4", "1 run of 7"],
+      ["5", "1 run of 8"],
+      ["6", "1 run of 9"],
+      ["7", "2 sets of 4"],
+      ["8", "7 dice of one colour"],
+      ["9", "1 set of 5 and 1 set of 2"],
+      ["10", "1 set of 5 and 1 set of 3"],
+      ["Score for a made phase", "The total of the dice used; Wilds count 0"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Phase 10 Dice score sheet with a phase box on every turn, or keep score on your phone. In the dice game, points decide the winner, and the sheet adds them up for you.",
+    "howToUse": [
+      "Write each player's name at the top of a column. Each row is one turn. When a player makes their phase, tick the box in that turn and write the total of the dice they used for it. If they miss, write 0 and leave the box empty; they try the same phase next turn.",
+      "Only the dice that form the phase score, and any Wild used counts 0. The ticks keep track of which phase each player is on, so nobody has to remember. When someone makes phase 10, everyone else gets one last turn.",
+      "Then add up each column: the highest total wins, even if that player did not finish all ten phases. On a phone, the sheet counts the phases, adds the points and circles the leader on points."
+    ],
+    "exampleRound": [
+      {
+        "caption": "Three players, first turn (phase 1: 2 sets of 3)",
+        "rows": [
+          { "label": "Ana keeps 10, 10, 10 and 3, 3, Wild", "value": "36" },
+          { "label": "Ben can't make two sets in three rolls", "value": "0" },
+          { "label": "Cleo keeps 6, 6, 6 and 1, 1, 1", "value": "21" }
+        ],
+        "result": "Ana and Cleo tick phase 1; Ben tries it again"
+      },
+      {
+        "caption": "The last turns: Ana on 443, Ben on 484",
+        "rows": [
+          { "label": "Ana makes phase 10 with five 9s and three 8s", "value": "69" },
+          { "label": "Ben, on phase 9, makes it on his last turn: five 10s and two 7s", "value": "64" }
+        ],
+        "result": "Ana 512, Ben 548: Ben wins on points, a phase short"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a turn of Phase 10 Dice works",
+      "paragraphs": [
+        "Phase 10 Dice uses ten dice. Six of them carry the high numbers, 5 to 10, and four carry the low numbers, 1 to 4, along with Wild faces. Each face also has a colour, which matters for phase 8. The ten phases are the same as in the card game, from two sets of three to a set of five and a set of three, and every player works through them in order.",
+        "On your turn you roll all ten dice, set aside the ones that help your phase and roll the rest again, up to three rolls in all. If the dice you keep make your phase, you score the total of those dice and move on to the next phase next turn. If not, your turn ends with no score and you try the same phase again.",
+        "Because the score is the total of the dice used, it pays to build phases from high numbers: three 10s are worth far more than three 1s, and a Wild fills a gap but adds nothing. When one player completes phase 10, the others get a final turn, and then the highest total wins."
+      ]
+    },
+    "tips": [
+      "Unlike the card game, finishing first does not win by itself. A player still on phase 9 can win if their points are higher, so keep adding every made phase.",
+      "Wilds score 0, so swap a Wild for a real high number when a later roll gives you the choice.",
+      "Dice set aside but not used in the phase don't score. Count only the dice that actually make the sets, runs or colour.",
+      "The rules give no tiebreak for equal totals. Share the win, or roll one more turn each and add the dice."
+    ],
+    "faqs": [
+      { "q": "How do you score Phase 10 Dice?", "a": "When you make your phase, you score the total of the dice used in it, with Wilds counting 0. A missed phase scores nothing that turn. The scores are added up through the game." },
+      { "q": "Who wins Phase 10 Dice?", "a": "The player with the highest grand total. The game ends once someone completes phase 10 and everyone else has had a final turn, and the highest score wins even if that player did not finish." },
+      { "q": "What are the phases in Phase 10 Dice?", "a": "The same ten as the card game: 2 sets of 3; a set of 3 and a run of 4; a set of 4 and a run of 4; runs of 7, 8 and 9; 2 sets of 4; 7 of one colour; a set of 5 and a set of 2; and a set of 5 and a set of 3." },
+      { "q": "How many rolls do you get in Phase 10 Dice?", "a": "Up to three per turn. Roll all ten dice, keep what helps, then roll the rest again twice more if you need to." },
+      { "q": "How is Phase 10 Dice different from the card game?", "a": "In the card game low points are good and the first to finish phase 10 wins. In the dice game you score the dice you use, high points are good, and the highest total wins." },
+      { "q": "How many people can play Phase 10 Dice?", "a": "Two or more. The printable sheet and the online scorekeeper both have room for six." }
+    ]
+  },
+  "related": ["phase-10-score-sheet", "yahtzee-score-sheet", "farkle-score-sheet", "qwixx-score-sheet", "triple-yahtzee-score-sheet"],
+  "phase": 3,
+  "status": "live"
+}
