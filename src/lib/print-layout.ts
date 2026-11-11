@@ -1,7 +1,7 @@
 // One layout for every paper sheet: the build-time PDFs, their preview PNGs, the browser's custom PDF
 // and "Print this game". It returns plain drawing operations in points, origin top-left; each backend
 // (pdf-lib, SVG) only has to draw rectangles, lines and text.
-import { bidKey, bidPoints, columnsPer, layoutSheet, meldKey, nilKey, subColumns, teamColumns, tookKey, type CategoryConfig, type Scores, type SheetGame } from './sheet.ts';
+import { bidKey, bidPoints, bonusKey, cardsIn, columnsPer, roundIndex, layoutSheet, meldKey, nilKey, subColumns, teamColumns, tookKey, type CategoryConfig, type Scores, type SheetGame } from './sheet.ts';
 
 export type Paper = 'letter' | 'a4';
 export type Version = 'standard' | 'large-print' | '2-per-page';
@@ -83,7 +83,7 @@ function drawSheet(
   const rows: Row[] = [{ kind: 'head', label: card ? (opts.cardName?.trim() ? `Name: ${opts.cardName.trim()}` : 'Name') : teamColumns(game.sheet) ? 'Teams' : 'Players' }];
   // Bid games split each column into bid, tricks won and points (Pinochle adds meld).
   if (bidding) rows.push({ kind: 'sub', label: '' });
-  const subs = bidding?.meld ? ['Bid', 'Meld', 'Won', 'Pts'] : ['Bid', 'Won', 'Pts'];
+  const subs = bidding?.meld ? ['Bid', 'Meld', 'Won', 'Pts'] : bidding?.bonus ? ['Bid', 'Won', 'Bonus', 'Pts'] : ['Bid', 'Won', 'Pts'];
   for (const g of layout.groups) {
     if (g.label) rows.push({ kind: 'group', label: g.label });
     for (const r of g.rows) rows.push({ kind: 'entry', label: r.label, hint: r.hint, id: r.id });
@@ -148,10 +148,11 @@ function drawSheet(
           const took = sc?.[tookKey(r.id!)]?.[p];
           const nil = sc?.[nilKey(r.id!)]?.[p];
           const meld = sc?.[meldKey(r.id!)]?.[p];
-          const points = sc ? bidPoints(bidding, bid, took, nil, meld) : null;
+          const bonus = sc?.[bonusKey(r.id!)]?.[p];
+          const points = sc ? bidPoints(bidding, bid, took, nil, meld, { cards: cardsIn(bidding, roundIndex(r.id!)), bonus }) : null;
           const size = s.score * (subs.length > 3 ? 0.7 : 0.8);
           const text = (v: number | null | undefined) => (v == null ? null : String(v));
-          const values = [bid == null ? null : nil ? `${bid}N` : String(bid), ...(bidding.meld ? [text(meld)] : []), text(took), text(points)];
+          const values = [bid == null ? null : nil ? `${bid}N` : String(bid), ...(bidding.meld ? [text(meld)] : []), text(took), ...(bidding.bonus ? [text(bonus)] : []), text(points)];
           values.forEach((t, i) => {
             if (t !== null) ops.push({ kind: 'text', x: x0 + part * (i + 0.5), y: base + (size - s.label) * 0.3, text: t, size, weight: 'regular', color: GRAPHITE, align: 'center' });
           });
@@ -205,7 +206,7 @@ function drawSheet(
     : bidding
       ? bidding.meld
         ? 'Only the side that won the bidding writes a bid. Won is the counters taken in tricks.'
-        : `Write the bids before the hand and the tricks won after it.${bidding.nil ? ' Mark a nil bid with N.' : ''}`
+        : `Write the bids before the hand and the tricks won after it.${bidding.nil ? ' Mark a nil bid with N.' : ''}${bidding.bonus ? ' Bonus points count only when the bid is made.' : ''}`
       : null;
   if (note) {
     ops.push({ kind: 'text', x: box.x, y: y + footH * 0.8 + s.label * 0.95, text: note, size: s.label * 0.75, weight: 'regular', color: INK_SOFT, align: 'left' });

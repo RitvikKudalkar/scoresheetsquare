@@ -76,6 +76,8 @@ const sheet = z.discriminatedUnion('engine', [
       .optional(),
     missed: z.object({ perBid: z.number().optional(), perOff: z.number().optional() }).optional(),
     nil: z.number().optional(),
+    zero: z.object({ perCard: z.number() }).optional(),
+    bonus: z.boolean().optional(),
     target: z.number().optional(),
     targetOptions: z.array(z.number()).optional(),
   }),

@@ -96,7 +96,7 @@
       { "q": "How many people can play Golf?", "a": "Two to four with one deck, and up to eight with two decks shuffled together. The online scorekeeper takes up to eight players." }
     ]
   },
-  "related": ["skyjo-score-sheet", "five-crowns-score-sheet", "uno-score-sheet", "rummy-500-score-sheet", "phase-10-score-sheet"],
+  "related": ["play-nine-score-sheet", "skyjo-score-sheet", "five-crowns-score-sheet", "uno-score-sheet", "rummy-500-score-sheet", "phase-10-score-sheet"],
   "phase": 2,
   "status": "live"
 }

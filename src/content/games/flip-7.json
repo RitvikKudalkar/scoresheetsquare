@@ -1,0 +1,82 @@
+{
+  "slug": "flip-7-score-sheet",
+  "name": "Flip 7",
+  "heading": "Flip 7 card game score sheet",
+  "category": "card",
+  "keywords": ["flip 7 card game score sheet", "flip 7 score sheet", "flip 7 score sheet printable", "flip 7 card game scoring"],
+  "title": "Flip 7 Card Game Score Sheet – Free Printable PDF",
+  "description": "Free printable score sheet for the Flip 7 card game, in standard, large print and 2-per-page PDFs, plus an online scorekeeper that plays to 200.",
+  "players": { "min": 3, "max": 12, "default": 4 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 20,
+    "target": 200,
+    "finishRound": true
+  },
+  "pdf": { "showScoringChart": false },
+  "scoringReference": {
+    "columns": ["At the end of a round", "Points"],
+    "rows": [
+      ["Each number card in front of you", "Its number"],
+      ["×2 card", "Doubles your number cards"],
+      ["+2 to +10 cards", "Added after the ×2"],
+      ["Seven different numbers (a Flip 7)", "+15 bonus"],
+      ["A bust: a repeated number", "0 for the round"],
+      ["Game", "Ends with the round in which someone reaches 200"]
+    ]
+  },
+  "content": {
+    "intro": "Print a score sheet for the Flip 7 card game, or keep score on your phone. Rounds are quick, so the sheet keeps the running totals while you race to 200.",
+    "howToUse": [
+      "Write each player's name at the top of a column. When a round ends, every player who stayed adds up their number cards, doubles them if they have the ×2, adds any +2 to +10 modifiers, and adds 15 for a Flip 7. Write that in the round's row. A player who busted writes 0.",
+      "Keep playing rounds until at least one player's total reaches 200. Finish that round, and the highest total wins. The online sheet waits until every score for the last round is in before it names the winner.",
+      "On a phone, tap a box to write a round's points. The sheet adds every round as you go and circles the leader. For a big group, print the 2-per-page PDF, or add players on the online sheet up to twelve."
+    ],
+    "exampleRound": [
+      {
+        "caption": "Three players, round 1",
+        "rows": [
+          { "label": "Ana stays with 3, 7, 12 and a +4", "value": "26" },
+          { "label": "Ben flips a second 9 and busts", "value": "0" },
+          { "label": "Cleo flips seven different numbers: 0, 1, 2, 4, 5, 6, 8", "value": "41" }
+        ],
+        "result": "Cleo's 26 in cards plus the 15 bonus; the round ends at once"
+      },
+      {
+        "caption": "Dev's round with the ×2",
+        "rows": [
+          { "label": "Number cards 10, 11 and 5", "value": "26" },
+          { "label": "The ×2 doubles them", "value": "52" },
+          { "label": "A +6 modifier, added after the ×2", "value": "+6" }
+        ],
+        "result": "Dev writes 58 for the round"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a round of the Flip 7 card game works",
+      "paragraphs": [
+        "The deck is mostly number cards from 0 to 12, and each number has as many copies as its value: one 12, eleven 11s and so on, plus a single 0. Mixed in are modifier cards from +2 to +10, a ×2, and three kinds of action card: Freeze, Flip Three and Second Chance.",
+        "The dealer goes round the table giving each player one card face up at a time, and on every pass a player either takes another card or stays and banks what they have. Draw a number you already hold and you bust, scoring nothing for the round, unless a Second Chance card saves you. A Freeze forces a player to stay, and Flip Three makes them take the next three cards whether they like it or not.",
+        "The round ends when everyone has stayed or busted, or straight away when someone lines up seven different numbers, a Flip 7, which earns a 15-point bonus. The pull of the game is pushing your luck: high cards are common, so every extra card is more points and a bigger chance of a repeat."
+      ]
+    },
+    "tips": [
+      "Score in order: add the number cards, apply the ×2 to that sum, then add the +2 to +10 modifiers and the Flip 7 bonus. Neither the modifiers nor the 15 are doubled.",
+      "A bust wipes out modifiers too. A player who busts writes 0, however many +10s they were holding.",
+      "Modifier and action cards do not count toward the seven different numbers for a Flip 7. Only number cards do.",
+      "Several players often pass 200 in the same round. Finish the round, then compare totals: the highest wins, not the first to cross the line."
+    ],
+    "faqs": [
+      { "q": "How do you score the Flip 7 card game?", "a": "At the end of a round, players who didn't bust add up their number cards, double them with a ×2 if they have one, then add any +2 to +10 modifiers. Seven different numbers earn a 15-point bonus. A bust scores 0." },
+      { "q": "How many points do you need to win Flip 7?", "a": "200. The game ends after the round in which at least one player reaches 200, and the highest total wins." },
+      { "q": "What is a Flip 7?", "a": "Seven different number cards in front of you at once. It ends the round straight away and adds 15 points to your score." },
+      { "q": "What does the ×2 card do in Flip 7?", "a": "It doubles the total of your number cards. Modifier cards and the Flip 7 bonus are added after the doubling." },
+      { "q": "What happens when you bust in Flip 7?", "a": "You drew a number you already had, so you score nothing for the round, modifiers included. A Second Chance card lets you discard the duplicate and stay in." },
+      { "q": "How many people can play Flip 7?", "a": "Three or more, and it plays well with big groups. The printable sheet has six columns; the online scorekeeper takes up to twelve." }
+    ]
+  },
+  "related": ["skull-king-score-sheet", "uno-score-sheet", "skyjo-score-sheet", "play-nine-score-sheet", "farkle-score-sheet"],
+  "phase": 3,
+  "status": "live"
+}

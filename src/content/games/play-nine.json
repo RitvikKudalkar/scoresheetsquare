@@ -1,0 +1,82 @@
+{
+  "slug": "play-nine-score-sheet",
+  "name": "Play Nine",
+  "category": "card",
+  "keywords": ["play nine score sheet", "play nine card game score sheet", "play nine score card printable", "play nine scoring"],
+  "title": "Play Nine Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Play Nine score card for nine holes, or eighteen, in three PDF versions, plus an online scorekeeper where the lowest total wins.",
+  "players": { "min": 2, "max": 6, "default": 4 },
+  "winCondition": "lowest",
+  "sheet": {
+    "engine": "round-totals",
+    "rounds": 9,
+    "roundOptions": [9, 18],
+    "roundLabels": ["Hole 1", "Hole 2", "Hole 3", "Hole 4", "Hole 5", "Hole 6", "Hole 7", "Hole 8", "Hole 9", "Hole 10", "Hole 11", "Hole 12", "Hole 13", "Hole 14", "Hole 15", "Hole 16", "Hole 17", "Hole 18"]
+  },
+  "pdf": { "showScoringChart": false },
+  "scoringReference": {
+    "columns": ["Card or combination", "Strokes"],
+    "rows": [
+      ["0 to 12", "Face value"],
+      ["Hole-in-One card", "−5"],
+      ["A matching pair in a column", "0 for both cards"],
+      ["A pair of Hole-in-One cards", "−5 each; they do not cancel"],
+      ["Two matching pairs of the same number", "−10 bonus"],
+      ["Three matching pairs of the same number", "−15 bonus"],
+      ["Four matching pairs of the same number", "−20 bonus"],
+      ["After nine holes", "Lowest total wins"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Play Nine score card with a row for every hole, or keep score on your phone. Like real golf, the lowest total after nine holes wins.",
+    "howToUse": [
+      "Write each player's name at the top of a column. Each row is one hole. When a hole ends, every player turns over all eight cards and counts their strokes, and that total goes in the hole's row. It can be zero or below.",
+      "Count each column of two cards: a matching pair scores 0, except a pair of Hole-in-One cards, which stays at −5 each. Then take off any bonus for matching pairs of the same number in more than one column. Write the hole's total, bonuses included.",
+      "After nine holes the lowest total wins. For an eighteen-hole round, choose 18 under Holes on the online sheet, or in Customise for a printed card. On a phone, the sheet adds every hole and circles whoever is lowest."
+    ],
+    "exampleRound": [
+      {
+        "caption": "Two players, hole 1",
+        "rows": [
+          { "label": "Ana: 6, 2, 0, 11 over 6, 10, 1, 3 (6s pair)", "value": "27" },
+          { "label": "Ben: 4, 4, 9, −5 over 4, 4, 2, 1, two pairs of 4s with the −10 bonus", "value": "−3" }
+        ],
+        "result": "Ben's four 4s cancel and earn the bonus"
+      },
+      {
+        "caption": "Cleo's hole with a Hole-in-One pair",
+        "rows": [
+          { "label": "Column 1: two Hole-in-One cards, −5 each", "value": "−10" },
+          { "label": "Column 2: a pair of 8s", "value": "0" },
+          { "label": "Columns 3 and 4: 12 and 0, 3 and 1", "value": "16" }
+        ],
+        "result": "Cleo writes 6 for the hole"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a hole of Play Nine works",
+      "paragraphs": [
+        "Play Nine uses a 108-card deck: eight each of the numbers 0 to 12, plus four Hole-in-One cards worth −5. Each player is dealt eight cards face down in two rows of four, and turns two of them face up to tee off. The rest of the deck is the draw pile, and its top card starts the discard pile.",
+        "On every turn you take the top card of the draw pile or the discard pile and swap it for any card in your layout, face up or face down, discarding the card it replaces. If you would rather not keep a card from the draw pile, discard it and turn one of your face-down cards over instead. The aim is to make matching pairs in your columns, because a matching pair scores nothing.",
+        "When one player has turned all eight cards face up, everyone else gets one more turn. Then all cards are revealed and each player counts their strokes. Nine holes make a game, and the lowest total wins, so a handful of good holes can make up for one disaster."
+      ]
+    },
+    "tips": [
+      "The bonus is for pairs of the same number. A pair of 4s and a pair of 9s cancel to zero but earn no bonus; two pairs of 4s earn −10.",
+      "Hole-in-One cards never cancel. A pair of them is −10, the best column you can have, and two such pairs score −30 with their bonus.",
+      "Pairs only count top and bottom in the same column. Two 7s side by side in a row still cost 14 strokes.",
+      "The rules suggest settling a tie with a sudden-death playoff hole. Play one more hole between the tied players and write it below the total."
+    ],
+    "faqs": [
+      { "q": "How do you score Play Nine?", "a": "At the end of each hole, add up the eight cards in your layout at face value, with Hole-in-One cards worth −5. A matching pair in a column scores 0, and matching pairs of the same number in two or more columns earn a bonus. The lowest total after nine holes wins." },
+      { "q": "What are the bonuses in Play Nine?", "a": "Two matching pairs of the same number earn a −10 stroke bonus, three pairs −15 and four pairs −20. Two pairs of Hole-in-One cards score −30 in all: −20 for the cards and a −10 bonus." },
+      { "q": "Do Hole-in-One cards cancel out in Play Nine?", "a": "No. Matching Hole-in-One cards keep their −5 each, so a pair of them in one column is worth −10." },
+      { "q": "How many holes are in a game of Play Nine?", "a": "Nine, like the front nine of a golf course. Groups that want a longer game play eighteen; the online sheet and the custom PDF both offer 18." },
+      { "q": "How is Play Nine different from the Golf card game?", "a": "Both aim for the lowest score and cancel matching pairs in a column. Play Nine uses its own 0 to 12 deck with Hole-in-One cards, an eight-card layout and bonuses for repeated pairs, while Golf is usually six cards from a standard deck." },
+      { "q": "How many people can play Play Nine?", "a": "Two to six. The printable sheet and the online scorekeeper both have room for six." }
+    ]
+  },
+  "related": ["golf-card-game-score-sheet", "skyjo-score-sheet", "five-crowns-score-sheet", "flip-7-score-sheet", "skip-bo-score-sheet"],
+  "phase": 3,
+  "status": "live"
+}

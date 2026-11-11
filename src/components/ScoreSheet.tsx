@@ -5,6 +5,9 @@ import {
   applyOptions,
   bidKey,
   bidPoints,
+  bonusKey,
+  cardsIn,
+  roundIndex,
   columnsPer,
   optionChoices,
   type GameOptions,
@@ -240,6 +243,7 @@ function PointsSheet({ game: base, mode }: Props) {
             { id: bidKey(r.id), label: `${r.label}, bid` },
             ...(bidding?.meld ? [{ id: meldKey(r.id), label: `${r.label}, meld` }] : []),
             { id: tookKey(r.id), label: `${r.label}, ${bidding?.meld ? 'counters' : 'tricks won'}` },
+            ...(bidding?.bonus ? [{ id: bonusKey(r.id), label: `${r.label}, bonus` }] : []),
           ]
         : [{ id: r.id, label: r.label }],
     ),
@@ -364,13 +368,17 @@ function PointsSheet({ game: base, mode }: Props) {
                     {columns.map((p) => {
                       if (bidding && row.bid) {
                         const nil = scores[nilKey(row.id)]?.[p];
-                        const points = bidPoints(bidding, scores[bidKey(row.id)]?.[p], scores[tookKey(row.id)]?.[p], nil, scores[meldKey(row.id)]?.[p]);
+                        const points = bidPoints(bidding, scores[bidKey(row.id)]?.[p], scores[tookKey(row.id)]?.[p], nil, scores[meldKey(row.id)]?.[p], {
+                          cards: cardsIn(bidding, roundIndex(row.id)),
+                          bonus: scores[bonusKey(row.id)]?.[p],
+                        });
                         return (
-                          <td key={p} className={bidding.meld ? 'bid-cell has-meld' : 'bid-cell'}>
+                          <td key={p} className={bidding.meld || bidding.bonus ? 'bid-cell has-meld' : 'bid-cell'}>
                             <div className="bid-pair">
                               {cellInput(bidKey(row.id), p, `${row.label}, bid`, 'cell-input is-bid', 'bid')}
                               {bidding.meld && cellInput(meldKey(row.id), p, `${row.label}, meld`, 'cell-input is-bid', 'meld')}
                               {cellInput(tookKey(row.id), p, `${row.label}, ${bidding.meld ? 'counters' : 'tricks won'}`, 'cell-input is-took', 'won')}
+                              {bidding.bonus && cellInput(bonusKey(row.id), p, `${row.label}, bonus points`, 'cell-input is-took', 'bonus')}
                             </div>
                             <output className="bid-points" aria-label={`${nameOf(p)}, ${row.label}, points`}>{points ?? ''}</output>
                             {/* Nil shows once the round's bid is in, so empty rounds stay quiet. */}

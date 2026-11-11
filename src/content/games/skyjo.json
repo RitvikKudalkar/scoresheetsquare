@@ -69,7 +69,7 @@
       { "q": "How many people can play Skyjo?", "a": "Two to eight players. The printable sheet has six columns; the online scorekeeper takes all eight." }
     ]
   },
-  "related": ["five-crowns-score-sheet", "golf-card-game-score-sheet", "uno-score-sheet", "phase-10-score-sheet", "wizard-score-sheet"],
+  "related": ["five-crowns-score-sheet", "golf-card-game-score-sheet", "play-nine-score-sheet", "flip-7-score-sheet", "uno-score-sheet", "phase-10-score-sheet"],
   "phase": 1,
   "status": "live"
 }

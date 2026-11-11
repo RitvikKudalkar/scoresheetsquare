@@ -78,7 +78,7 @@
       { "q": "How many players can play Oh Hell?", "a": "Three to seven players. With 7 cards a hand, seven players use 49 of the 52 cards, so there is always a card left to turn up for trump." }
     ]
   },
-  "related": ["spades-score-sheet", "wizard-score-sheet", "hearts-score-sheet", "euchre-score-sheet", "five-crowns-score-sheet"],
+  "related": ["spades-score-sheet", "wizard-score-sheet", "skull-king-score-sheet", "hearts-score-sheet", "euchre-score-sheet", "five-crowns-score-sheet"],
   "phase": 2,
   "status": "live"
 }

@@ -1,0 +1,89 @@
+{
+  "slug": "skull-king-score-sheet",
+  "name": "Skull King",
+  "category": "card",
+  "keywords": ["skull king score sheet", "skull king score sheet printable", "skull king scoring", "skull king score pad"],
+  "title": "Skull King Score Sheet – Free Printable PDF & Scorekeeper",
+  "description": "Free printable Skull King score sheet with bid, tricks and bonus boxes for all ten rounds, plus an online scorekeeper that scores zero bids for you.",
+  "players": { "min": 2, "max": 8, "default": 4 },
+  "winCondition": "highest",
+  "sheet": {
+    "engine": "bid-and-make",
+    "rounds": 10,
+    "hands": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "made": { "base": 0, "perBid": 20 },
+    "missed": { "perOff": -10 },
+    "zero": { "perCard": 10 },
+    "bonus": true
+  },
+  "pdf": { "showScoringChart": false },
+  "scoringReference": {
+    "columns": ["Result or capture", "Points"],
+    "rows": [
+      ["Bid 1 or more, win exactly that many tricks", "20 per trick bid"],
+      ["Bid 1 or more and miss", "−10 per trick over or under"],
+      ["Bid zero, win no tricks", "10 × the cards dealt that round"],
+      ["Bid zero, win any trick", "−10 × the cards dealt that round"],
+      ["Each yellow, purple or green 14 captured", "+10 bonus"],
+      ["The black 14 captured", "+20 bonus"],
+      ["Each Mermaid taken by your Pirate", "+20 bonus"],
+      ["Each Pirate taken by your Skull King", "+30 bonus"],
+      ["The Skull King taken by your Mermaid", "+40 bonus"],
+      ["Bonuses", "Count only when the bid is made exactly"]
+    ]
+  },
+  "content": {
+    "intro": "Print a Skull King score sheet with boxes for every bid, trick and bonus over all ten rounds, or keep score on your phone. The online sheet works out zero bids and bonuses for you.",
+    "howToUse": [
+      "Write each player's name at the top of a column. Every row is a round, labelled with the number of cards dealt, from 1 card in round one to 10 in round ten. Each box splits into bid, tricks won, bonus and the round's points.",
+      "When the bids are revealed, write each player's bid. After the round, write the tricks they won and any bonus points they captured, such as 10 for a coloured 14 or 30 for each Pirate taken with the Skull King. Bonuses only count if the bid was made exactly, so the online sheet ignores them on a missed bid.",
+      "A bid of zero scores 10 for each card dealt that round if the player wins no tricks, and loses the same if they win any. On a phone, the sheet does all of this, checks that each round's tricks add up to the cards dealt, and circles the leader. The highest total after round ten wins."
+    ],
+    "exampleRound": [
+      {
+        "caption": "Three players, round 5 (5 cards)",
+        "rows": [
+          { "label": "Ana bids 2, wins 2 and captured a yellow 14", "value": "50" },
+          { "label": "Ben bids 0 and wins no tricks", "value": "50" },
+          { "label": "Cleo bids 3, wins 3", "value": "60" }
+        ],
+        "result": "2 + 0 + 3 = 5 tricks, one for each card dealt"
+      },
+      {
+        "caption": "Three players, round 7 (7 cards)",
+        "rows": [
+          { "label": "Ben bids 0 but is forced to win a trick", "value": "−70" },
+          { "label": "Ana bids 3, wins 4, and loses her 30 Skull King bonus", "value": "−10" },
+          { "label": "Cleo bids 2, wins 2", "value": "40" }
+        ],
+        "result": "A missed bid scores no bonus at all"
+      }
+    ],
+    "howToPlay": {
+      "heading": "How a round of Skull King works",
+      "paragraphs": [
+        "Skull King is played over ten rounds, and round one deals each player a single card, round two two cards, and so on up to ten. The deck has four suits numbered 1 to 14, with black as the trump suit, plus special cards: Escapes that never win, Pirates, Mermaids and the Skull King himself.",
+        "After looking at their cards, everyone bids at the same moment, showing the number of tricks they expect to win on their fingers. Players must follow the suit led if they can, but special cards can be played at any time. A black card beats the coloured suits, Pirates beat every numbered card, the Skull King beats the Pirates, and a Mermaid beats numbered cards and captures the Skull King, though she loses to a Pirate.",
+        "When the round's tricks are all played, each player compares the tricks they won with their bid. An exact bid scores well and unlocks the bonuses for cards captured, while any miss costs points. Because the hands grow every round, the last few rounds are worth far more than the first, and a lead rarely feels safe until round ten is over."
+      ]
+    },
+    "tips": [
+      "Zero bids are scored by the cards dealt, not the tricks. A successful zero in round 9 is worth 90, and a failed one costs 90.",
+      "Write bonuses even when you are not sure the bid was made. The online sheet only adds them if the tricks match the bid, so nothing is double counted.",
+      "Check each round: the tricks written down should add up to the number of cards each player was dealt. If they don't, a trick has been miscounted.",
+      "Rascal scoring, an optional rule in the newer rulebook, scores bids differently. The paper sheet works for it if you write each round's points yourself; the online sheet uses the standard scoring above."
+    ],
+    "faqs": [
+      { "q": "How do you score Skull King?", "a": "A player who wins exactly the tricks they bid scores 20 points per trick, plus any bonuses they captured. A player who misses loses 10 points for each trick over or under. A bid of zero scores 10 points per card dealt if made, and loses the same if any trick is won." },
+      { "q": "How many rounds are in Skull King?", "a": "Ten. Round one deals one card to each player and round ten deals ten, one more every round." },
+      { "q": "What are the bonus points in Skull King?", "a": "10 for each yellow, purple or green 14 you capture, 20 for the black 14, 20 for each Mermaid taken by your Pirate, 30 for each Pirate taken by your Skull King, and 40 for taking the Skull King with a Mermaid. They count only if you made your bid." },
+      { "q": "What happens if you bid zero in Skull King?", "a": "If you win no tricks, you score 10 points for every card dealt that round. If you win even one, you lose that many points instead." },
+      { "q": "What beats the Skull King?", "a": "Only a Mermaid. If the Skull King, a Pirate and a Mermaid are all in one trick, the Mermaid wins it." },
+      { "q": "Can scores go negative in Skull King?", "a": "Yes. Missed bids and failed zero bids lose points, so scores below zero are common early on. Use the ± key on the online sheet for minus numbers." },
+      { "q": "How many people can play Skull King?", "a": "Two to eight. The printable sheet has six columns; the online scorekeeper takes all eight." }
+    ]
+  },
+  "related": ["wizard-score-sheet", "oh-hell-score-sheet", "spades-score-sheet", "hearts-score-sheet", "flip-7-score-sheet"],
+  "phase": 3,
+  "status": "live"
+}

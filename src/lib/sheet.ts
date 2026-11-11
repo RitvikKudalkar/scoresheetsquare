@@ -99,6 +99,10 @@ export type BidConfig = {
   missed?: { perBid?: number; perOff?: number };
   /** Spades: a nil bid made or failed is worth ± this. */
   nil?: number;
+  /** Skull King: a bid of zero scores ± perCard × the cards dealt that round, instead of the made/missed points. */
+  zero?: { perCard: number };
+  /** Skull King: each column writes bonus points per round, which count only when the bid is made exactly. */
+  bonus?: boolean;
   target?: number;
   targetOptions?: number[];
 };
@@ -135,6 +139,9 @@ export const bidKey = (rowId: string) => `bid:${rowId}`;
 export const tookKey = (rowId: string) => `took:${rowId}`;
 export const nilKey = (rowId: string) => `nil:${rowId}`;
 export const meldKey = (rowId: string) => `meld:${rowId}`;
+export const bonusKey = (rowId: string) => `bonus:${rowId}`;
+/** Round index (0-based) from a round row id such as r3. */
+export const roundIndex = (rowId: string) => Number(rowId.slice(1)) - 1;
 
 /** Choices a table makes before it plays: the target, the number of rounds and Hearts' moon rule. */
 export type GameOptions = { target?: number; rounds?: number; moon?: MoonRule };
@@ -206,6 +213,7 @@ export function bidPoints(
   took: number | null | undefined,
   nil?: number | null,
   meld?: number | null,
+  extra: { cards?: number; bonus?: number | null } = {},
 ): number | null {
   if (config.meld) {
     if (took == null || meld == null) return null;
@@ -214,12 +222,16 @@ export function bidPoints(
   }
   if (bid == null || took == null) return null;
   const off = took - bid;
+  const bonus = config.bonus && off === 0 ? (extra.bonus ?? 0) : 0;
+  if (config.zero && bid === 0 && extra.cards !== undefined) {
+    return (took === 0 ? 1 : -1) * config.zero.perCard * extra.cards + bonus;
+  }
   let points =
     off === 0 || (off > 0 && config.overtricks)
       ? config.made!.base + config.made!.perBid * bid + (off > 0 ? off * config.overtricks!.points : 0)
       : (config.missed?.perBid ?? 0) * bid + (config.missed?.perOff ?? 0) * Math.abs(off);
   if (config.nil && nil) points += nil * config.nil;
-  return points;
+  return points + bonus;
 }
 
 /** Spades: bags since the last penalty, and the points lost to every full set of them. */
@@ -315,7 +327,9 @@ export function layoutSheet(config: SheetConfig, scores: Scores, playerCount: nu
     });
     const bags = players.map((p) => bagsOf(config, scores, ids, p));
     const totals = players.map(
-      (p) => sum(ids.map((id) => bidPoints(config, col(bidKey(id), p), col(tookKey(id), p), col(nilKey(id), p), col(meldKey(id), p)))) - bags[p].penalty,
+      (p) =>
+        sum(ids.map((id, i) => bidPoints(config, col(bidKey(id), p), col(tookKey(id), p), col(nilKey(id), p), col(meldKey(id), p), { cards: cardsIn(config, i), bonus: col(bonusKey(id), p) }))) -
+        bags[p].penalty,
     );
     const computed: ComputedRow[] = [];
     if (config.overtricks?.bags) {

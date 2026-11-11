@@ -78,7 +78,7 @@
       { "q": "Can your score go negative in Wizard?", "a": "Yes. Missed bids lose points, so scores below zero are common in the early rounds. Write the minus sign; the online sheet has a ± key for it." }
     ]
   },
-  "related": ["oh-hell-score-sheet", "spades-score-sheet", "hearts-score-sheet", "skyjo-score-sheet", "phase-10-score-sheet"],
+  "related": ["skull-king-score-sheet", "oh-hell-score-sheet", "spades-score-sheet", "hearts-score-sheet", "skyjo-score-sheet", "phase-10-score-sheet"],
   "phase": 2,
   "status": "live"
 }
